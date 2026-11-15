@@ -4,144 +4,372 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#DC2626">
-  <meta name="description" content="Errands and home services in Arua, sorted. Book trusted local help with Drop.">
+  <meta name="description" content="Book trusted local help for errands, delivery, gas refills, cleaning and small repairs.">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Drop">
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icons/drop-192.png" type="image/png">
-  <link rel="apple-touch-icon" href="/icons/drop-192.png">
+  <link rel="icon" href="/icons/drop-192.png" type="image/png" sizes="192x192">
+  <link rel="icon" href="/icons/drop-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
   <link rel="stylesheet" href="/styles.css">
-  <title>Drop — Errands & Home Services in Arua</title>
+  <title>Drop — Errands &amp; Home Services</title>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ============================================================
+       Icon sprite. One 24px grid, 1.75 stroke, round caps/joins.
+       Icons are decorative unless given an accessible name.
+       ============================================================ -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-errands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.9 3.9 7.2v9.6L12 21.1l8.1-4.3V7.2L12 2.9Z"/>
+      <path d="M3.9 7.2 12 11.5l8.1-4.3"/>
+      <path d="M12 11.5v9.6"/>
+    </symbol>
+    <symbol id="i-lawn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21v-6.7"/>
+      <path d="M12 14.3C12 9.9 15 7.5 19.4 7.5c0 4.4-3 6.8-7.4 6.8Z"/>
+      <path d="M12 15.6c0-3.7-2.4-5.9-6.2-5.9 0 3.7 2.4 5.9 6.2 5.9Z"/>
+      <path d="M4.8 21h14.4"/>
+    </symbol>
+    <symbol id="i-gas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.2 3.4h5.6"/>
+      <path d="M10.2 3.4V5.2M13.8 3.4v1.8"/>
+      <path d="M8.2 5.2h7.6v13a2.9 2.9 0 0 1-2.9 2.9h-1.8a2.9 2.9 0 0 1-2.9-2.9v-13Z"/>
+      <path d="M8.2 10.6h7.6"/>
+    </symbol>
+    <symbol id="i-cleaning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.4 20.4h5.2a2.7 2.7 0 0 0 2.7-2.7v-6.1a2.7 2.7 0 0 0-2.7-2.7H9.4a2.7 2.7 0 0 0-2.7 2.7v6.1a2.7 2.7 0 0 0 2.7 2.7Z"/>
+      <path d="M9.8 8.9V6.7a1.9 1.9 0 0 1 1.9-1.9h1.6"/>
+      <path d="M13.3 4.8h3.2"/>
+      <path d="M17.8 2.9v1.5M20.2 5.3v1.5M18 7.9v1.5"/>
+    </symbol>
+    <symbol id="i-handyman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9l-3.8 3.8Z"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5.4v13.2M5.4 12h13.2"/>
+    </symbol>
+    <symbol id="i-orders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2.8h12v18.4l-2.4-1.5-2.4 1.5-2.4-1.5-2.4 1.5L6 21.2V2.8Z"/>
+      <path d="M9 7.6h6M9 11.6h6M9 15.6h3.4"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21.2s6.8-6.1 6.8-10.6a6.8 6.8 0 1 0-13.6 0C5.2 15.1 12 21.2 12 21.2Z"/>
+      <circle cx="12" cy="10.4" r="2.6"/>
+    </symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.359.101 11.945c0 2.096.549 4.142 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.585 0 11.946-5.359 11.949-11.945a11.882 11.882 0 0 0-3.422-8.4Z"/>
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 7v5.3l3.4 2"/>
+    </symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13.2 2.6 4.8 13.4h6.1l-.9 8 8.4-10.8h-6.1l.9-8Z"/>
+    </symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M8 12.2l2.8 2.8 5.4-5.6"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.6 6.6 17.4 17.4M17.4 6.6 6.6 17.4"/>
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.6 5.6 16 12l-6.4 6.4"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12h15.2M13.4 6.2 19.2 12l-5.8 5.8"/>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.4v11.4"/>
+      <path d="M7.8 10.6 12 14.8l4.2-4.2"/>
+      <path d="M4 17.6v1.6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.6"/>
+    </symbol>
+    <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15.4V3.4"/>
+      <path d="M8.2 6.8 12 3l3.8 3.8"/>
+      <path d="M5 12.6v6.2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6.2"/>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.4 12a8.4 8.4 0 1 1-2.5-6"/>
+      <path d="M20.6 3.8v5.2h-5.2"/>
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8.6a6 6 0 1 0-12 0c0 6-2.4 7.6-2.4 7.6h16.8S18 14.6 18 8.6Z"/>
+      <path d="M13.7 19.8a2 2 0 0 1-3.4 0"/>
+    </symbol>
+    <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>
+    </symbol>
+  </svg>
+
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Drop home">
-        <span class="brand-mark" aria-hidden="true">D</span>
-        <span class="brand-copy"><strong>Drop<span>.</span></strong><small>ARUA, WEST NILE</small></span>
+      <a class="brand" href="/" aria-label="Drop, home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="9.5" fill="#DC2626"/>
+          <g transform="translate(1.44 1.96) scale(0.26)" fill="#FFFFFF">
+            <path fill-rule="evenodd" d="M18 16H50A30 34 0 0 1 50 84H18ZM38 34H48A12 16 0 0 1 48 66H38Z"/>
+            <circle cx="86" cy="84" r="8"/>
+          </g>
+        </svg>
+        <span class="brand-name">Drop<span class="brand-period" aria-hidden="true">.</span></span>
       </a>
-      <div class="dispatch-state"><span class="pulse"></span><span>Dispatch Active <i>•</i> Arua</span></div>
+      <div class="dispatch-chip">
+        <span class="pulse" aria-hidden="true"></span>
+        <span>Dispatch Active</span>
+      </div>
     </header>
 
-    <main id="new-drop-view" class="view">
-      <section class="hero">
-        <div class="eyebrow"><span class="eyebrow-line"></span> YOUR LOCAL HELP, ON DEMAND</div>
-        <h1>Your day,<br><em>sorted.</em></h1>
-        <p>Errands & home services in Arua, sorted. Tell us what you need. We'll take it from here.</p>
-        <div class="hero-proof"><span class="proof-icon">✓</span> Simple requests <span class="proof-dot">·</span> Local people <span class="proof-dot">·</span> WhatsApp dispatch</div>
+    <main id="main-content">
+      <!-- ============================ NEW DROP ============================ -->
+      <section class="view view-new" id="new-drop-view">
+        <div class="hero">
+          <h1 class="hero-title">Your day, <em>sorted.</em></h1>
+          <p class="hero-sub">Tell us what you need. We'll handle the rest.</p>
+        </div>
+
+        <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
+          <span class="install-icon" aria-hidden="true">
+            <svg class="icon"><use href="#i-download"/></svg>
+          </span>
+          <div class="install-body">
+            <h2 class="install-title" id="install-title">Add Drop to your home screen</h2>
+            <p class="install-text">Order faster and keep Drop on your phone.</p>
+          </div>
+          <div class="install-actions">
+            <button class="pill-button" type="button" id="install-button" hidden>Install</button>
+            <button class="install-more" type="button" id="install-more" aria-expanded="false" aria-controls="install-steps">How to install</button>
+            <button class="icon-button install-dismiss" type="button" id="install-dismiss" aria-label="Dismiss install prompt">
+              <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+            </button>
+          </div>
+          <ol class="install-steps" id="install-steps" hidden></ol>
+        </section>
+
+        <section class="services" aria-labelledby="services-title">
+          <div class="section-head">
+            <h2 class="section-title" id="services-title">Pick a service</h2>
+            <p class="section-meta">5 services</p>
+          </div>
+
+          <ul class="service-list">
+            <li>
+              <button class="service-card" type="button" data-service="errands">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Errands &amp; Delivery</span>
+                  <span class="service-desc">Pickups, market runs &amp; quick drops.</span>
+                  <span class="service-price">From UGX 5,000</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="service-card" type="button" data-service="lawn">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-lawn"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Lawn &amp; Compound</span>
+                  <span class="service-desc">Grass, hedges &amp; tidy compounds.</span>
+                  <span class="service-price">From UGX 15,000</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="service-card" type="button" data-service="gas">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Gas Refills</span>
+                  <span class="service-desc">We collect, refill &amp; return.</span>
+                  <span class="service-price">UGX 7,000 delivery</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="service-card" type="button" data-service="cleaning">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-cleaning"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Cleaning</span>
+                  <span class="service-desc">From quick cleans to deep resets.</span>
+                  <span class="service-price">From UGX 15,000</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+            <li>
+              <button class="service-card" type="button" data-service="handyman">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-handyman"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Handyman</span>
+                  <span class="service-desc">Plumbing, electrical &amp; small repairs.</span>
+                  <span class="service-price">UGX 10,000 call-out</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <footer class="site-footer">
+          <p class="footer-tagline">Local help. Less hassle.</p>
+          <button class="footer-action" type="button" id="install-open">
+            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+            Add Drop to your home screen
+          </button>
+        </footer>
       </section>
 
-      <section class="install-banner hidden" id="install-banner">
-        <div class="install-symbol">↓</div>
-        <div class="install-copy"><strong>Take Drop with you</strong><span>Install the app for a quicker way to order.</span></div>
-        <button class="install-button" id="install-button">Install</button>
-        <button class="icon-button dismiss-install" id="dismiss-install" aria-label="Dismiss install banner">×</button>
-      </section>
-      <p class="ios-hint hidden" id="ios-hint">Using an iPhone? Tap <strong>Share</strong> then <strong>Add to Home Screen</strong> to install Drop.</p>
+      <!-- ============================ MY DROPS ============================ -->
+      <section class="view view-orders" id="my-drops-view" hidden>
+        <div class="page-head">
+          <h1 class="page-title">My <em>Drops.</em></h1>
+          <p class="page-sub">Every request, right here.</p>
+        </div>
 
-      <section class="section-heading">
-        <div><span class="section-kicker">WHAT CAN WE HELP WITH?</span><h2>Pick a service</h2></div>
-        <span class="service-count">05 SERVICES</span>
-      </section>
-      <section class="service-grid" id="service-grid" aria-label="Available services">
-        <button class="service-card" data-service="errands">
-          <span class="service-icon icon-red"><svg viewBox="0 0 24 24"><path d="M3 7h11v11H3zM14 11h4l3 3v4h-7zM7 18a2 2 0 1 0 4 0m7 0a2 2 0 1 0 4 0M6 10h5m-5 3h3"/></svg></span>
-          <span class="service-card-body"><strong>Town Errands & Delivery</strong><small>Pickups, market runs & quick drops.</small><b>From UGX 5,000</b></span>
-          <span class="service-arrow">↗</span>
-        </button>
-        <button class="service-card" data-service="lawn">
-          <span class="service-icon icon-green"><svg viewBox="0 0 24 24"><path d="M12 21V9m0 5C5 14 4 9 4 6c5 0 8 2 8 8Zm0-2c0-5 3-8 8-8 0 5-2 8-8 8ZM5 21h14"/></svg></span>
-          <span class="service-card-body"><strong>Compound & Lawn Care</strong><small>Grass, hedges & tidy compounds.</small><b>From UGX 15,000</b></span>
-          <span class="service-arrow">↗</span>
-        </button>
-        <button class="service-card" data-service="gas">
-          <span class="service-icon icon-amber"><svg viewBox="0 0 24 24"><path d="M8 4h8v3H8zM7 7h10l1 13H6L7 7Zm3 0V4m4 3V4m-2 7v5"/></svg></span>
-          <span class="service-card-body"><strong>Cooking Gas & Heavy Refills</strong><small>We collect, refill & return.</small><b>UGX 7,000 delivery</b></span>
-          <span class="service-arrow">↗</span>
-        </button>
-        <button class="service-card" data-service="cleaning">
-          <span class="service-icon icon-blue"><svg viewBox="0 0 24 24"><path d="m4 20 7-7m-4-2 5-5 5 5-5 5zm8-9 2-2 5 5-2 2M3 21h18"/></svg></span>
-          <span class="service-card-body"><strong>Home & Office Cleaning</strong><small>From quick cleans to deep resets.</small><b>From UGX 15,000</b></span>
-          <span class="service-arrow">↗</span>
-        </button>
-        <button class="service-card" data-service="handyman">
-          <span class="service-icon icon-purple"><svg viewBox="0 0 24 24"><path d="m14 7 3-3 3 3-3 3m-3-3-8 8m-2 2 3 3 3-3m-6 3 5-5m6-10 4 4"/></svg></span>
-          <span class="service-card-body"><strong>Quick Fix / Handyman</strong><small>Plumbing, electrical & small repairs.</small><b>UGX 10,000 call-out</b></span>
-          <span class="service-arrow">↗</span>
-        </button>
-      </section>
+        <div class="tracker-summary" id="tracker-summary"></div>
+        <section class="orders-list" id="orders-list" aria-label="Your requests"></section>
 
-      <section class="trust-strip">
-        <div class="trust-item"><span>⌁</span><div><strong>Made for Arua</strong><small>Local landmarks understood</small></div></div>
-        <div class="trust-item"><span>◷</span><div><strong>Quick to request</strong><small>Usually under 30 seconds</small></div></div>
-        <div class="trust-item"><span>↗</span><div><strong>Direct WhatsApp</strong><small>Talk to local dispatch</small></div></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <svg class="empty-art" viewBox="0 0 160 140" role="img" aria-label="No requests yet">
+            <circle cx="80" cy="72" r="54" fill="#FEF2F2"/>
+            <g transform="translate(52 44)" fill="none" stroke="#DC2626" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M28 11.4 8 22.2v21.6L28 54.6l20-10.6V22.2L28 11.4Z"/>
+              <path d="M8 22.2 28 32.8l20-10.6"/>
+              <path d="M28 32.8v21.8"/>
+            </g>
+            <g fill="none" stroke="#FCA5A5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M126 24l3.2 9 9 3.2-9 3.2-3.2 9-3.2-9-9-3.2 9-3.2 3.2-9Z"/>
+              <path d="M34 92l2.2 6.2 6.2 2.2-6.2 2.2-2.2 6.2-2.2-6.2-6.2-2.2 6.2-2.2 2.2-6.2Z"/>
+            </g>
+          </svg>
+          <h2 class="empty-title">No drops yet</h2>
+          <p class="empty-text">Your requests will appear here once you send one.</p>
+          <button class="primary-button primary-button--inline" type="button" id="empty-order-button">
+            <span>Place your first order</span>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg>
+          </button>
+        </div>
       </section>
     </main>
-
-    <main id="my-drops-view" class="view hidden">
-      <section class="tracker-heading">
-        <span class="section-kicker">YOUR REQUESTS</span>
-        <h1>My <em>Drops.</em></h1>
-        <p>Every request, right here. We'll keep you in the loop.</p>
-      </section>
-      <div class="tracker-summary" id="tracker-summary"></div>
-      <section id="orders-list" class="orders-list"></section>
-      <div class="empty-state hidden" id="empty-state">
-        <div class="empty-art">↗</div><h2>No drops yet</h2>
-        <p>Your orders will show up here after you send your first request.</p>
-        <button class="primary-button" id="empty-order-button">Place your first order <span>→</span></button>
-      </div>
-    </main>
-
-    <footer class="site-footer"><span class="footer-logo">Drop<span>.</span></span><span>Local help. Less hassle.</span><span>ARUA · WEST NILE</span></footer>
   </div>
 
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <button class="nav-item active" data-tab="new"><span class="nav-icon">＋</span><span>New Drop</span></button>
-    <button class="nav-item" data-tab="orders"><span class="nav-icon">▤</span><span>My Drops <b id="order-count" class="nav-count hidden">0</b></span></button>
+  <!-- ============================ BOTTOM NAV ============================ -->
+  <nav class="bottom-nav" aria-label="Primary">
+    <button class="nav-item is-active" type="button" data-tab="new" aria-current="page">
+      <svg class="nav-icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg>
+      <span class="nav-label">New drop</span>
+    </button>
+    <button class="nav-item" type="button" data-tab="orders">
+      <svg class="nav-icon" aria-hidden="true" focusable="false"><use href="#i-orders"/></svg>
+      <span class="nav-label">My drops</span>
+      <span class="nav-count" id="order-count" hidden>0</span>
+    </button>
   </nav>
 
-  <div class="drawer-backdrop hidden" id="drawer-backdrop"></div>
-  <section class="order-drawer hidden" id="order-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
-    <div class="drawer-handle"></div>
-    <div class="drawer-topline"><span class="section-kicker">NEW REQUEST</span><button class="icon-button" id="close-drawer" aria-label="Close order form">×</button></div>
-    <div class="drawer-title-row"><div><h2 id="drawer-title">Let's get it <em>sorted.</em></h2><p id="drawer-subtitle">A few details and we're on it.</p></div><span class="drawer-service-icon" id="drawer-service-icon">↗</span></div>
-    <form id="order-form">
-      <div id="service-fields" class="form-section"></div>
+  <!-- ============================ ORDER SHEET ============================ -->
+  <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+  <section class="sheet" id="order-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-sub" tabindex="-1" hidden>
+    <span class="sheet-grabber" aria-hidden="true"></span>
 
-      <div class="form-section">
-        <label class="field-label">WHEN DO YOU NEED IT?</label>
-        <div class="urgency-options">
-          <label class="choice-pill"><input type="radio" name="urgency" value="Right Now" checked><span>⚡ Right Now</span></label>
-          <label class="choice-pill"><input type="radio" name="urgency" value="Later Today"><span>◷ Later Today</span></label>
-          <label class="choice-pill"><input type="radio" name="urgency" value="Schedule"><span>▦ Schedule</span></label>
+    <header class="sheet-head">
+      <span class="sheet-service-icon" id="sheet-service-icon" aria-hidden="true">
+        <svg class="icon"><use href="#i-errands"/></svg>
+      </span>
+      <div class="sheet-head-text">
+        <p class="sheet-kicker">New request</p>
+        <h2 class="sheet-title" id="sheet-title">Service</h2>
+        <p class="sheet-sub" id="sheet-sub"></p>
+      </div>
+      <button class="icon-button sheet-close" type="button" id="sheet-close" aria-label="Close request form">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+      </button>
+    </header>
+
+    <form class="sheet-body" id="order-form" novalidate>
+      <div id="service-fields"></div>
+
+      <fieldset class="form-group">
+        <legend class="field-label">When do you need it?</legend>
+        <div class="choice-row">
+          <label class="choice">
+            <input type="radio" name="urgency" value="Right Now" checked>
+            <span class="choice-face"><span class="choice-text">Right now</span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="urgency" value="Later Today">
+            <span class="choice-face"><span class="choice-text">Later today</span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="urgency" value="Schedule">
+            <span class="choice-face"><span class="choice-text">Schedule</span></span>
+          </label>
         </div>
-        <div class="schedule-fields hidden" id="schedule-fields"><label class="field-label" for="schedule-time">CHOOSE A DATE & TIME</label><input id="schedule-time" name="scheduleTime" type="datetime-local"></div>
+        <div class="schedule-wrap" id="schedule-fields" hidden>
+          <label class="field-label field-label--tight" for="schedule-time">Choose a date &amp; time</label>
+          <input class="text-input" id="schedule-time" name="scheduleTime" type="datetime-local" aria-describedby="err-scheduleTime">
+          <p class="field-error" id="err-scheduleTime" role="alert" hidden></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend class="field-label">Where should we go?</legend>
+        <input class="text-input" id="landmark" name="landmark" placeholder="e.g. Mvara, near Junior Quarters, blue gate" maxlength="160" aria-describedby="landmark-help err-landmark">
+        <p class="field-help" id="landmark-help">Use a nearby landmark, area or clear directions.</p>
+        <p class="field-error" id="err-landmark" role="alert" hidden></p>
+        <button type="button" class="ghost-button" id="gps-button">
+          <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+          Attach my GPS pin
+        </button>
+        <div class="gps-note" id="gps-confirmation" hidden>
+          <span class="gps-note-text"><svg class="icon" aria-hidden="true"><use href="#i-check-circle"/></svg>GPS pin attached</span>
+          <button type="button" class="icon-button icon-button--sm" id="remove-gps" aria-label="Remove GPS pin">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+          </button>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend class="field-label">Your details</legend>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-sublabel" for="customer-name">Name</label>
+            <input class="text-input" id="customer-name" name="customerName" placeholder="Your name" maxlength="70" autocomplete="name" aria-describedby="err-customerName">
+            <p class="field-error" id="err-customerName" role="alert" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field-sublabel" for="customer-phone">Phone</label>
+            <input class="text-input" id="customer-phone" name="customerPhone" type="tel" inputmode="tel" placeholder="077 200 0000" maxlength="20" autocomplete="tel" aria-describedby="phone-help err-customerPhone">
+            <p class="field-help" id="phone-help">Dispatch uses this to confirm.</p>
+            <p class="field-error" id="err-customerPhone" role="alert" hidden></p>
+          </div>
+        </div>
+        <p class="field-note">Saved on this device for next time.</p>
+      </fieldset>
+
+      <div class="price-card">
+        <span class="price-label">Estimated price</span>
+        <strong class="price-value" id="price-estimate">UGX 5,000 – 10,000</strong>
       </div>
 
-      <div class="form-section">
-        <label class="field-label" for="landmark">WHERE SHOULD WE GO?</label>
-        <input class="text-input" id="landmark" name="landmark" placeholder="e.g. Mvara, near Junior Quarters, blue gate" required maxlength="160">
-        <p class="field-help">Use a nearby landmark, area or clear directions in Arua.</p>
-        <button type="button" class="gps-button" id="gps-button"><span>⌖</span> Attach my GPS pin</button>
-        <div id="gps-confirmation" class="gps-confirmation hidden">✓ GPS pin attached <button type="button" id="remove-gps" aria-label="Remove GPS pin">×</button></div>
-      </div>
-
-      <div class="form-section">
-        <label class="field-label" for="customer-name">YOUR DETAILS</label>
-        <div class="two-fields"><input class="text-input" id="customer-name" name="customerName" placeholder="Your name" required maxlength="70"><input class="text-input" id="customer-phone" name="customerPhone" type="tel" inputmode="tel" placeholder="Phone number" required maxlength="20"></div>
-        <p class="field-help">We'll save these on this device for next time.</p>
-      </div>
-
-      <div class="price-note" id="price-note"><span>Estimated starting price</span><strong id="price-estimate">UGX 5,000</strong></div>
-      <p class="privacy-note">Your details are used to coordinate this request with Drop dispatch.</p>
-      <button class="primary-button submit-order" type="submit"><span>Confirm & send via WhatsApp</span><span class="whatsapp-mark">◉</span></button>
-      <p class="form-disclaimer">Your WhatsApp app will open with your request ready to send. Dispatch confirms the final price and availability.</p>
+      <button class="primary-button" type="submit" id="submit-order">
+        <span class="primary-label">Confirm &amp; send via WhatsApp</span>
+        <svg class="icon primary-icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+      </button>
+      <p class="form-note">WhatsApp opens with your request ready to send. Your details are used only to arrange this request.</p>
     </form>
   </section>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
   <script src="/app.js" defer></script>
 </body>
 </html>

@@ -1,13 +1,17 @@
 {
-  "name": "Drop \u2014 Errands & Home Services in Arua",
+  "name": "Drop — Errands & Home Services",
   "short_name": "Drop",
-  "description": "Errands and home services in Arua, sorted.",
+  "description": "Errands, delivery, gas refills, cleaning and small repairs. Book local help in a couple of taps.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#DC2626",
-  "background_color": "#F8FAFC",
+  "background_color": "#FBF8F5",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "shopping", "utilities"],
   "icons": [
     {
       "src": "/icons/drop-192.png",

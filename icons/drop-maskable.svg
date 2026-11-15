@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Drop">
+  <!--
+    Drop — maskable launcher icon.
+    Genuinely separate artwork from drop-icon.svg: full-bleed background with the
+    symbol scaled into the central 80% safe zone (radius 204.8px) so that
+    circular, squircle and rounded-square adaptive masks never clip the mark.
+  -->
+  <rect width="512" height="512" fill="#DC2626"/>
+  <g transform="translate(71.2 77.8) scale(3.3)" fill="#FFFFFF">
+    <path fill-rule="evenodd" d="M18 16H50A30 34 0 0 1 50 84H18ZM38 34H48A12 16 0 0 1 48 66H38Z"/>
+    <circle cx="86" cy="84" r="8"/>
+  </g>
+</svg>
