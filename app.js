@@ -7,11 +7,11 @@
 const DISPATCH_PHONE = "256760360914";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
-const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
+const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";\nconst STORAGE_WELCOMED = "drop_welcomed";\nconst STORAGE_CITY = "drop_city";
 
 const SERVICES = {
   errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
-    {name:"pickup",label:"Pickup location",placeholder:"e.g. Gaagaa Bus Park",required:true},
+    {name:"pickup",label:"Pickup location",placeholder:"Enter pickup area or landmark",required:true},
     {name:"destination",label:"Drop-off location",placeholder:"Where should we deliver?",required:true},
     {name:"itemNote",label:"What are we picking up?",placeholder:"Parcel, groceries, medicine, documents…",required:true}
   ]},
@@ -51,7 +51,7 @@ let deferredInstallPrompt = null;
 let toastTimer = null;
 let sheetOpen = false;
 let sheetCloseTimer = null;
-let lastFocused = null;
+let lastFocused = null;\nlet selectedCity = localStorage.getItem(STORAGE_CITY) || "Mbarara";
 
 /* ------------------------------------------------------------------ storage */
 function readJSON(key, fallback) {
@@ -356,7 +356,7 @@ function getUrgency() {
 function buildWhatsAppMessage(order) {
   const lines = [
     `*NEW DROP REQUEST: #${order.id}* 🔴`,
-    `*Service:* ${order.serviceTitle}`,
+    `*Service:* ${order.serviceTitle}`,\n    `*City:* ${order.city || "Mbarara"}`,
     `*Details:* ${order.detailsSummary}`,
     `*When:* ${order.urgency}`,
     `*Customer:* ${order.customerName} (${order.customerPhone})`,
@@ -399,7 +399,7 @@ function submitOrder(event) {
     id:createOrderId(), serviceKey:selectedService, serviceTitle:SERVICES[selectedService].title,
     details, detailsSummary:formatDetails(selectedService, details),
     urgency:getUrgency(), customerName:profile.name, customerPhone:profile.phone,
-    landmark:profile.landmark, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
+    landmark:profile.landmark, city:selectedCity, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
     status:"sent", runnerName:"", runnerPhone:"",
     createdAt:new Date().toISOString(), estimate:moneyEstimate(selectedService, details)
   };
