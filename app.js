@@ -450,59 +450,23 @@ function renderOrders() {
   const hasOrders = orders.length > 0;
   $("#empty-state").hidden = hasOrders;
   list.hidden = !hasOrders;
-
-  if (!hasOrders) { list.innerHTML = ""; $("#tracker-summary").innerHTML = ""; return; }
-
-  const active = orders.filter(order => order.status !== "completed").length;
-  const completed = orders.filter(order => order.status === "completed").length;
-  $("#tracker-summary").innerHTML =
-    `<span class="summary-chip"><strong>${orders.length}</strong> total ${orders.length === 1 ? "drop" : "drops"}</span>` +
-    `<span class="summary-chip"><strong>${active}</strong> active</span>` +
-    `<span class="summary-chip"><strong>${completed}</strong> completed</span>`;
+  $("#tracker-summary").hidden = true;
+  $("#tracker-summary").innerHTML = "";
+  if (!hasOrders) { list.innerHTML = ""; return; }
 
   list.innerHTML = orders.map(order => {
     const state = STATUS[order.status] || STATUS.sent;
-    const isComplete = order.status === "completed";
-
-    const runner = order.runnerName
-      ? `<div class="runner-card">
-          <div class="runner-info">
-            <span class="runner-label">Your runner</span>
-            <span class="runner-name">${escapeHTML(order.runnerName)}</span>
-            ${order.runnerPhone ? `<span class="runner-phone">${escapeHTML(order.runnerPhone)}</span>` : ""}
-          </div>
-          ${order.runnerPhone ? `<a class="runner-call" href="tel:${escapeHTML(order.runnerPhone.replace(/[^+\d]/g,""))}"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Call</a>` : ""}
-        </div>`
-      : "";
-
-    const pin = order.gpsUrl
-      ? `<a class="secondary-button" href="${escapeHTML(order.gpsUrl)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>View location pin</a>`
-      : "";
-
-    const actions = isComplete
-      ? `<button class="secondary-button secondary-button--brand" type="button" data-again="${escapeHTML(order.serviceKey)}"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Request again</button>${pin}`
-      : `<a class="secondary-button" href="${makeWhatsAppUrl(DISPATCH_PHONE,`Hi Drop, checking status for Order #${order.id}`)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Message dispatch</a>${pin}`;
-
-    return `<article class="order-card${isComplete ? " is-complete" : ""}">
+    const date = new Date(order.createdAt).toLocaleDateString("en-UG",{dateStyle:"medium"});
+    return `<article class="order-card order-history-card">
       <div class="order-head">
-        <div>
-          <p class="order-ref">#${escapeHTML(order.id)}</p>
-          <p class="order-date">${new Date(order.createdAt).toLocaleString("en-UG",{dateStyle:"medium",timeStyle:"short"})}</p>
-        </div>
-        <span class="status-badge ${state.tone}"><svg class="icon" aria-hidden="true"><use href="#${state.icon}"/></svg>${state.label}</span>
+        <div><p class="order-ref">#${escapeHTML(order.id)}</p><p class="order-date">${date}</p></div>
+        <span class="status-badge ${state.tone}">${state.label}</span>
       </div>
       <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
-      <p class="order-for">For ${escapeHTML(order.customerName)} · ${escapeHTML(order.landmark)}</p>
-      <ol class="stepper" aria-label="Request progress">${stepperHtml(state, isComplete)}</ol>
-      ${runner}
-      <div class="order-actions">${actions}</div>
+      <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
     </article>`;
   }).join("");
-
-  $$("[data-again]", list).forEach(button => {
-    button.addEventListener("click", () => openSheet(button.dataset.again, button));
-  });
 }
 
 function updateOrderCount() {
