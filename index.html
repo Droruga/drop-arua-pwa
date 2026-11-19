@@ -120,19 +120,10 @@
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="/" aria-label="Drop, home">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <rect width="32" height="32" rx="9.5" fill="#DC2626"/>
-          <g transform="translate(1.44 1.96) scale(0.26)" fill="#FFFFFF">
-            <path fill-rule="evenodd" d="M18 16H50A30 34 0 0 1 50 84H18ZM38 34H48A12 16 0 0 1 48 66H38Z"/>
-            <circle cx="86" cy="84" r="8"/>
-          </g>
-        </svg>
+        <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">Drop<span class="brand-period" aria-hidden="true">.</span></span>
       </a>
-      <div class="dispatch-chip">
-        <span class="pulse" aria-hidden="true"></span>
-        <span>Dispatch Active</span>
-      </div>
+      <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button></div>
     </header>
 
     <main id="main-content">
@@ -329,7 +320,7 @@
 
       <fieldset class="form-group">
         <legend class="field-label">Where should we go?</legend>
-        <input class="text-input" id="landmark" name="landmark" placeholder="e.g. Mvara, near Junior Quarters, blue gate" maxlength="160" aria-describedby="landmark-help err-landmark">
+        <input class="text-input" id="landmark" name="landmark" placeholder="e.g. near the market, blue gate" maxlength="160" aria-describedby="landmark-help err-landmark">
         <p class="field-help" id="landmark-help">Use a nearby landmark, area or clear directions.</p>
         <p class="field-error" id="err-landmark" role="alert" hidden></p>
         <button type="button" class="ghost-button" id="gps-button">
