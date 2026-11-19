@@ -7,7 +7,9 @@
 const DISPATCH_PHONE = "256760360914";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
-const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";\nconst STORAGE_WELCOMED = "drop_welcomed";\nconst STORAGE_CITY = "drop_city";
+const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
+const STORAGE_WELCOMED = "drop_welcomed";
+const STORAGE_CITY = "drop_city";
 
 const SERVICES = {
   errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
@@ -51,7 +53,8 @@ let deferredInstallPrompt = null;
 let toastTimer = null;
 let sheetOpen = false;
 let sheetCloseTimer = null;
-let lastFocused = null;\nlet selectedCity = localStorage.getItem(STORAGE_CITY) || "Mbarara";
+let lastFocused = null;
+let selectedCity = localStorage.getItem(STORAGE_CITY) || "Mbarara";
 
 /* ------------------------------------------------------------------ storage */
 function readJSON(key, fallback) {
@@ -356,7 +359,8 @@ function getUrgency() {
 function buildWhatsAppMessage(order) {
   const lines = [
     `*NEW DROP REQUEST: #${order.id}* 🔴`,
-    `*Service:* ${order.serviceTitle}`,\n    `*City:* ${order.city || "Mbarara"}`,
+    `*Service:* ${order.serviceTitle}`,
+    `*City:* ${order.city || "Mbarara"}`,
     `*Details:* ${order.detailsSummary}`,
     `*When:* ${order.urgency}`,
     `*Customer:* ${order.customerName} (${order.customerPhone})`,
@@ -609,8 +613,49 @@ function setupInstallPrompt() {
 }
 
 /* -------------------------------------------------------------------- init */
+function setupEntryExperience() {
+  const splash = $("#splash-screen");
+  const welcome = $("#welcome-screen");
+  const app = $(".app-shell");
+  const nav = $(".bottom-nav");
+  const returning = localStorage.getItem(STORAGE_WELCOMED) === "1";
+  $("#current-location").textContent = selectedCity;
+  welcome.hidden = returning;
+  app.hidden = !returning;
+  nav.hidden = !returning;
+  $("#get-started").addEventListener("click", () => {
+    localStorage.setItem(STORAGE_WELCOMED, "1");
+    welcome.hidden = true;
+    app.hidden = false;
+    nav.hidden = false;
+    window.scrollTo(0,0);
+  });
+  window.setTimeout(() => splash.classList.add("is-hidden"), reduceMotion ? 0 : 650);
+}
+function openLocationDialog() {
+  $("#location-dialog").hidden = false;
+  $("#location-backdrop").hidden = false;
+  $(".location-option").forEach(option => option.classList.toggle("is-selected", option.dataset.city === selectedCity));
+}
+function closeLocationDialog() {
+  $("#location-dialog").hidden = true;
+  $("#location-backdrop").hidden = true;
+}
+
 function init() {
   const updated = syncStatusFromURL();
+  setupEntryExperience();
+  $("#location-trigger").addEventListener("click", openLocationDialog);
+  $("#location-close").addEventListener("click", closeLocationDialog);
+  $("#location-backdrop").addEventListener("click", closeLocationDialog);
+  $(".location-option").forEach(option => option.addEventListener("click", () => {
+    selectedCity = option.dataset.city;
+    localStorage.setItem(STORAGE_CITY, selectedCity);
+    $("#current-location").textContent = selectedCity;
+    closeLocationDialog();
+    showToast("Location set to " + selectedCity + ".");
+  }));
+  $("#history-trigger").addEventListener("click", () => switchTab("orders"));
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
   $$(".nav-item").forEach(item => item.addEventListener("click", () => switchTab(item.dataset.tab)));
