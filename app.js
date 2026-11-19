@@ -8,10 +8,12 @@ const DISPATCH_PHONE = "256760360914";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
 const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
+const STORAGE_WELCOMED = "drop_welcomed";
+const STORAGE_CITY = "drop_city";
 
 const SERVICES = {
   errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
-    {name:"pickup",label:"Pickup location",placeholder:"e.g. Gaagaa Bus Park",required:true},
+    {name:"pickup",label:"Pickup location",placeholder:"Enter pickup area or landmark",required:true},
     {name:"destination",label:"Drop-off location",placeholder:"Where should we deliver?",required:true},
     {name:"itemNote",label:"What are we picking up?",placeholder:"Parcel, groceries, medicine, documents…",required:true}
   ]},
@@ -52,6 +54,7 @@ let toastTimer = null;
 let sheetOpen = false;
 let sheetCloseTimer = null;
 let lastFocused = null;
+let selectedCity = localStorage.getItem(STORAGE_CITY) || "Mbarara";
 
 /* ------------------------------------------------------------------ storage */
 function readJSON(key, fallback) {
@@ -357,6 +360,7 @@ function buildWhatsAppMessage(order) {
   const lines = [
     `*NEW DROP REQUEST: #${order.id}* 🔴`,
     `*Service:* ${order.serviceTitle}`,
+    `*City:* ${order.city || "Mbarara"}`,
     `*Details:* ${order.detailsSummary}`,
     `*When:* ${order.urgency}`,
     `*Customer:* ${order.customerName} (${order.customerPhone})`,
@@ -399,7 +403,7 @@ function submitOrder(event) {
     id:createOrderId(), serviceKey:selectedService, serviceTitle:SERVICES[selectedService].title,
     details, detailsSummary:formatDetails(selectedService, details),
     urgency:getUrgency(), customerName:profile.name, customerPhone:profile.phone,
-    landmark:profile.landmark, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
+    landmark:profile.landmark, city:selectedCity, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
     status:"sent", runnerName:"", runnerPhone:"",
     createdAt:new Date().toISOString(), estimate:moneyEstimate(selectedService, details)
   };
@@ -450,59 +454,23 @@ function renderOrders() {
   const hasOrders = orders.length > 0;
   $("#empty-state").hidden = hasOrders;
   list.hidden = !hasOrders;
-
-  if (!hasOrders) { list.innerHTML = ""; $("#tracker-summary").innerHTML = ""; return; }
-
-  const active = orders.filter(order => order.status !== "completed").length;
-  const completed = orders.filter(order => order.status === "completed").length;
-  $("#tracker-summary").innerHTML =
-    `<span class="summary-chip"><strong>${orders.length}</strong> total ${orders.length === 1 ? "drop" : "drops"}</span>` +
-    `<span class="summary-chip"><strong>${active}</strong> active</span>` +
-    `<span class="summary-chip"><strong>${completed}</strong> completed</span>`;
+  $("#tracker-summary").hidden = true;
+  $("#tracker-summary").innerHTML = "";
+  if (!hasOrders) { list.innerHTML = ""; return; }
 
   list.innerHTML = orders.map(order => {
     const state = STATUS[order.status] || STATUS.sent;
-    const isComplete = order.status === "completed";
-
-    const runner = order.runnerName
-      ? `<div class="runner-card">
-          <div class="runner-info">
-            <span class="runner-label">Your runner</span>
-            <span class="runner-name">${escapeHTML(order.runnerName)}</span>
-            ${order.runnerPhone ? `<span class="runner-phone">${escapeHTML(order.runnerPhone)}</span>` : ""}
-          </div>
-          ${order.runnerPhone ? `<a class="runner-call" href="tel:${escapeHTML(order.runnerPhone.replace(/[^+\d]/g,""))}"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Call</a>` : ""}
-        </div>`
-      : "";
-
-    const pin = order.gpsUrl
-      ? `<a class="secondary-button" href="${escapeHTML(order.gpsUrl)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>View location pin</a>`
-      : "";
-
-    const actions = isComplete
-      ? `<button class="secondary-button secondary-button--brand" type="button" data-again="${escapeHTML(order.serviceKey)}"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Request again</button>${pin}`
-      : `<a class="secondary-button" href="${makeWhatsAppUrl(DISPATCH_PHONE,`Hi Drop, checking status for Order #${order.id}`)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Message dispatch</a>${pin}`;
-
-    return `<article class="order-card${isComplete ? " is-complete" : ""}">
+    const date = new Date(order.createdAt).toLocaleDateString("en-UG",{dateStyle:"medium"});
+    return `<article class="order-card order-history-card">
       <div class="order-head">
-        <div>
-          <p class="order-ref">#${escapeHTML(order.id)}</p>
-          <p class="order-date">${new Date(order.createdAt).toLocaleString("en-UG",{dateStyle:"medium",timeStyle:"short"})}</p>
-        </div>
-        <span class="status-badge ${state.tone}"><svg class="icon" aria-hidden="true"><use href="#${state.icon}"/></svg>${state.label}</span>
+        <div><p class="order-ref">#${escapeHTML(order.id)}</p><p class="order-date">${date}</p></div>
+        <span class="status-badge ${state.tone}">${state.label}</span>
       </div>
       <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
-      <p class="order-for">For ${escapeHTML(order.customerName)} · ${escapeHTML(order.landmark)}</p>
-      <ol class="stepper" aria-label="Request progress">${stepperHtml(state, isComplete)}</ol>
-      ${runner}
-      <div class="order-actions">${actions}</div>
+      <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
     </article>`;
   }).join("");
-
-  $$("[data-again]", list).forEach(button => {
-    button.addEventListener("click", () => openSheet(button.dataset.again, button));
-  });
 }
 
 function updateOrderCount() {
@@ -645,8 +613,49 @@ function setupInstallPrompt() {
 }
 
 /* -------------------------------------------------------------------- init */
+function setupEntryExperience() {
+  const splash = $("#splash-screen");
+  const welcome = $("#welcome-screen");
+  const app = $(".app-shell");
+  const nav = $(".bottom-nav");
+  const returning = localStorage.getItem(STORAGE_WELCOMED) === "1";
+  $("#current-location").textContent = selectedCity;
+  welcome.hidden = returning;
+  app.hidden = !returning;
+  nav.hidden = !returning;
+  $("#get-started").addEventListener("click", () => {
+    localStorage.setItem(STORAGE_WELCOMED, "1");
+    welcome.hidden = true;
+    app.hidden = false;
+    nav.hidden = false;
+    window.scrollTo(0,0);
+  });
+  window.setTimeout(() => splash.classList.add("is-hidden"), reduceMotion ? 0 : 650);
+}
+function openLocationDialog() {
+  $("#location-dialog").hidden = false;
+  $("#location-backdrop").hidden = false;
+  $(".location-option").forEach(option => option.classList.toggle("is-selected", option.dataset.city === selectedCity));
+}
+function closeLocationDialog() {
+  $("#location-dialog").hidden = true;
+  $("#location-backdrop").hidden = true;
+}
+
 function init() {
   const updated = syncStatusFromURL();
+  setupEntryExperience();
+  $("#location-trigger").addEventListener("click", openLocationDialog);
+  $("#location-close").addEventListener("click", closeLocationDialog);
+  $("#location-backdrop").addEventListener("click", closeLocationDialog);
+  $(".location-option").forEach(option => option.addEventListener("click", () => {
+    selectedCity = option.dataset.city;
+    localStorage.setItem(STORAGE_CITY, selectedCity);
+    $("#current-location").textContent = selectedCity;
+    closeLocationDialog();
+    showToast("Location set to " + selectedCity + ".");
+  }));
+  $("#history-trigger").addEventListener("click", () => switchTab("orders"));
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
   $$(".nav-item").forEach(item => item.addEventListener("click", () => switchTab(item.dataset.tab)));
