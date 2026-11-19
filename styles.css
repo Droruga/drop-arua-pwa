@@ -1758,3 +1758,59 @@ body.is-locked .toast.is-visible {
     transition: none;
   }
 }
+
+
+/* =========================================================
+   Drop refresh — entry experience, city selector and pages
+   ========================================================= */
+.brand-mark,.splash-mark,.welcome-mark{display:block;background:#DC2626;position:relative;flex:none}
+.brand-mark{width:38px;height:38px;border-radius:11px;box-shadow:var(--shadow-brand)}
+.brand-mark::after,.splash-mark::after,.welcome-mark::after{content:"";position:absolute;width:42%;height:42%;left:29%;top:29%;border-radius:50%;background:#fff}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.location-trigger{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 12px;border:1px solid var(--border);border-radius:var(--r-pill);background:var(--surface);color:var(--text-strong);font-size:var(--fs-xs);font-weight:750}
+.location-trigger .icon{width:17px;height:17px;color:var(--brand-600)}
+.location-chevron{transform:rotate(90deg);width:14px!important}
+.history-trigger{border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--brand-600)}
+.splash-screen{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#DC2626;color:#fff;font-size:30px;font-weight:800;letter-spacing:-.04em;transition:opacity .35s ease,visibility .35s ease}
+.splash-mark{width:72px;height:72px;border-radius:20px;background:#fff}
+.splash-mark::after{background:#DC2626;width:42%;height:42%;left:29%;top:29%}
+.splash-screen.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.welcome-screen{position:fixed;inset:0;z-index:150;display:flex;flex-direction:column;justify-content:space-between;padding:max(28px,env(safe-area-inset-top)) 24px max(28px,env(safe-area-inset-bottom));background:#fff}
+.welcome-screen[hidden]{display:none}
+.welcome-brand{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:850;color:#171717}
+.welcome-mark{width:42px;height:42px;border-radius:12px}
+.welcome-copy{max-width:520px;margin:auto 0;padding:48px 0}
+.welcome-eyebrow{font-size:11px;font-weight:850;letter-spacing:.16em;color:#DC2626;margin-bottom:18px}
+.welcome-copy h1{font-size:clamp(48px,13vw,76px);line-height:.98;letter-spacing:-.065em;color:#171717;font-weight:850}
+.welcome-copy h1 em{font-style:normal;color:#DC2626}
+.welcome-copy>p:last-child{margin-top:20px;max-width:310px;color:#777;font-size:17px;line-height:1.6}
+.welcome-bottom{width:100%;max-width:520px}
+.welcome-cta{width:100%;min-height:58px;display:flex;align-items:center;justify-content:center;gap:12px;font-size:15px}
+.welcome-bottom>p{text-align:center;margin-top:14px;color:#999;font-size:11px}
+.location-backdrop{position:fixed;inset:0;z-index:110;background:#17171766;backdrop-filter:blur(3px)}
+.location-dialog{position:fixed;z-index:111;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 32px));padding:22px;border-radius:24px;background:#fff;box-shadow:var(--shadow-lg)}
+.location-dialog[hidden],.location-backdrop[hidden]{display:none}
+.location-dialog-head{display:flex;justify-content:space-between;align-items:center}
+.location-dialog-head h2{margin-top:5px;font-size:23px;letter-spacing:-.04em}
+.location-help{margin-top:10px;color:var(--text-muted);font-size:13px;line-height:1.5}
+.location-options{display:grid;gap:10px;margin-top:20px}
+.location-option{display:flex;justify-content:space-between;align-items:center;min-height:56px;padding:0 16px;border:1px solid var(--border);border-radius:16px;background:#fff;text-align:left;font-weight:750}
+.location-option span{font-size:11px;font-weight:550;color:var(--text-subtle)}
+.location-option.is-selected{border-color:#DC2626;background:#FFF5F5;color:#B91C1C}
+.pill-button,.primary-button,.secondary-button,.ghost-button,.footer-action,.choice-face,.nav-item,.runner-call,.install-more,.icon-button{border-radius:999px}
+.primary-button{justify-content:center}
+.secondary-button{flex:0 1 auto;padding-inline:18px}
+.choice-face{padding-inline:14px}
+.service-card{border-radius:22px}
+.order-card{border-radius:20px}
+/* The order form is now a dedicated full-screen page instead of a modal sheet. */
+.sheet{position:fixed;inset:0;z-index:90;width:100%;height:100dvh;max-height:none;border-radius:0;transform:none;opacity:1;box-shadow:none;display:flex;background:var(--bg,#FBF8F5)}
+.sheet[hidden]{display:none}
+.sheet.is-open{transform:none}
+.sheet-grabber,.sheet-backdrop{display:none!important}
+.sheet-head{padding:calc(14px + env(safe-area-inset-top)) max(18px,var(--gutter)) 14px;border-bottom:1px solid var(--border);background:#fff}
+.sheet-body{width:min(100%,720px);margin:0 auto;padding:10px max(18px,var(--gutter)) calc(28px + env(safe-area-inset-bottom))}
+.sheet-close{margin:0}
+@media(min-width:900px){.sheet{inset:0;width:100%;max-height:none;border-radius:0;top:0;left:0}.sheet-head{padding-left:max(32px,calc((100vw - 720px)/2));padding-right:max(32px,calc((100vw - 720px)/2))}}
+@media(max-width:380px){.location-trigger{padding:0 9px;gap:5px}.location-trigger .icon{width:15px;height:15px}.brand-mark{width:34px;height:34px}}
+@media(prefers-reduced-motion:reduce){.splash-screen{transition:none}}
