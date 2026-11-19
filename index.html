@@ -10,14 +10,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Drop">
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icons/drop-192.png" type="image/png" sizes="192x192">
-  <link rel="icon" href="/icons/drop-512.png" type="image/png" sizes="512x512">
+  <link rel="icon" href="/icons/drop-icon.svg" type="image/svg+xml">
+  
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
   <link rel="stylesheet" href="/styles.css">
   <title>Drop — Errands &amp; Home Services</title>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="splash-screen" id="splash-screen" aria-hidden="true"><div class="splash-mark"></div><span>Drop</span></div>
+  <section class="welcome-screen" id="welcome-screen" aria-labelledby="welcome-title" hidden>
+    <div class="welcome-brand"><span class="welcome-mark"></span><span>Drop</span></div>
+    <div class="welcome-copy"><p class="welcome-eyebrow">LOCAL HELP. LESS HASSLE.</p><h1 id="welcome-title">Your day,<br><em>sorted.</em></h1><p>Errands, deliveries and home services — made simple.</p></div>
+    <div class="welcome-bottom"><button class="pill-button welcome-cta" type="button" id="get-started">Get Started <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><p>Everyday help, right when you need it.</p></div>
+  </section>
 
   <!-- ============================================================
        Icon sprite. One 24px grid, 1.75 stroke, round caps/joins.
@@ -368,7 +375,7 @@
     </form>
   </section>
 
-  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <section class="location-backdrop" id="location-backdrop" hidden></section>\n  <section class="location-dialog" id="location-dialog" role="dialog" aria-modal="true" aria-labelledby="location-title" hidden><div class="location-dialog-head"><div><p class="sheet-kicker">YOUR LOCATION</p><h2 id="location-title">Choose your city</h2></div><button class="icon-button" id="location-close" type="button" aria-label="Close location selector"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="location-help">Choose where you would like to place your Drop orders.</p><div class="location-options"><button type="button" class="location-option" data-city="Mbarara">Mbarara <span>Western Uganda</span></button><button type="button" class="location-option" data-city="Arua">Arua <span>West Nile</span></button></div></section>\n\n  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="/app.js" defer></script>
 </body>
