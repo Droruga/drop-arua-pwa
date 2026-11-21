@@ -22,7 +22,7 @@
   <div class="splash-screen" id="splash-screen" aria-hidden="true"><div class="splash-mark"></div><span>Drop</span></div>
   <section class="welcome-screen" id="welcome-screen" aria-labelledby="welcome-title" hidden>
     <div class="welcome-brand"><span class="welcome-mark"></span><span>Drop</span></div>
-    <div class="welcome-copy"><p class="welcome-eyebrow">LOCAL HELP. LESS HASSLE.</p><h1 id="welcome-title">Your day,<br><em>sorted.</em></h1><p>Errands, deliveries and home services — made simple.</p></div>
+    <div class="welcome-copy"><p class="welcome-eyebrow">LOCAL HELP. LESS HASSLE.</p><h1 id="welcome-title">Your day,<br><em>sorted.</em></h1><p>Errands, pickups, gas and everyday deliveries — all in one place.</p></div>
     <div class="welcome-bottom"><button class="pill-button welcome-cta" type="button" id="get-started">Get Started <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><p>Everyday help, right when you need it.</p></div>
   </section>
 
@@ -60,6 +60,7 @@
     <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 5.4v13.2M5.4 12h13.2"/>
     </symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></symbol>
     <symbol id="i-orders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 2.8h12v18.4l-2.4-1.5-2.4 1.5-2.4-1.5-2.4 1.5L6 21.2V2.8Z"/>
       <path d="M9 7.6h6M9 11.6h6M9 15.6h3.4"/>
@@ -124,7 +125,7 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">Drop<span class="brand-period" aria-hidden="true">.</span></span>
       </a>
-      <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button></div>
+      <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
     </header>
 
     <main id="main-content">
@@ -153,11 +154,13 @@
           <ol class="install-steps" id="install-steps" hidden></ol>
         </section>
 
-        <section class="promo-banner" aria-label="Drop services">
-          <div class="promo-copy"><p class="promo-kicker">MORE TIME FOR YOU</p><h2>Little tasks.<br><em>Handled.</em></h2><p>From everyday pickups to cooking gas refills.</p></div>
-          <div class="promo-art" aria-hidden="true"><span class="promo-circle"></span><span class="promo-spark">✦</span></div>
+        <section class="promo-stack" aria-label="Drop offers">
+          <article class="promo-banner promo-banner--main"><div class="promo-copy"><p class="promo-kicker">YOUR DAY, MADE EASIER</p><h2>Need it moved?<br><em>Drop it.</em></h2><p>Pickups, errands and quick deliveries around town.</p></div><div class="promo-art" aria-hidden="true"><span class="promo-circle"></span><span class="promo-spark">✦</span></div></article>
+          <div class="promo-mini-grid">
+            <article class="promo-mini promo-mini--gas"><span class="promo-mini-icon">♨</span><div><p class="promo-kicker">AT-HOME CONVENIENCE</p><h3>Running low on gas?</h3><p>We'll collect, refill and return.</p></div></article>
+            <article class="promo-mini promo-mini--soon"><span class="promo-mini-icon">🛍</span><div><p class="promo-kicker">COMING NEXT</p><h3>Food &amp; grocery orders</h3><p>Local shops and restaurants, in one place.</p></div></article>
+          </div>
         </section>
-
         <section class="services" aria-labelledby="services-title">
           <div class="section-head">
             <h2 class="section-title" id="services-title">Pick a service</h2>
@@ -165,86 +168,26 @@
           </div>
 
           <ul class="service-list">
-            <li>
-              <button class="service-card" type="button" data-service="errands">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Errands &amp; Delivery</span>
-                  <span class="service-desc">Pickups, market runs &amp; quick drops.</span>
-                  <span class="service-price">From UGX 5,000</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-     
-            <li>
-              <button class="service-card" type="button" data-service="gas">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Gas Refills</span>
-                  <span class="service-desc">We collect, refill &amp; return.</span>
-                  <span class="service-price">UGX 7,000 delivery</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-            </li>
-            <li class="coming-soon-divider"><p class="coming-soon-label">More services coming soon</p></li>
-            <li>
-              <button class="service-card service-card--coming" type="button" data-service="lawn" disabled aria-disabled="true">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-lawn"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Lawn &amp; Compound</span>
-                  <span class="service-desc">Grass, hedges &amp; tidy compounds.</span>
-                  <span class="service-price">Coming soon</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-            </li>
-       </li>
-            <li>
-              <button class="service-card service-card--coming" type="button" data-service="cleaning" disabled aria-disabled="true">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-cleaning"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Cleaning</span>
-                  <span class="service-desc">From quick cleans to deep resets.</span>
-                  <span class="service-price">Coming soon</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-            </li>
-            <li>
-              <button class="service-card service-card--coming" type="button" data-service="handyman" disabled aria-disabled="true">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-handyman"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Handyman</span>
-                  <span class="service-desc">Plumbing, electrical &amp; small repairs.</span>
-                  <span class="service-price">Coming soon</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-            </li>
-          </ul>
-        </section>
+            <li><button class="service-card" type="button" data-service="errands">
+              <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
+              <span class="service-body"><span class="service-name">Errands &amp; Delivery</span><span class="service-desc">Pickups, market runs &amp; quick drops.</span><span class="service-price">From UGX 5,000</span></span>
+              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+            </button></li>
+            <li><button class="service-card" type="button" data-service="gas">
+              <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
+              <span class="service-body"><span class="service-name">Gas Refills</span><span class="service-desc">We collect, refill &amp; return.</span><span class="service-price">UGX 7,000 delivery</span></span>
+              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+            </button></li>
+          </ul>        </section>
 
-        <section class="restaurant-preview" aria-labelledby="restaurant-title">
-          <div class="restaurant-preview-copy"><p class="promo-kicker">COMING SOON</p><h2 id="restaurant-title">Restaurant delivery</h2><p>Order from local restaurant partners. The menu is being prepared.</p></div>
-          <span class="restaurant-preview-icon" aria-hidden="true">🍽</span>
         </section>
-
-        <footer class="site-footer">
-          <p class="footer-tagline">Local help. Less hassle.</p>
-          <button class="footer-action" type="button" id="install-open">
-            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
-            Add Drop to your home screen
-          </button>
-        </footer>
-      </section>
 
       <!-- ============================ MY DROPS ============================ -->
       <section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
           <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to services</span></button>
           <h1 class="page-title">My <em>Drops.</em></h1>
-          <p class="page-sub">Every request, right here.</p>
+          <p class="page-sub">Track your requests and recent deliveries.</p>
         </div>
 
         <div class="tracker-summary" id="tracker-summary"></div>
@@ -271,21 +214,13 @@
           </button>
         </div>
       </section>
+      <section class="view view-cart" id="cart-view" hidden>
+        <div class="page-head"><button class="page-back" id="cart-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to browsing</span></button><h1 class="page-title">Your <em>Cart.</em></h1><p class="page-sub">Your selected items will appear here.</p></div>
+        <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon">🛒</div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Restaurant, grocery and shop items are coming soon. For now, place an Errands or Gas request directly.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse Drop services</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
+        <div id="cart-items" hidden></div>
+      </section>
     </main>
   </div>
-
-  <!-- ============================ BOTTOM NAV ============================ -->
-  <nav class="bottom-nav" aria-label="Primary" hidden>
-    <button class="nav-item is-active" type="button" data-tab="new" aria-current="page">
-      <svg class="nav-icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg>
-      <span class="nav-label">New drop</span>
-    </button>
-    <button class="nav-item" type="button" data-tab="orders">
-      <svg class="nav-icon" aria-hidden="true" focusable="false"><use href="#i-orders"/></svg>
-      <span class="nav-label">My drops</span>
-      <span class="nav-count" id="order-count" hidden>0</span>
-    </button>
-  </nav>
 
   <!-- ============================ ORDER SHEET ============================ -->
   <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
@@ -367,6 +302,17 @@
         <p class="field-note">Saved on this device for next time.</p>
       </fieldset>
 
+      <fieldset class="form-group payment-group">
+        <legend class="field-label">How would you like to pay?</legend>
+        <div class="choice-grid choice-grid--stack">
+          <label class="choice"><input type="radio" name="paymentMethod" value="MTN MoMo" required><span class="choice-face"><span class="choice-text">MTN MoMo</span></span></label>
+          <label class="choice"><input type="radio" name="paymentMethod" value="Airtel Money" required><span class="choice-face"><span class="choice-text">Airtel Money</span></span></label>
+          <label class="choice"><input type="radio" name="paymentMethod" value="Cash on delivery (if available)" required><span class="choice-face"><span class="choice-text">Cash on delivery <small>(where available)</small></span></span></label>
+        </div>
+        <p class="field-help">Dispatch will confirm payment instructions and cash availability on WhatsApp.</p>
+        <p class="field-error" id="err-paymentMethod" role="alert" hidden></p>
+      </fieldset>
+
       <div class="price-card">
         <span class="price-label">Estimated price</span>
         <strong class="price-value" id="price-estimate">UGX 5,000 – 10,000</strong>
@@ -376,7 +322,7 @@
         <span class="primary-label">Confirm &amp; send via WhatsApp</span>
         <svg class="icon primary-icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
       </button>
-      <p class="form-note">WhatsApp opens with your request ready to send. Your details are used only to arrange this request.</p>
+      <p class="form-note">Review your details, then continue to WhatsApp to send your request. Payment is arranged with dispatch; no payment is collected in this app.</p>
     </form>
   </section>
 
