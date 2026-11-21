@@ -10,6 +10,7 @@ const STORAGE_PROFILE = "drop_customer";
 const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
 const STORAGE_WELCOMED = "drop_welcomed";
 const STORAGE_CITY = "drop_city";
+const STORAGE_CART = "drop_catalogue_cart";
 
 const SERVICES = {
   errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
@@ -211,6 +212,9 @@ function validateForm() {
   const name = $("#customer-name");
   if (!name.value.trim()) fail("customerName", "Enter your name.", name);
 
+  const paymentChoices = $$(`[name="paymentMethod"]`, $("#order-form"));
+  if (!paymentChoices.some(option => option.checked)) fail("paymentMethod", "Choose a payment method to continue.", paymentChoices[0]);
+
   const phone = $("#customer-phone");
   const phoneValue = phone.value.trim();
   if (!phoneValue) {
@@ -375,6 +379,7 @@ function buildWhatsAppMessage(order) {
     `*Details:* ${order.detailsSummary}`,
     `*When:* ${order.urgency}`,
     `*Customer:* ${order.customerName} (${order.customerPhone})`,
+    `*Payment preference:* ${order.paymentMethod || "To be agreed with dispatch"}`,
     `*Landmark:* ${order.landmark}`,
     `*GPS Pin:* ${order.gpsUrl || "Not attached"}`,
     "",
@@ -413,7 +418,7 @@ function submitOrder(event) {
   const order = {
     id:createOrderId(), serviceKey:selectedService, serviceTitle:SERVICES[selectedService].title,
     details, detailsSummary:formatDetails(selectedService, details),
-    urgency:getUrgency(), customerName:profile.name, customerPhone:profile.phone,
+    urgency:getUrgency(), paymentMethod:$(`[name="paymentMethod"]:checked`)?.value || "", customerName:profile.name, customerPhone:profile.phone,
     landmark:profile.landmark, city:selectedCity, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
     status:"sent", runnerName:"", runnerPhone:"",
     createdAt:new Date().toISOString(), estimate:moneyEstimate(selectedService, details)
@@ -480,6 +485,7 @@ function renderOrders() {
       <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
       <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
+      <p class="order-for">Payment: ${escapeHTML(order.paymentMethod || "To be agreed")}</p>
     </article>`;
   }).join("");
 }
@@ -487,18 +493,32 @@ function renderOrders() {
 function updateOrderCount() {
   const count = getOrders().length;
   const badge = $("#order-count");
-  badge.textContent = count;
-  badge.hidden = count === 0;
+  if (badge) { badge.textContent = count; badge.hidden = count === 0; }
 }
 
 /* ------------------------------------------------------------- navigation */
 function switchTab(tab) {
   const orders = tab === "orders";
-  $("#new-drop-view").hidden = orders;
+  const cart = tab === "cart";
+  $("#new-drop-view").hidden = orders || cart;
   $("#my-drops-view").hidden = !orders;
+  $("#cart-view").hidden = !cart;
   if (orders) renderOrders();
+  if (cart) renderCart();
   window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
 }
+function getCart() { return readJSON(STORAGE_CART, []); }
+function renderCart() {
+  const items = getCart();
+  const count = items.reduce((sum, item) => sum + Math.max(0, Number(item.quantity) || 0), 0);
+  const badge = $("#cart-count");
+  badge.textContent = count;
+  badge.hidden = count === 0;
+  // Product cards are activated only when approved partner catalogue data is connected.
+  $("#cart-empty").hidden = items.length > 0;
+  $("#cart-items").hidden = true;
+}
+
 
 /* ------------------------------------------------------------ installation */
 function isIOSDevice() {
@@ -607,7 +627,7 @@ function setupInstallPrompt() {
     hidePanel();
   });
 
-  openButton.addEventListener("click", () => {
+  openButton?.addEventListener("click", () => {
     showPanel(true);
     if (deferredInstallPrompt) button.hidden = false;
     panel.scrollIntoView({block:"nearest", behavior: reduceMotion ? "auto" : "smooth"});
@@ -658,6 +678,9 @@ function init() {
     showToast("Location set to " + selectedCity + ".");
   }));
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
+  $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
+  $("#cart-back").addEventListener("click", () => switchTab("new"));
+  $("#cart-browse").addEventListener("click", () => switchTab("new"));
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
 
@@ -673,6 +696,9 @@ function init() {
      opens no longer stack duplicate handlers. */
   $("#service-fields").addEventListener("change", updatePriceEstimate);
   $("#service-fields").addEventListener("input", updatePriceEstimate);
+  $("#order-form").addEventListener("change", event => {
+    if (event.target.name === "paymentMethod") clearFieldError("paymentMethod");
+  });
   $("#service-fields").addEventListener("change", event => {
     const input = event.target;
     if (input.type !== "radio") return;
@@ -712,6 +738,7 @@ function init() {
   });
 
   updateOrderCount();
+  renderCart();
   renderOrders();
   setupInstallPrompt();
 
