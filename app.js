@@ -212,7 +212,7 @@ function validateForm() {
   const name = $("#customer-name");
   if (!name.value.trim()) fail("customerName", "Enter your name.", name);
 
-  const paymentChoices = $(`[name="paymentMethod"]`, $("#order-form"));
+  const paymentChoices = $$(`[name="paymentMethod"]`, $("#order-form"));
   if (!paymentChoices.some(option => option.checked)) fail("paymentMethod", "Choose a payment method to continue.", paymentChoices[0]);
 
   const phone = $("#customer-phone");
