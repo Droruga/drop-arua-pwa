@@ -33,6 +33,17 @@ const SERVICES = {
   ]}
 };
 
+// Restaurant catalogue contract: intentionally empty until the partner shares
+// approved menu data. Prices are integer UGX; no sample products are displayed.
+const RESTAURANT_CATALOGUE = {
+  schemaVersion: 1,
+  currency: "UGX",
+  partner: { id: "", name: "", location: "", contactPhone: "" },
+  items: [], // {id, name, description, imageUrl, category, priceUGX, available, stockQuantity}
+  cart: [], // {itemId, quantity, unitPriceUGX}
+  order: { deliveryAddress: "", recipientName: "", recipientPhone: "", notes: "" }
+};
+
 const STATUS = {
   sent:{label:"Request Sent",step:1,percent:25,icon:"i-clock",tone:""},
   assigned:{label:"Runner Assigned",step:2,percent:50,icon:"i-bell",tone:""},
@@ -485,12 +496,6 @@ function switchTab(tab) {
   const orders = tab === "orders";
   $("#new-drop-view").hidden = orders;
   $("#my-drops-view").hidden = !orders;
-  $$(".nav-item").forEach(item => {
-    const active = item.dataset.tab === tab;
-    item.classList.toggle("is-active", active);
-    if (active) item.setAttribute("aria-current", "page");
-    else item.removeAttribute("aria-current");
-  });
   if (orders) renderOrders();
   window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
 }
@@ -617,17 +622,14 @@ function setupEntryExperience() {
   const splash = $("#splash-screen");
   const welcome = $("#welcome-screen");
   const app = $(".app-shell");
-  const nav = $(".bottom-nav");
   const returning = localStorage.getItem(STORAGE_WELCOMED) === "1";
   $("#current-location").textContent = selectedCity;
   welcome.hidden = returning;
   app.hidden = !returning;
-  nav.hidden = !returning;
   $("#get-started").addEventListener("click", () => {
     localStorage.setItem(STORAGE_WELCOMED, "1");
     welcome.hidden = true;
     app.hidden = false;
-    nav.hidden = false;
     window.scrollTo(0,0);
   });
   window.setTimeout(() => splash.classList.add("is-hidden"), reduceMotion ? 0 : 650);
@@ -658,7 +660,6 @@ function init() {
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
-  $$(".nav-item").forEach(item => item.addEventListener("click", () => switchTab(item.dataset.tab)));
 
   $("#sheet-close").addEventListener("click", closeSheet);
   $("#sheet-backdrop").addEventListener("click", closeSheet);
@@ -666,6 +667,7 @@ function init() {
   $("#gps-button").addEventListener("click", attachGPS);
   $("#remove-gps").addEventListener("click", removeGPS);
   $("#empty-order-button").addEventListener("click", () => switchTab("new"));
+  $("#history-back").addEventListener("click", () => switchTab("new"));
 
   /* Service field listeners are bound once and delegated, so repeated drawer
      opens no longer stack duplicate handlers. */

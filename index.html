@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#DC2626">
-  <meta name="description" content="Book trusted local help for errands, delivery, gas refills, cleaning and small repairs.">
+  <meta name="description" content="Book errands, local deliveries and cooking gas refills with Drop.">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -14,7 +14,7 @@
   
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
   <link rel="stylesheet" href="/styles.css">
-  <title>Drop — Errands &amp; Home Services</title>
+  <title>Drop — Errands, Delivery &amp; Gas Refills</title>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -91,6 +91,7 @@
     <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M9.6 5.6 16 12l-6.4 6.4"/>
     </symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4.8M10.6 6.2 4.8 12l5.8 5.8"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 12h15.2M13.4 6.2 19.2 12l-5.8 5.8"/>
     </symbol>
@@ -131,7 +132,7 @@
       <section class="view view-new" id="new-drop-view">
         <div class="hero">
           <h1 class="hero-title">Your day, <em>sorted.</em></h1>
-          <p class="hero-sub">Tell us what you need. We'll handle the rest.</p>
+          <p class="hero-sub">Errands, deliveries and gas refills — made simple.</p>
         </div>
 
         <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
@@ -153,14 +154,14 @@
         </section>
 
         <section class="promo-banner" aria-label="Drop services">
-          <div class="promo-copy"><p class="promo-kicker">MORE TIME FOR YOU</p><h2>Little tasks.<br><em>Handled.</em></h2><p>From quick errands to help around the home.</p></div>
+          <div class="promo-copy"><p class="promo-kicker">MORE TIME FOR YOU</p><h2>Little tasks.<br><em>Handled.</em></h2><p>From everyday pickups to cooking gas refills.</p></div>
           <div class="promo-art" aria-hidden="true"><span class="promo-circle"></span><span class="promo-spark">✦</span></div>
         </section>
 
         <section class="services" aria-labelledby="services-title">
           <div class="section-head">
             <h2 class="section-title" id="services-title">Pick a service</h2>
-            <p class="section-meta">5 services</p>
+            <p class="section-meta">2 available now</p>
           </div>
 
           <ul class="service-list">
@@ -174,18 +175,7 @@
                 </span>
                 <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
               </button>
-            </li>
-            <li>
-              <button class="service-card" type="button" data-service="lawn">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-lawn"/></svg></span>
-                <span class="service-body">
-                  <span class="service-name">Lawn &amp; Compound</span>
-                  <span class="service-desc">Grass, hedges &amp; tidy compounds.</span>
-                  <span class="service-price">From UGX 15,000</span>
-                </span>
-                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
-              </button>
-            </li>
+     
             <li>
               <button class="service-card" type="button" data-service="gas">
                 <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
@@ -197,29 +187,47 @@
                 <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
               </button>
             </li>
+            <li class="coming-soon-divider"><p class="coming-soon-label">More services coming soon</p></li>
             <li>
-              <button class="service-card" type="button" data-service="cleaning">
+              <button class="service-card service-card--coming" type="button" data-service="lawn" disabled aria-disabled="true">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-lawn"/></svg></span>
+                <span class="service-body">
+                  <span class="service-name">Lawn &amp; Compound</span>
+                  <span class="service-desc">Grass, hedges &amp; tidy compounds.</span>
+                  <span class="service-price">Coming soon</span>
+                </span>
+                <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
+              </button>
+            </li>
+       </li>
+            <li>
+              <button class="service-card service-card--coming" type="button" data-service="cleaning" disabled aria-disabled="true">
                 <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-cleaning"/></svg></span>
                 <span class="service-body">
                   <span class="service-name">Cleaning</span>
                   <span class="service-desc">From quick cleans to deep resets.</span>
-                  <span class="service-price">From UGX 15,000</span>
+                  <span class="service-price">Coming soon</span>
                 </span>
                 <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
               </button>
             </li>
             <li>
-              <button class="service-card" type="button" data-service="handyman">
+              <button class="service-card service-card--coming" type="button" data-service="handyman" disabled aria-disabled="true">
                 <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-handyman"/></svg></span>
                 <span class="service-body">
                   <span class="service-name">Handyman</span>
                   <span class="service-desc">Plumbing, electrical &amp; small repairs.</span>
-                  <span class="service-price">UGX 10,000 call-out</span>
+                  <span class="service-price">Coming soon</span>
                 </span>
                 <svg class="service-chevron icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"/></svg>
               </button>
             </li>
           </ul>
+        </section>
+
+        <section class="restaurant-preview" aria-labelledby="restaurant-title">
+          <div class="restaurant-preview-copy"><p class="promo-kicker">COMING SOON</p><h2 id="restaurant-title">Restaurant delivery</h2><p>Order from local restaurant partners. The menu is being prepared.</p></div>
+          <span class="restaurant-preview-icon" aria-hidden="true">🍽</span>
         </section>
 
         <footer class="site-footer">
@@ -234,6 +242,7 @@
       <!-- ============================ MY DROPS ============================ -->
       <section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
+          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to services</span></button>
           <h1 class="page-title">My <em>Drops.</em></h1>
           <p class="page-sub">Every request, right here.</p>
         </div>
@@ -292,8 +301,8 @@
         <h2 class="sheet-title" id="sheet-title">Service</h2>
         <p class="sheet-sub" id="sheet-sub"></p>
       </div>
-      <button class="icon-button sheet-close" type="button" id="sheet-close" aria-label="Close request form">
-        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+      <button class="sheet-back" type="button" id="sheet-close" aria-label="Back to services">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg><span>Back</span>
       </button>
     </header>
 
