@@ -418,7 +418,7 @@ function submitOrder(event) {
   const order = {
     id:createOrderId(), serviceKey:selectedService, serviceTitle:SERVICES[selectedService].title,
     details, detailsSummary:formatDetails(selectedService, details),
-    urgency:getUrgency(), paymentMethod:getFormValue("paymentMethod"), customerName:profile.name, customerPhone:profile.phone,
+    urgency:getUrgency(), paymentMethod:$(`[name="paymentMethod"]:checked`)?.value || "", customerName:profile.name, customerPhone:profile.phone,
     landmark:profile.landmark, city:selectedCity, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
     status:"sent", runnerName:"", runnerPhone:"",
     createdAt:new Date().toISOString(), estimate:moneyEstimate(selectedService, details)
@@ -485,6 +485,7 @@ function renderOrders() {
       <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
       <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
+      <p class="order-for">Payment: ${escapeHTML(order.paymentMethod || "To be agreed")}</p>
     </article>`;
   }).join("");
 }
@@ -695,6 +696,9 @@ function init() {
      opens no longer stack duplicate handlers. */
   $("#service-fields").addEventListener("change", updatePriceEstimate);
   $("#service-fields").addEventListener("input", updatePriceEstimate);
+  $("#order-form").addEventListener("change", event => {
+    if (event.target.name === "paymentMethod") clearFieldError("paymentMethod");
+  });
   $("#service-fields").addEventListener("change", event => {
     const input = event.target;
     if (input.type !== "radio") return;
