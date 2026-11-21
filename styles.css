@@ -1828,3 +1828,21 @@ body.is-locked .toast.is-visible {
 .order-history-card{padding:18px 20px}
 .order-history-card .order-title{margin-top:12px}
 @media(max-width:380px){.promo-banner{min-height:172px;padding:19px}.promo-copy{max-width:72%}.promo-circle{width:145px;height:145px;right:-48px;top:34px}.promo-circle::after{width:64px;height:64px;left:40px;top:40px}}
+
+
+/* Launch focus: two live services, with the remaining categories retained for later. */
+.service-card--coming{opacity:.58;background:#FAF8F7;border-style:dashed;cursor:not-allowed;box-shadow:none}
+.service-card--coming .service-price{color:#827B78}
+.service-card--coming .service-chevron{opacity:.45}
+.restaurant-preview{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:28px 0 8px;padding:20px 22px;border:1px solid var(--border);border-radius:22px;background:#fff}
+.restaurant-preview-copy{max-width:290px}
+.restaurant-preview-copy h2{margin-top:7px;font-size:19px;letter-spacing:-.035em;color:var(--text-strong)}
+.restaurant-preview-copy>p:last-child{margin-top:6px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.restaurant-preview-icon{display:grid;place-items:center;width:52px;height:52px;flex:none;border-radius:17px;background:#FFF0ED;font-size:25px}
+.page-back,.sheet-back{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:0 13px;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--text);font-size:13px;font-weight:750}
+.page-back{margin-bottom:18px}
+.page-back .icon,.sheet-back .icon{width:18px;height:18px}
+.sheet-back{flex:none;margin-left:auto;min-width:92px}
+.sheet-close{display:none}
+.service-card:disabled{pointer-events:none}
+@media(max-width:380px){.restaurant-preview{padding:17px}.restaurant-preview-copy h2{font-size:17px}}
