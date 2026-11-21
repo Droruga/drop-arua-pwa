@@ -1846,3 +1846,5 @@ body.is-locked .toast.is-visible {
 .sheet-close{display:none}
 .service-card:disabled{pointer-events:none}
 @media(max-width:380px){.restaurant-preview{padding:17px}.restaurant-preview-copy h2{font-size:17px}}
+
+.coming-soon-label{padding:10px 2px 2px;color:var(--text-subtle);font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
