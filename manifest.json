@@ -1,7 +1,7 @@
 {
   "name": "Drop — Errands, Delivery & Gas Refills",
   "short_name": "Drop",
-  "description": "Book errands, local deliveries and cooking gas refills with Drop.",
+  "description": "Order errands, local deliveries and cooking gas refills with Drop.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
