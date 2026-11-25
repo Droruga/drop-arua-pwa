@@ -695,7 +695,7 @@ function init() {
   $("#location-trigger").addEventListener("click", openLocationDialog);
   $("#location-close").addEventListener("click", closeLocationDialog);
   $("#location-backdrop").addEventListener("click", closeLocationDialog);
-  $$$(".location-option").forEach(option => option.addEventListener("click", () => {
+  $$(".location-option").forEach(option => option.addEventListener("click", () => {
     selectedCity = option.dataset.city;
     localStorage.setItem(STORAGE_CITY, selectedCity);
     $("#current-location").textContent = selectedCity;
@@ -707,10 +707,11 @@ function init() {
   $("#cart-back").addEventListener("click", () => switchTab("new"));
   $("#cart-browse").addEventListener("click", () => switchTab("new"));
 
-  $(".service-card").forEach(card => { card.dataset.bound = "1"; card.addEventListener("click", () => openSheet(card.dataset.service, card)); });
+  // Delegate service-card clicks so all cards work, including future dynamically added cards.
   document.addEventListener("click", event => {
-    const card = event.target.closest(".service-card[data-service]");
-    if (!card || card.disabled || card.dataset.bound === "1") return;
+    const target = event.target instanceof Element ? event.target : null;
+    const card = target?.closest(".service-card[data-service]");
+    if (!card || card.disabled) return;
     openSheet(card.dataset.service, card);
   });
 
