@@ -19,11 +19,11 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <div class="splash-screen" id="splash-screen" aria-hidden="true"><div class="splash-mark"></div><span>Drop</span></div>
+  <div class="splash-screen" id="splash-screen" aria-hidden="true"><span class="splash-wordmark">drop<span>.</span></span></div>
   <section class="welcome-screen" id="welcome-screen" aria-labelledby="welcome-title" hidden>
-    <div class="welcome-brand"><span class="welcome-mark"></span><span>Drop</span></div>
-    <div class="welcome-copy"><p class="welcome-eyebrow">LOCAL HELP. LESS HASSLE.</p><h1 id="welcome-title">Your day,<br><em>sorted.</em></h1><p>Errands, pickups, gas and everyday deliveries — all in one place.</p></div>
-    <div class="welcome-bottom"><button class="pill-button welcome-cta" type="button" id="get-started">Get Started <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><p>Everyday help, right when you need it.</p></div>
+    <div class="welcome-brand"><span class="welcome-wordmark">drop<span>.</span></span><span class="welcome-location">MBARARA · UGANDA</span></div>
+    <div class="welcome-copy"><p class="welcome-eyebrow">YOUR CITY. YOUR EVERYDAY DELIVERY PARTNER.</p><h1 id="welcome-title">Good things,<br><em>on the way.</em></h1><p>From restaurant favourites and everyday errands to gas refills — tell us what you need and Drop gets it moving.</p><div class="welcome-trust"><span>Local delivery</span><span>Simple ordering</span><span>WhatsApp support</span></div></div>
+    <div class="welcome-bottom"><button class="pill-button welcome-cta" type="button" id="get-started"><span>Explore Drop</span><svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><p>Order in a few taps. Confirm directly on WhatsApp.</p></div>
   </section>
 
   <!-- ============================================================
@@ -36,6 +36,7 @@
       <path d="M3.9 7.2 12 11.5l8.1-4.3"/>
       <path d="M12 11.5v9.6"/>
     </symbol>
+    <symbol id="i-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2.8v7.1M4.2 2.8v4.7a2.8 2.8 0 0 0 5.6 0V2.8M7 10v11.2M16.2 2.8v18.4M16.2 2.8c2.1 1.8 3.2 4.1 3.2 6.5h-3.2"/></symbol>
     <symbol id="i-lawn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 21v-6.7"/>
       <path d="M12 14.3C12 9.9 15 7.5 19.4 7.5c0 4.4-3 6.8-7.4 6.8Z"/>
@@ -132,8 +133,9 @@
       <!-- ============================ NEW DROP ============================ -->
       <section class="view view-new" id="new-drop-view">
         <div class="hero">
-          <h1 class="hero-title">Your day, <em>sorted.</em></h1>
-          <p class="hero-sub">Errands, deliveries and gas refills — made simple.</p>
+          <div class="hero-eyebrow"><span class="hero-live-dot"></span> LOCAL DELIVERY, MADE EASY</div>
+          <h1 class="hero-title">What can we<br><em>bring you?</em></h1>
+          <p class="hero-sub">Restaurant orders, everyday errands and gas refills — all handled in one simple flow.</p>
         </div>
 
         <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
@@ -164,13 +166,18 @@
         <section class="services" aria-labelledby="services-title">
           <div class="section-head">
             <h2 class="section-title" id="services-title">Pick a service</h2>
-            <p class="section-meta">2 available now</p>
+            <p class="section-meta">3 ways to order</p>
           </div>
 
           <ul class="service-list">
             <li><button class="service-card" type="button" data-service="errands">
               <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
               <span class="service-body"><span class="service-name">Errands &amp; Delivery</span><span class="service-desc">Pickups, market runs &amp; quick drops.</span><span class="service-price">From UGX 5,000</span></span>
+              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+            </button></li>
+            <li><button class="service-card service-card--restaurant" type="button" data-service="restaurant">
+              <span class="service-icon service-icon--restaurant" aria-hidden="true"><svg class="icon"><use href="#i-utensils"/></svg></span>
+              <span class="service-body"><span class="service-name">Restaurant Delivery</span><span class="service-desc">Order your favourites from our partner.</span><span class="service-price">Menu &amp; delivery confirmed on WhatsApp</span></span>
               <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
             </button></li>
             <li><button class="service-card" type="button" data-service="gas">
@@ -267,9 +274,9 @@
       </fieldset>
 
       <fieldset class="form-group">
-        <legend class="field-label">Where should we go?</legend>
-        <input class="text-input" id="landmark" name="landmark" placeholder="e.g. near the market, blue gate" maxlength="160" aria-describedby="landmark-help err-landmark">
-        <p class="field-help" id="landmark-help">Use a nearby landmark, area or clear directions.</p>
+        <legend class="field-label">Delivery address</legend>
+        <input class="text-input" id="landmark" name="landmark" placeholder="Area, street, building and nearby landmark" maxlength="180" autocomplete="street-address" aria-describedby="landmark-help err-landmark">
+        <p class="field-help" id="landmark-help">Add enough detail for the rider to find you without calling repeatedly.</p>
         <p class="field-error" id="err-landmark" role="alert" hidden></p>
         <button type="button" class="ghost-button" id="gps-button">
           <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
@@ -281,6 +288,16 @@
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
           </button>
         </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend class="field-label">Delivery contact <span class="optional-label">Optional if same as you</span></legend>
+        <div class="field-row">
+          <div class="field"><label class="field-sublabel" for="recipient-name">Recipient name</label><input class="text-input" id="recipient-name" name="recipientName" placeholder="Who will receive it?" maxlength="70" autocomplete="name"></div>
+          <div class="field"><label class="field-sublabel" for="recipient-phone">Recipient phone</label><input class="text-input" id="recipient-phone" name="recipientPhone" type="tel" inputmode="tel" placeholder="Phone number" maxlength="20"><p class="field-error" id="err-recipientPhone" role="alert" hidden></p></div>
+        </div>
+        <label class="field-label field-label--tight" for="delivery-notes">Extra delivery instructions</label>
+        <textarea class="text-input delivery-notes" id="delivery-notes" name="deliveryNotes" placeholder="Gate colour, floor, preferred contact or anything the rider should know" maxlength="300" rows="3"></textarea>
       </fieldset>
 
       <fieldset class="form-group">
@@ -318,10 +335,10 @@
       </div>
 
       <button class="primary-button" type="submit" id="submit-order">
-        <span class="primary-label">Confirm &amp; send via WhatsApp</span>
+        <span class="primary-label">Review &amp; send order on WhatsApp</span>
         <svg class="icon primary-icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
       </button>
-      <p class="form-note">Review your details, then continue to WhatsApp to send your request. Payment is arranged with dispatch; no payment is collected in this app.</p>
+      <p class="form-note">Your order opens in WhatsApp for final confirmation. Drop will confirm availability, delivery fee and payment before fulfilment.</p>
     </form>
   </section>
 
