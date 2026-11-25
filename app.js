@@ -4,7 +4,7 @@
 
    Business logic (services, pricing, order records, WhatsApp payload, order IDs
    and local storage) is kept separate from presentation helpers. */
-const DISPATCH_PHONE = "256760360914";
+const DISPATCH_PHONE = "256702964822";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
 const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
@@ -17,6 +17,11 @@ const SERVICES = {
     {name:"pickup",label:"Pickup location",placeholder:"Enter pickup area or landmark",required:true},
     {name:"destination",label:"Drop-off location",placeholder:"Where should we deliver?",required:true},
     {name:"itemNote",label:"What are we picking up?",placeholder:"Parcel, groceries, medicine, documents…",required:true}
+  ]},
+  restaurant: {title:"Restaurant Delivery", label:"Restaurant Delivery", icon:"i-utensils", blurb:"Order from our restaurant partner and have it brought to you.", price:"Delivery fee confirmed on WhatsApp", fields:[
+    {name:"restaurantName",label:"Restaurant",placeholder:"Restaurant name",required:true},
+    {name:"orderItems",label:"What would you like to order?",placeholder:"List meals, sizes and quantities",required:true},
+    {name:"orderValue",label:"Approximate food total (optional)",placeholder:"e.g. UGX 35,000",required:false}
   ]},
   lawn: {title:"Compound & Lawn Care", label:"Lawn & Compound", icon:"i-lawn", blurb:"Grass, hedges & tidy compounds.", price:"UGX 15,000 – 35,000", fields:[
     {name:"plotSize",label:"Choose your compound size",type:"radio",options:[["Small Plot","Small Plot — UGX 15,000"],["Medium Compound","Medium Compound — UGX 25,000"],["Large / Custom","Large / Custom — Request a quote"]],required:true}
@@ -100,6 +105,7 @@ function moneyEstimate(service, details) {
   }
   if (service === "cleaning") return details.cleaningScope?.startsWith("Single") ? "UGX 15,000" : details.cleaningScope ? "UGX 30,000" : "UGX 15,000 – 30,000";
   if (service === "gas") return "UGX 7,000 delivery";
+  if (service === "restaurant") return "Delivery fee confirmed on WhatsApp";
   if (service === "handyman") return "UGX 10,000 call-out";
   return "UGX 5,000 – 10,000";
 }
@@ -227,6 +233,9 @@ function validateForm() {
     const when = $("#schedule-time");
     if (!when.value) fail("scheduleTime", "Choose a date and time.", when);
   }
+
+  const recipientPhone = $("#recipient-phone");
+  if (recipientPhone?.value.trim() && !PHONE_PATTERN.test(recipientPhone.value.trim())) fail("recipientPhone", "Enter a valid recipient phone number.", recipientPhone);
 
   if (hasError) {
     if (firstInvalid && firstInvalid.focus) firstInvalid.focus({preventScroll:false});
@@ -373,19 +382,24 @@ function getUrgency() {
 }
 function buildWhatsAppMessage(order) {
   const lines = [
-    `*NEW DROP REQUEST: #${order.id}* 🔴`,
-    `*Service:* ${order.serviceTitle}`,
-    `*City:* ${order.city || "Mbarara"}`,
-    `*Details:* ${order.detailsSummary}`,
-    `*When:* ${order.urgency}`,
-    `*Customer:* ${order.customerName} (${order.customerPhone})`,
-    `*Payment preference:* ${order.paymentMethod || "To be agreed with dispatch"}`,
-    `*Landmark:* ${order.landmark}`,
-    `*GPS Pin:* ${order.gpsUrl || "Not attached"}`,
+    "*NEW DROP ORDER · #" + order.id + " 🔴",
     "",
-    `_Sent via Drop_`
-  ];
-  return lines.join("\n");
+    "*SERVICE:* " + order.serviceTitle,
+    "*CITY:* " + (order.city || "Mbarara"),
+    "*REQUEST DETAILS:* " + order.detailsSummary,
+    "*DELIVERY ADDRESS:* " + order.landmark,
+    "*RECIPIENT:* " + (order.recipientName || order.customerName),
+    "*RECIPIENT PHONE:* " + (order.recipientPhone || order.customerPhone),
+    "*CUSTOMER:* " + order.customerName,
+    "*CUSTOMER PHONE:* " + order.customerPhone,
+    "*WHEN:* " + order.urgency,
+    "*PAYMENT:* " + (order.paymentMethod || "To be agreed with dispatch"),
+    "*DELIVERY NOTES:* " + (order.deliveryNotes || "None"),
+    "*GPS PIN:* " + (order.gpsUrl || "Not attached"),
+    "",
+    "*ORDER REF:* " + order.id,
+    "_Submitted through Drop · Please confirm availability, delivery fee and payment with customer._"
+  ];  return lines.join("\n");
 }
 function makeWhatsAppUrl(phone, message) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -394,6 +408,7 @@ function formatDetails(key, details) {
   const values = Object.values(details).filter(Boolean);
   if (key === "lawn" || key === "cleaning") return `${values.join(" · ")} (${moneyEstimate(key,details)})`;
   if (key === "gas") return `${details.cylinder} cylinder · ${details.station} station · UGX 7,000 delivery`;
+  if (key === "restaurant") return `${details.restaurantName} · ${details.orderItems}${details.orderValue ? ` · Food total estimate: ${details.orderValue}` : ""}`;
   if (key === "handyman") return `${details.trade}: ${details.issue} (UGX 10,000 call-out)`;
   return `Pickup: ${details.pickup} · Drop-off: ${details.destination} · Item: ${details.itemNote}`;
 }
@@ -419,6 +434,7 @@ function submitOrder(event) {
     id:createOrderId(), serviceKey:selectedService, serviceTitle:SERVICES[selectedService].title,
     details, detailsSummary:formatDetails(selectedService, details),
     urgency:getUrgency(), paymentMethod:$(`[name="paymentMethod"]:checked`)?.value || "", customerName:profile.name, customerPhone:profile.phone,
+    recipientName:getFormValue("recipientName"), recipientPhone:getFormValue("recipientPhone"), deliveryNotes:getFormValue("deliveryNotes"),
     landmark:profile.landmark, city:selectedCity, gpsUrl:gpsPin ? `https://www.google.com/maps?q=${gpsPin.lat},${gpsPin.lng}` : "",
     status:"sent", runnerName:"", runnerPhone:"",
     createdAt:new Date().toISOString(), estimate:moneyEstimate(selectedService, details)
@@ -712,6 +728,11 @@ function init() {
     if (!schedule) clearFieldError("scheduleTime", $("#schedule-time"));
   }));
 
+  $("#recipient-phone").addEventListener("blur", () => {
+    const field = $("#recipient-phone");
+    if (field.value.trim() && !PHONE_PATTERN.test(field.value.trim())) field.setAttribute("aria-invalid", "true");
+    else field.removeAttribute("aria-invalid");
+  });
   $("#customer-phone").addEventListener("blur", () => {
     const phone = $("#customer-phone");
     const value = phone.value.trim();
