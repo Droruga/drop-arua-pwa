@@ -1968,3 +1968,6 @@ body{background:var(--surface-page);color:#342F2B}.app-shell{padding-bottom:calc
 @media(min-width:640px){.service-list--everyday{grid-template-columns:repeat(2,minmax(0,1fr))}.service-list--everyday .service-card{min-height:160px}.promo-mini-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:390px){:root{--gutter:16px}.topbar-actions{gap:5px}.location-trigger{max-width:112px;padding:0 9px}.location-trigger span{font-size:11px}.brand-name{font-size:27px}.hero-title{font-size:38px}.promo-banner--main{min-height:177px;padding:19px}.promo-banner--main .promo-copy{max-width:76%}.promo-banner--main .promo-circle{width:145px;height:145px;right:-52px;top:34px}.service-list--everyday .service-card{min-height:154px;padding:12px}.service-list--everyday .service-name{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.service-card{transition:none}}
+
+.service-list--featured{grid-template-columns:1fr}
+.service-list--everyday{grid-template-columns:repeat(2,minmax(0,1fr))}
