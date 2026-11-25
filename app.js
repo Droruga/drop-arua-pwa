@@ -271,6 +271,13 @@ function openSheet(serviceKey, trigger) {
   $("#customer-name").value = profile.name || "";
   $("#customer-phone").value = profile.phone || "";
   $("#landmark").value = profile.landmark || "";
+  $("#recipient-name").value = "";
+  $("#recipient-phone").value = "";
+  $("#delivery-notes").value = "";
+  $('[name="paymentMethod"]').forEach(option => { option.checked = false; });
+  $('input[name="urgency"][value="Right Now"]').checked = true;
+  $("#schedule-fields").hidden = true;
+  $("#schedule-time").value = "";
 
   const sheet = $("#order-sheet");
   const backdrop = $("#sheet-backdrop");
@@ -502,6 +509,7 @@ function renderOrders() {
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
       <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
       <p class="order-for">Payment: ${escapeHTML(order.paymentMethod || "To be agreed")}</p>
+      <p class="order-for">Recipient: ${escapeHTML(order.recipientName || order.customerName)} · ${escapeHTML(order.recipientPhone || order.customerPhone)}</p>
     </article>`;
   }).join("");
 }
@@ -730,8 +738,8 @@ function init() {
 
   $("#recipient-phone").addEventListener("blur", () => {
     const field = $("#recipient-phone");
-    if (field.value.trim() && !PHONE_PATTERN.test(field.value.trim())) field.setAttribute("aria-invalid", "true");
-    else field.removeAttribute("aria-invalid");
+    if (field.value.trim() && !PHONE_PATTERN.test(field.value.trim())) showFieldError("recipientPhone", "Enter a valid recipient phone number.", field);
+    else clearFieldError("recipientPhone", field);
   });
   $("#customer-phone").addEventListener("blur", () => {
     const phone = $("#customer-phone");
