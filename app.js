@@ -406,7 +406,8 @@ function buildWhatsAppMessage(order) {
     "",
     "*ORDER REF:* " + order.id,
     "_Submitted through Drop · Please confirm availability, delivery fee and payment with customer._"
-  ];  return lines.join("\n");
+  ];
+  return lines.join("\n");
 }
 function makeWhatsAppUrl(phone, message) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
