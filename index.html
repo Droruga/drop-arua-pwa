@@ -122,10 +122,7 @@
 
   <div class="app-shell" hidden>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Drop, home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-name">Drop<span class="brand-period" aria-hidden="true">.</span></span>
-      </a>
+      <a class="brand" href="/" aria-label="Drop home"><span class="brand-name">drop<span class="brand-period" aria-hidden="true">.</span></span></a>
       <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
     </header>
 
@@ -135,7 +132,7 @@
         <div class="hero">
           <div class="hero-eyebrow"><span class="hero-live-dot"></span> LOCAL DELIVERY, MADE EASY</div>
           <h1 class="hero-title">What can we<br><em>bring you?</em></h1>
-          <p class="hero-sub">Restaurant orders, everyday errands and gas refills — all handled in one simple flow.</p>
+          <p class="hero-sub">Restaurant favourites, town errands and gas refills — ordered in a few taps and confirmed on WhatsApp.</p>
         </div>
 
         <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
@@ -144,11 +141,11 @@
           </span>
           <div class="install-body">
             <h2 class="install-title" id="install-title">Add Drop to your home screen</h2>
-            <p class="install-text">Order faster and keep Drop on your phone.</p>
+            <p class="install-text" id="install-description">Install Drop for quick access from your iPhone or Android home screen.</p>
           </div>
           <div class="install-actions">
             <button class="pill-button" type="button" id="install-button" hidden>Install</button>
-            <button class="install-more" type="button" id="install-more" aria-expanded="false" aria-controls="install-steps">How to install</button>
+            <button class="install-more" type="button" id="install-more" aria-expanded="false" aria-controls="install-steps">Show install steps</button>
             <button class="icon-button install-dismiss" type="button" id="install-dismiss" aria-label="Dismiss install prompt">
               <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
             </button>
@@ -165,27 +162,35 @@
         </section>
         <section class="services" aria-labelledby="services-title">
           <div class="section-head">
-            <h2 class="section-title" id="services-title">Pick a service</h2>
-            <p class="section-meta">3 ways to order</p>
+            <div><p class="section-kicker">ORDER WITH DROP</p><h2 class="section-title" id="services-title">What do you need today?</h2></div>
+            <p class="section-meta">3 live services</p>
           </div>
-
-          <ul class="service-list">
-            <li><button class="service-card" type="button" data-service="errands">
-              <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
-              <span class="service-body"><span class="service-name">Errands &amp; Delivery</span><span class="service-desc">Pickups, market runs &amp; quick drops.</span><span class="service-price">From UGX 5,000</span></span>
-              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-            </button></li>
-            <li><button class="service-card service-card--restaurant" type="button" data-service="restaurant">
-              <span class="service-icon service-icon--restaurant" aria-hidden="true"><svg class="icon"><use href="#i-utensils"/></svg></span>
-              <span class="service-body"><span class="service-name">Restaurant Delivery</span><span class="service-desc">Order your favourites from our partner.</span><span class="service-price">Menu &amp; delivery confirmed on WhatsApp</span></span>
-              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-            </button></li>
-            <li><button class="service-card" type="button" data-service="gas">
-              <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
-              <span class="service-body"><span class="service-name">Gas Refills</span><span class="service-desc">We collect, refill &amp; return.</span><span class="service-price">UGX 7,000 delivery</span></span>
-              <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-            </button></li>
-          </ul>
+          <div class="service-group">
+            <p class="service-group-label">FOOD &amp; RESTAURANTS</p>
+            <ul class="service-list service-list--featured">
+              <li><button class="service-card service-card--restaurant service-card--featured" type="button" data-service="restaurant">
+                <span class="service-icon service-icon--restaurant" aria-hidden="true"><svg class="icon"><use href="#i-utensils"/></svg></span>
+                <span class="service-body"><span class="service-tag">NOW DELIVERING</span><span class="service-name">Restaurant Delivery</span><span class="service-desc">Your favourite meals, delivered to your door.</span><span class="service-price">Order by WhatsApp · Delivery confirmed before dispatch</span></span>
+                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+              </button></li>
+            </ul>
+          </div>
+          <div class="service-group service-group--everyday">
+            <p class="service-group-label">EVERYDAY HELP</p>
+            <ul class="service-list service-list--everyday">
+              <li><button class="service-card" type="button" data-service="errands">
+                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
+                <span class="service-body"><span class="service-name">Errands &amp; Delivery</span><span class="service-desc">Pickups, market runs and quick drop-offs.</span><span class="service-price">From UGX 5,000</span></span>
+                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+              </button></li>
+              <li><button class="service-card" type="button" data-service="gas">
+                <span class="service-icon service-icon--gas" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
+                <span class="service-body"><span class="service-name">Gas Refills</span><span class="service-desc">We collect, refill and bring it back.</span><span class="service-price">UGX 7,000 delivery</span></span>
+                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+              </button></li>
+            </ul>
+          </div>
+          <div class="future-services"><p class="service-group-label">COMING TO DROP</p><div class="future-service-chips"><span>Groceries</span><span>More restaurants</span><span>Shop deliveries</span></div></div>
         </section>
 
       <!-- ============================ MY DROPS ============================ -->
