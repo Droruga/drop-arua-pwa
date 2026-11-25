@@ -1947,7 +1947,7 @@ body.is-locked .toast.is-visible {
 /* DROP V2 — polished local-commerce experience */
 :root{--shell-max:760px;--gutter:clamp(18px,4.8vw,28px)}
 body{background:#F7F5F2;color:#201B18}
-.app-shell{width:min(100% - (var(--gutter) * 2),var(--shell-max));padding-bottom:calc(44px + env(safe-area-inset-bottom))}
+.app-shell{width:100%;max-width:760px;margin-inline:auto;box-sizing:border-box;padding-inline:var(--gutter);padding-bottom:calc(44px + env(safe-area-inset-bottom))}
 .topbar{position:sticky;top:0;z-index:30;margin-inline:calc(var(--gutter) * -1);padding:12px var(--gutter);min-height:72px;background:rgba(247,245,242,.92);border-bottom:1px solid rgba(226,218,210,.8);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .brand{min-width:70px}.brand-name{font-size:27px;font-weight:900;letter-spacing:-.085em;color:#211B18}.brand-period{color:#DC2626}
 .topbar-actions{display:flex;align-items:center;gap:8px}
@@ -1978,7 +1978,7 @@ body{background:#F7F5F2;color:#201B18}
 .services{margin-top:2px}.section-head{align-items:flex-end;margin-bottom:14px}.section-kicker{margin-bottom:4px;color:#A32A2D;font-size:9px;font-weight:850;letter-spacing:.15em}
 .section-title{font-size:23px;font-weight:850;letter-spacing:-.055em;color:#211B18}.section-meta{font-size:10px;font-weight:750;color:#82766F}
 .service-list{display:grid;gap:11px}
-.service-card{position:relative;align-items:center;min-height:104px;padding:16px;border:1px solid #E9E1DA;border-radius:21px;background:#fff;box-shadow:0 4px 14px #211B1809;text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.service-card{position:relative;align-items:center;cursor:pointer;touch-action:manipulation;min-height:104px;padding:16px;border:1px solid #E9E1DA;border-radius:21px;background:#fff;box-shadow:0 4px 14px #211B1809;text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .service-card:hover{border-color:#E6B8B2;box-shadow:0 10px 24px #211B1810;transform:translateY(-1px)}.service-card:active{transform:scale(.985)}
 .service-card--featured{min-height:132px;border-color:#F0C9C4;background:linear-gradient(115deg,#FFF 0%,#FFF8F6 58%,#FCEDEA 100%);box-shadow:0 8px 24px #B91C1C0D}
 .service-icon{width:52px;height:52px;border-radius:17px;background:#FFF0ED;color:#C51E2B}.service-icon .icon{width:25px;height:25px}
