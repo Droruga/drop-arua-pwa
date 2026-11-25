@@ -274,7 +274,7 @@ function openSheet(serviceKey, trigger) {
   $("#recipient-name").value = "";
   $("#recipient-phone").value = "";
   $("#delivery-notes").value = "";
-  $('[name="paymentMethod"]').forEach(option => { option.checked = false; });
+  $$('[name="paymentMethod"]').forEach(option => { option.checked = false; });
   $('input[name="urgency"][value="Right Now"]').checked = true;
   $("#schedule-fields").hidden = true;
   $("#schedule-time").value = "";
@@ -565,7 +565,7 @@ function setupInstallPrompt() {
 
   function renderSteps() {
     if (isIOSDevice()) {
-      steps.innerHTML = "<li>Open this page in Safari.</li><li>Tap the <strong>Share</strong> button <svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-share\"/></svg>.</li><li>Choose <strong>Add to Home Screen</strong>, then tap Add.</li>";
+      steps.innerHTML = "<li>Open this page in Safari.</li><li>Tap the <strong>Share</strong> button <svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-share\"/></svg>.</li><li>Choose <strong>Add to Home Screen</strong>.</li><li>Turn on <strong>Open as Web App</strong>, then tap <strong>Add</strong>.</li>";
     } else {
       steps.innerHTML = "<li>Open the browser menu <svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-more\"/></svg>.</li><li>Choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li><li>Confirm to add Drop to your home screen.</li>";
     }
@@ -658,7 +658,7 @@ function setupInstallPrompt() {
     panel.scrollIntoView({block:"nearest", behavior: reduceMotion ? "auto" : "smooth"});
   });
 
-  if (isIOSDevice() && !isStandalone() && !dismissed) showPanel(false);
+  if (isIOSDevice() && !isStandalone() && !dismissed) showPanel(true);
   if (isStandalone()) hidePanel();
 }
 
@@ -682,7 +682,7 @@ function setupEntryExperience() {
 function openLocationDialog() {
   $("#location-dialog").hidden = false;
   $("#location-backdrop").hidden = false;
-  $(".location-option").forEach(option => option.classList.toggle("is-selected", option.dataset.city === selectedCity));
+  $$(".location-option").forEach(option => option.classList.toggle("is-selected", option.dataset.city === selectedCity));
 }
 function closeLocationDialog() {
   $("#location-dialog").hidden = true;
@@ -695,7 +695,7 @@ function init() {
   $("#location-trigger").addEventListener("click", openLocationDialog);
   $("#location-close").addEventListener("click", closeLocationDialog);
   $("#location-backdrop").addEventListener("click", closeLocationDialog);
-  $$(".location-option").forEach(option => option.addEventListener("click", () => {
+  $$$(".location-option").forEach(option => option.addEventListener("click", () => {
     selectedCity = option.dataset.city;
     localStorage.setItem(STORAGE_CITY, selectedCity);
     $("#current-location").textContent = selectedCity;
