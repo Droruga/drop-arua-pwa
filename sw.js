@@ -22,9 +22,6 @@ const APP_SHELL = [
   "/manifest.json",
   "/icons/drop-icon.svg",
   "/icons/drop-maskable.svg",
-  "/icons/drop-192.png",
-  "/icons/drop-512.png",
-  "/icons/drop-maskable-512.png",
 
   "/icons/apple-touch-icon-180.png",
   "/fonts/plus-jakarta-sans-latin.woff2",
