@@ -695,7 +695,7 @@ function init() {
   $("#location-trigger").addEventListener("click", openLocationDialog);
   $("#location-close").addEventListener("click", closeLocationDialog);
   $("#location-backdrop").addEventListener("click", closeLocationDialog);
-  $$$(".location-option").forEach(option => option.addEventListener("click", () => {
+  $$(".location-option").forEach(option => option.addEventListener("click", () => {
     selectedCity = option.dataset.city;
     localStorage.setItem(STORAGE_CITY, selectedCity);
     $("#current-location").textContent = selectedCity;
