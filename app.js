@@ -666,16 +666,73 @@ function switchTab(tab) {
   if (cart) renderCart();
   window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
 }
-function getCart() { return readJSON(STORAGE_CART, []); }
+function getCart() {
+  const stored = readJSON(STORAGE_CART, []);
+  if (!Array.isArray(stored)) return [];
+  const normalized = stored.map(item => ({
+    productId: String(item.productId || item.product?.id || item.itemId || ""),
+    quantity: Math.max(1, Math.min(99, Math.floor(Number(item.quantity) || 1)))
+  })).filter(item => item.productId);
+  if (JSON.stringify(stored) !== JSON.stringify(normalized)) saveJSON(STORAGE_CART, normalized);
+  return normalized;
+}
+function findCatalogProduct(productId) {
+  if (!dropCatalogData) return null;
+  for (const category of dropCatalogData.categories) {
+    for (const subcategory of category.subcategories) {
+      const product = subcategory.products.find(item => item.id === productId);
+      if (product) return product;
+    }
+  }
+  return null;
+}
+function cartTotals(items) {
+  return items.reduce((totals, item) => {
+    const product = findCatalogProduct(item.productId);
+    if (!product) return totals;
+    totals.min += product.price_min * item.quantity;
+    totals.max += product.price_max * item.quantity;
+    return totals;
+  }, {min:0,max:0});
+}
 function renderCart() {
   const items = getCart();
-  const count = items.reduce((sum, item) => sum + Math.max(0, Number(item.quantity) || 0), 0);
   const badge = $("#cart-count");
-  badge.textContent = count;
+  const count = items.reduce((sum, item) => sum + item.quantity, 0);
+  badge.textContent = count > 99 ? "99+" : String(count);
   badge.hidden = count === 0;
-  // Product cards are activated only when approved partner catalogue data is connected.
-  $("#cart-empty").hidden = items.length > 0;
-  $("#cart-items").hidden = true;
+  const validItems = items.map(item => ({...item, product:findCatalogProduct(item.productId)})).filter(item => item.product);
+  if (validItems.length !== items.length) {
+    saveJSON(STORAGE_CART, validItems.map(item => ({productId:item.productId,quantity:item.quantity})));
+  }
+  $("#cart-empty").hidden = validItems.length > 0;
+  const container = $("#cart-items");
+  container.hidden = validItems.length === 0;
+  if (!validItems.length) { container.innerHTML = ""; return; }
+  const totals = cartTotals(validItems);
+  container.innerHTML =
+    '<div class="cart-line-list">' + validItems.map(item => {
+      const product = item.product;
+      const lineMin = product.price_min * item.quantity;
+      const lineMax = product.price_max * item.quantity;
+      return '<article class="cart-line" data-cart-product="' + escapeHTML(product.id) + '">' +
+        '<div class="cart-line-copy"><h2>' + escapeHTML(product.name) + '</h2>' +
+        '<p>' + escapeHTML(product.unit) + ' · ' + catalogPrice(product) + ' each</p>' +
+        '<strong class="cart-line-total">' + (lineMin === lineMax ? catalogMoney(lineMin) : catalogMoney(lineMin) + ' – ' + catalogMoney(lineMax)) + '</strong>' +
+        (product.age_restricted ? '<span class="catalog-product-flag">18+</span>' : '') +
+        (product.rx_required ? '<span class="catalog-product-flag catalog-product-flag--rx">Prescription required</span>' : '') +
+        '</div><div class="cart-line-actions"><div class="quantity-control" role="group" aria-label="Quantity for ' + escapeHTML(product.name) + '">' +
+        '<button type="button" data-cart-decrease="' + escapeHTML(product.id) + '" aria-label="Decrease quantity">−</button>' +
+        '<output aria-live="polite">' + item.quantity + '</output>' +
+        '<button type="button" data-cart-increase="' + escapeHTML(product.id) + '" aria-label="Increase quantity">+</button></div>' +
+        '<button type="button" class="cart-remove" data-cart-remove="' + escapeHTML(product.id) + '">Remove</button></div></article>';
+    }).join("") + '</div>' +
+    '<section class="cart-summary" aria-label="Cart estimate"><div><span>Items (' + count + ')</span><strong>' +
+    (totals.min === totals.max ? catalogMoney(totals.min) : catalogMoney(totals.min) + ' – ' + catalogMoney(totals.max)) +
+    '</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><div class="cart-grand-total"><span>Estimated total</span><strong>' +
+    (totals.min === totals.max ? catalogMoney(totals.min) : catalogMoney(totals.min) + ' – ' + catalogMoney(totals.max)) +
+    ' + delivery</strong></div><p>Prices are estimates. Drop will confirm final prices, availability and delivery fee before dispatch.</p></section>' +
+    '<button class="secondary-button cart-continue" type="button" id="cart-continue-shopping">Continue shopping</button>';
 }
 
 
