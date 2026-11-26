@@ -1971,3 +1971,27 @@ body{background:var(--surface-page);color:#342F2B}.app-shell{padding-bottom:calc
 
 .service-list--featured{grid-template-columns:1fr}
 .service-list--everyday{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+
+/* Drop refresh — coherent three-service storefront */
+.brand{display:inline-flex;align-items:center;justify-content:center;min-width:78px;min-height:42px;padding:5px 12px;border-radius:12px;background:var(--brand-600);color:#fff;box-shadow:0 5px 14px rgba(185,25,37,.14)}
+.brand-name,.brand-period{color:#fff!important;font-size:25px;font-weight:900;letter-spacing:-.105em;line-height:1}
+.hero{padding-top:30px;padding-bottom:25px}
+.hero-title{max-width:10ch}
+.hero-sub{max-width:42ch;font-size:14px;line-height:1.7}
+.service-list--everyday{grid-template-columns:1fr;gap:11px}
+.service-list--everyday .service-card{min-height:104px;align-items:center;flex-wrap:nowrap;padding:15px 16px}
+.service-list--everyday .service-body{flex:1 1 auto;min-width:0}
+.service-list--everyday .service-chevron{display:block;flex:0 0 auto}
+.service-list--everyday .service-name{font-size:15px}
+.service-list--everyday .service-desc{font-size:11px}
+.service-list--everyday .service-price{font-size:10px}
+.service-list--everyday .service-card--featured{min-height:116px;border-color:#F0D2CB;background:linear-gradient(110deg,#fff 0%,#FFF8F5 100%)}
+.delivery-note{display:flex;gap:12px;align-items:flex-start;margin:23px 0 12px;padding:16px;border:1px solid #EAE3DC;border-radius:18px;background:#fff}
+.delivery-note-mark{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#FFF0ED;color:#B91C1C;font-size:16px}
+.delivery-note strong{display:block;color:var(--text-strong);font-size:12px;font-weight:850}
+.delivery-note p{margin:4px 0 0;color:var(--text-muted);font-size:11px;line-height:1.6}
+.order-history-card .order-head{margin-bottom:10px}
+.order-history-card .order-title{margin-top:0}
+.order-history-card .order-for{line-height:1.55}
+@media(min-width:640px){.service-list--everyday{grid-template-columns:1fr}.service-list--everyday .service-card{min-height:104px}}
