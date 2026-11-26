@@ -5,59 +5,49 @@
    Business logic (services, pricing, order records, WhatsApp payload, order IDs
    and local storage) is kept separate from presentation helpers. */
 const DISPATCH_PHONE = "256702964822";
+// Replace this placeholder with the confirmed Drop MTN MoMo merchant details.
+const PAYMENT_MOMO = "MTN MoMo 0772 000 000 — Drop";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
 const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
 const STORAGE_WELCOMED = "drop_welcomed";
 const STORAGE_CITY = "drop_city";
-const STORAGE_CART = "drop_catalogue_cart";
 
 const SERVICES = {
-  errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
+  errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", turnaround:"Same day", fields:[
     {name:"pickup",label:"Pickup location",placeholder:"Enter pickup area or landmark",required:true},
     {name:"destination",label:"Drop-off location",placeholder:"Where should we deliver?",required:true},
     {name:"itemNote",label:"What are we picking up?",placeholder:"Parcel, groceries, medicine, documents…",required:true}
   ]},
-  restaurant: {title:"Restaurant Delivery", label:"Restaurant Delivery", icon:"i-utensils", blurb:"Order from our restaurant partner and have it brought to you.", price:"Delivery fee confirmed on WhatsApp", fields:[
+  restaurant: {title:"Restaurant Delivery", label:"Restaurant Delivery", icon:"i-utensils", blurb:"Order from our restaurant partner and have it brought to you.", price:"Delivery fee confirmed on WhatsApp", turnaround:"45–60 min", fields:[
     {name:"restaurantName",label:"Restaurant",placeholder:"Restaurant name",required:true},
     {name:"orderItems",label:"What would you like to order?",placeholder:"List meals, sizes and quantities",required:true},
     {name:"orderValue",label:"Approximate food total (optional)",placeholder:"e.g. UGX 35,000",required:false}
   ]},
-  lawn: {title:"Compound & Lawn Care", label:"Lawn & Compound", icon:"i-lawn", blurb:"Grass, hedges & tidy compounds.", price:"UGX 15,000 – 35,000", fields:[
+  lawn: {title:"Compound & Lawn Care", label:"Lawn & Compound", icon:"i-lawn", blurb:"Grass, hedges & tidy compounds.", price:"UGX 15,000 – 35,000", turnaround:"Book 24h ahead", fields:[
     {name:"plotSize",label:"Choose your compound size",type:"radio",options:[["Small Plot","Small Plot — UGX 15,000"],["Medium Compound","Medium Compound — UGX 25,000"],["Large / Custom","Large / Custom — Request a quote"]],required:true}
   ]},
-  gas: {title:"Cooking Gas & Heavy Refills", label:"Gas Refills", icon:"i-gas", blurb:"We collect, refill & return.", price:"UGX 7,000 delivery fee", fields:[
+  gas: {title:"Cooking Gas & Heavy Refills", label:"Gas Refills", icon:"i-gas", blurb:"We collect, refill & return.", price:"UGX 7,000 delivery fee", turnaround:"2–3 hours", fields:[
     {name:"cylinder",label:"Cylinder size",type:"radio",options:[["6kg","6kg"],["12kg / 15kg","12kg / 15kg"]],required:true},
     {name:"station",label:"Preferred refill station",type:"radio",options:[["Total","Total"],["Shell","Shell"],["Stabex","Stabex"],["No preference","No preference"]],required:true}
   ]},
-  cleaning: {title:"Home & Office Cleaning", label:"Cleaning", icon:"i-cleaning", blurb:"From quick cleans to deep resets.", price:"UGX 15,000 – 30,000", fields:[
+  cleaning: {title:"Home & Office Cleaning", label:"Cleaning", icon:"i-cleaning", blurb:"From quick cleans to deep resets.", price:"UGX 15,000 – 30,000", turnaround:"Book 24h ahead", fields:[
     {name:"cleaningScope",label:"Choose your cleaning scope",type:"radio",options:[["Single Room / Quick Clean","Single Room / Quick Clean — UGX 15,000"],["Full House / Half-Day","Full House / Half-Day — UGX 30,000"]],required:true}
   ]},
-  handyman: {title:"Quick Fix / Handyman", label:"Handyman", icon:"i-handyman", blurb:"Plumbing, electrical & small repairs.", price:"UGX 10,000 call-out", fields:[
+  handyman: {title:"Quick Fix / Handyman", label:"Handyman", icon:"i-handyman", blurb:"Plumbing, electrical & small repairs.", price:"UGX 10,000 call-out", turnaround:"Same-day call-out", fields:[
     {name:"trade",label:"What kind of help?",type:"radio",options:[["Plumbing","Plumbing"],["Electrical","Electrical"],["Locks / Carpentry","Locks / Carpentry"]],required:true},
     {name:"issue",label:"Briefly describe the issue",placeholder:"What needs fixing?",required:true}
   ]}
 };
 
-// Restaurant catalogue contract: intentionally empty until the partner shares
-// approved menu data. Prices are integer UGX; no sample products are displayed.
-const RESTAURANT_CATALOGUE = {
-  schemaVersion: 1,
-  currency: "UGX",
-  partner: { id: "", name: "", location: "", contactPhone: "" },
-  items: [], // {id, name, description, imageUrl, category, priceUGX, available, stockQuantity}
-  cart: [], // {itemId, quantity, unitPriceUGX}
-  order: { deliveryAddress: "", recipientName: "", recipientPhone: "", notes: "" }
-};
-
 const STATUS = {
-  sent:{label:"Request Sent",step:1,percent:25,icon:"i-clock",tone:""},
-  assigned:{label:"Runner Assigned",step:2,percent:50,icon:"i-bell",tone:""},
-  progress:{label:"In Progress",step:3,percent:75,icon:"i-bolt",tone:"status-badge--progress"},
-  completed:{label:"Completed",step:4,percent:100,icon:"i-check-circle",tone:"status-badge--completed"}
+  sent:{label:"Requested",step:1,percent:25,icon:"i-clock",tone:""},
+  assigned:{label:"Confirmed",step:2,percent:50,icon:"i-bell",tone:""},
+  progress:{label:"On the way",step:3,percent:75,icon:"i-bolt",tone:"status-badge--progress"},
+  completed:{label:"Delivered",step:4,percent:100,icon:"i-check-circle",tone:"status-badge--completed"}
 };
 
-const STEP_LABELS = ["Sent", "Assigned", "In progress", "Completed"];
+const STEP_LABELS = ["Requested", "Confirmed", "On the way", "Delivered"];
 const PHONE_PATTERN = /^[+()\d\s-]{7,20}$/;
 
 const $ = (selector, root=document) => root.querySelector(selector);
@@ -388,25 +378,35 @@ function getUrgency() {
   return selected;
 }
 function buildWhatsAppMessage(order) {
+  const recipientName = order.recipientName || order.customerName;
+  const recipientPhone = order.recipientPhone || order.customerPhone;
+  const city = order.city || "Mbarara";
+  const payment = order.paymentMethod || "To confirm";
   const lines = [
-    "*NEW DROP ORDER · #" + order.id + " 🔴",
+    "*NEW DROP · #" + order.id,
     "",
-    "*SERVICE:* " + order.serviceTitle,
-    "*CITY:* " + (order.city || "Mbarara"),
-    "*REQUEST DETAILS:* " + order.detailsSummary,
-    "*DELIVERY ADDRESS:* " + order.landmark,
-    "*RECIPIENT:* " + (order.recipientName || order.customerName),
-    "*RECIPIENT PHONE:* " + (order.recipientPhone || order.customerPhone),
-    "*CUSTOMER:* " + order.customerName,
-    "*CUSTOMER PHONE:* " + order.customerPhone,
-    "*WHEN:* " + order.urgency,
-    "*PAYMENT:* " + (order.paymentMethod || "To be agreed with dispatch"),
-    "*DELIVERY NOTES:* " + (order.deliveryNotes || "None"),
-    "*GPS PIN:* " + (order.gpsUrl || "Not attached"),
+    "*Service:* " + order.serviceTitle,
+    "*City:* " + city,
+    "*When:* " + (order.urgency || "To confirm"),
     "",
-    "*ORDER REF:* " + order.id,
-    "_Submitted through Drop · Please confirm availability, delivery fee and payment with customer._"
+    "*Details:* " + (order.detailsSummary || "To confirm"),
+    "*Delivery:* " + (order.landmark || "To confirm"),
+    "*Recipient:* " + recipientName + " · " + recipientPhone,
+    "*Customer:* " + order.customerName + " · " + order.customerPhone,
+    "",
+    "*Estimate:* " + (order.estimate || "To confirm"),
+    "*Payment:* " + payment
   ];
+  if (payment === "MTN MoMo") lines.push("*Pay to:* " + PAYMENT_MOMO + " (ref " + order.id + ")");
+  if (order.gpsUrl) lines.push("*GPS:* " + order.gpsUrl);
+  if (order.deliveryNotes) lines.push("*Notes:* " + order.deliveryNotes);
+  lines.push(
+    "",
+    "*Reply CONFIRM to accept.*",
+    "We'll send the final total and payment instructions here.",
+    "",
+    "_Ref: " + order.id + " · Drop " + city + "_"
+  );
   return lines.join("\n");
 }
 function makeWhatsAppUrl(phone, message) {
@@ -453,6 +453,7 @@ function submitOrder(event) {
   saveOrders(orders);
   renderOrders();
   updateOrderCount();
+  if (localStorage.getItem(STORAGE_INSTALL_DISMISSED) !== "1" && !isStandalone()) $("#install-panel").hidden = false;
 
   const submitButton = $("#submit-order");
   submitButton.disabled = true;
@@ -524,26 +525,15 @@ function updateOrderCount() {
 /* ------------------------------------------------------------- navigation */
 function switchTab(tab) {
   const orders = tab === "orders";
-  const cart = tab === "cart";
-  $("#new-drop-view").hidden = orders || cart;
+  $("#new-drop-view").hidden = orders;
   $("#my-drops-view").hidden = !orders;
-  $("#cart-view").hidden = !cart;
   if (orders) renderOrders();
-  if (cart) renderCart();
-  window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
-}
-function getCart() { return readJSON(STORAGE_CART, []); }
-function renderCart() {
-  const items = getCart();
-  const count = items.reduce((sum, item) => sum + Math.max(0, Number(item.quantity) || 0), 0);
-  const badge = $("#cart-count");
-  badge.textContent = count;
-  badge.hidden = count === 0;
-  // Product cards are activated only when approved partner catalogue data is connected.
-  $("#cart-empty").hidden = items.length > 0;
-  $("#cart-items").hidden = true;
+  window.scrollTo({top:0, behavior:reduceMotion ? "auto" : "smooth"});
 }
 
+function scrollToServices() {
+  $("#services")?.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth", block:"start"});
+}
 
 /* ------------------------------------------------------------ installation */
 function isIOSDevice() {
@@ -571,7 +561,8 @@ function setupInstallPrompt() {
     }
   }
 
-  function showPanel(expandSteps = false) {
+  function showPanel(expandSteps = false, manual = false) {
+    if (dismissed && !manual) return;
     panel.hidden = false;
     if (expandSteps) {
       renderSteps();
@@ -596,7 +587,6 @@ function setupInstallPrompt() {
     event.preventDefault();
     deferredInstallPrompt = event;
     button.hidden = false;
-    if (!dismissed) showPanel(false);
   });
 
   window.addEventListener("appinstalled", () => {
@@ -653,12 +643,11 @@ function setupInstallPrompt() {
   });
 
   openButton?.addEventListener("click", () => {
-    showPanel(true);
+    showPanel(true, true);
     if (deferredInstallPrompt) button.hidden = false;
     panel.scrollIntoView({block:"nearest", behavior: reduceMotion ? "auto" : "smooth"});
   });
 
-  if (isIOSDevice() && !isStandalone() && !dismissed) showPanel(true);
   if (isStandalone()) hidePanel();
 }
 
@@ -703,18 +692,19 @@ function init() {
     showToast("Location set to " + selectedCity + ".");
   }));
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
-  $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
-  $("#cart-back").addEventListener("click", () => switchTab("new"));
-  $("#cart-browse").addEventListener("click", () => switchTab("new"));
-
-  $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
+  renderServiceCards();
+  $(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
+  $("#hero-start-button").addEventListener("click", scrollToServices);
 
   $("#sheet-close").addEventListener("click", closeSheet);
   $("#sheet-backdrop").addEventListener("click", closeSheet);
   $("#order-form").addEventListener("submit", submitOrder);
   $("#gps-button").addEventListener("click", attachGPS);
   $("#remove-gps").addEventListener("click", removeGPS);
-  $("#empty-order-button").addEventListener("click", () => switchTab("new"));
+  $("#empty-order-button").addEventListener("click", () => {
+    switchTab("new");
+    requestAnimationFrame(scrollToServices);
+  });
   $("#history-back").addEventListener("click", () => switchTab("new"));
 
   /* Service field listeners are bound once and delegated, so repeated drawer
@@ -768,7 +758,6 @@ function init() {
   });
 
   updateOrderCount();
-  renderCart();
   renderOrders();
   setupInstallPrompt();
 
