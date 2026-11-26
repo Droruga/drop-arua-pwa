@@ -270,14 +270,20 @@
             <label class="checkout-check" id="checkout-rx-wrap" hidden><input id="checkout-rx" type="checkbox" name="rxAcknowledged"><span>I understand that prescription-required products need a valid prescription, which may be requested before fulfilment.</span></label>
           </fieldset>
           <div class="checkout-estimate" id="checkout-estimate"></div>
-          <button class="primary-button checkout-submit" type="submit">Review delivery details <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+          <button class="primary-button checkout-submit" type="submit">Place order &amp; open WhatsApp <svg class="icon"><use href="#i-arrow-right"/></svg></button>
           <p class="checkout-footnote">Product prices are estimates. Final prices, stock and delivery fee are confirmed with you on WhatsApp.</p>
         </form>
         <section class="checkout-saved" id="checkout-saved" hidden aria-live="polite">
           <span class="checkout-saved-icon"><svg class="icon"><use href="#i-check"/></svg></span>
-          <h2>Delivery details saved</h2><p>Your checkout details are saved on this device. The WhatsApp order handoff will be enabled in the next phase.</p>
-          <button class="primary-button" type="button" id="checkout-return-cart">Return to cart</button>
-          <button class="secondary-button" type="button" id="checkout-edit">Edit details</button>
+          <h2 id="checkout-confirmation-title">Your order is ready</h2>
+          <p id="checkout-confirmation-copy">Your order has been saved on this device.</p>
+          <div class="whatsapp-handoff" id="whatsapp-handoff">
+            <p class="whatsapp-handoff-note" id="whatsapp-handoff-note">If WhatsApp does not open, copy the complete order message below and send it to Drop.</p>
+            <button class="primary-button whatsapp-open" type="button" id="whatsapp-open"><svg class="icon"><use href="#i-whatsapp"/></svg> Open WhatsApp</button>
+            <button class="secondary-button whatsapp-copy" type="button" id="whatsapp-copy"><svg class="icon"><use href="#i-copy"/></svg> Copy order message</button>
+            <pre class="whatsapp-message" id="whatsapp-message"></pre>
+          </div>
+          <button class="secondary-button" type="button" id="checkout-return-cart">Return to catalogue</button>
         </section>
       </section>
     </main>
