@@ -163,7 +163,7 @@
         <section class="catalog-intro" aria-labelledby="catalog-heading">
 <p class="section-kicker">MBARARA · UGANDA</p><h1 id="catalog-heading">Everyday essentials,<br><em>delivered.</em></h1>
 <p>Browse what you need. Add to your cart. We’ll confirm the final price and delivery on WhatsApp.</p>
-<label class="catalog-search" for="catalog-search-input"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="catalog-search-input" type="search" placeholder="Search products and categories" autocomplete="off"></label>
+<div class="catalog-search-wrap"><label class="catalog-search" for="catalog-search-input"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="catalog-search-input" type="search" placeholder="Search products and categories" autocomplete="off"></label><div class="catalog-search-results" id="catalog-search-results" hidden></div></div>
 </section>
 <section class="category-section" aria-labelledby="category-heading"><div class="section-head"><div><p class="section-kicker">SHOP BY CATEGORY</p><h2 class="section-title" id="category-heading">What are you looking for?</h2></div></div>
 <div class="category-grid" id="category-grid">
@@ -179,7 +179,7 @@
       </section>
 
       <!-- ============================ MY DROPS ============================ -->
-      <section class="view view-category" id="category-view" hidden><div class="page-head"><button class="page-back" id="category-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>All categories</span></button><p class="section-kicker">SHOP DROP</p><h1 class="page-title" id="category-title">Category</h1><p class="page-sub" id="category-description">Browse products in this category.</p></div><div class="category-content" id="category-content"></div></section>
+      <section class="view view-category" id="category-view" hidden><div class="page-head"><button class="page-back" id="category-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>All categories</span></button><p class="section-kicker">SHOP DROP</p><h1 class="page-title" id="category-title">Category</h1><p class="page-sub" id="category-description">Browse products in this category.</p></div><div class="category-content" id="category-content"><div class="catalog-loading" role="status">Loading the product catalogue…</div></div></section>
 <section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
           <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to categories</span></button>

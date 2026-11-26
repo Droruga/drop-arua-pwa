@@ -528,6 +528,128 @@ function openCategory(id){
  switchTab("category");
 }
 
+
+/* ----------------------------------------------------------- product catalog */
+let dropCatalogData = null;
+let activeCatalogCategory = null;
+const CATEGORY_ICON_KEYS = {
+  groceries:"i-basket", convenience:"i-store", alcohol:"i-wine",
+  food:"i-utensils", household:"i-home", health:"i-heart", retail:"i-bag"
+};
+const SUBCATEGORY_ICON_KEYS = {
+  grains:"i-basket", carrot:"i-basket", fish:"i-basket", bread:"i-basket",
+  "cooking-pot":"i-basket", cookie:"i-basket", storefront:"i-store"
+};
+function catalogMoney(value) {
+  return "UGX " + Number(value).toLocaleString("en-UG");
+}
+function catalogPrice(product) {
+  const low = catalogMoney(product.price_min);
+  const high = catalogMoney(product.price_max);
+  return product.price_min === product.price_max ? low : low + " – " + high;
+}
+function availabilityLabel(value) {
+  return ({in_stock:"In stock",seasonal:"Seasonal",order_in:"Order in",out_of_stock:"Out of stock"})[value] || "Check availability";
+}
+function catalogProductRow(product) {
+  const unavailable = product.availability === "out_of_stock";
+  const safeId = escapeHTML(product.id);
+  const note = product.price_note || product.notes || "";
+  return '<article class="catalog-product" data-product-id="' + safeId + '">' +
+    '<div class="catalog-product-main"><h3>' + escapeHTML(product.name) + '</h3>' +
+    '<p class="catalog-product-unit">' + escapeHTML(product.unit) + '</p>' +
+    '<p class="catalog-product-price">' + catalogPrice(product) + '</p>' +
+    (note ? '<p class="catalog-product-note">' + escapeHTML(note) + '</p>' : '') +
+    '<span class="catalog-availability availability-' + product.availability + '">' + availabilityLabel(product.availability) + '</span>' +
+    '</div><button class="catalog-add-button" type="button" data-add-product="' + safeId + '"' +
+    (unavailable ? ' disabled aria-label="Out of stock"' : ' aria-label="Add ' + escapeHTML(product.name) + ' to cart"') +
+    '><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg><span>' + (unavailable ? "Unavailable" : "Add") + '</span></button></article>';
+}
+function renderCatalogCategory(categoryId, scrollToSubcategory) {
+  if (!dropCatalogData) return;
+  const category = dropCatalogData.categories.find(item => item.id === categoryId);
+  if (!category) return;
+  activeCatalogCategory = categoryId;
+  $("#category-title").textContent = category.name;
+  $("#category-description").textContent = category.description || "Browse products in this category.";
+  const chips = category.subcategories.map((sub,index) =>
+    '<a class="subcategory-chip' + (index === 0 ? ' is-active' : '') + '" href="#subcategory-' + escapeHTML(sub.id) + '" data-subcategory-chip="' + escapeHTML(sub.id) + '">' + escapeHTML(sub.name) + '</a>'
+  ).join("");
+  const groups = category.subcategories.map((sub,index) =>
+    '<section class="catalog-subcategory" id="subcategory-' + escapeHTML(sub.id) + '">' +
+    '<div class="catalog-subcategory-heading"><span class="catalog-subcategory-icon"><svg class="icon"><use href="#' + (SUBCATEGORY_ICON_KEYS[sub.icon] || "i-basket") + '"/></svg></span>' +
+    '<div><h2>' + escapeHTML(sub.name) + '</h2><p>' + sub.products.length + ' items</p></div></div>' +
+    '<div class="catalog-product-list">' + (sub.products.length ? sub.products.map(catalogProductRow).join("") : '<p class="catalog-empty-subcategory">Products will be added here.</p>') + '</div></section>'
+  ).join("");
+  $("#category-content").innerHTML =
+    '<nav class="subcategory-nav" aria-label="Browse subcategories">' + chips + '</nav>' +
+    '<div class="catalog-subcategory-list">' + groups + '</div>';
+  if (scrollToSubcategory) {
+    const target = document.getElementById("subcategory-" + scrollToSubcategory);
+    if (target) target.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth",block:"start"});
+  }
+}
+function openCategory(id) {
+  if (!dropCatalogData) {
+    showToast("The product catalogue is not ready yet. Please try again shortly.");
+    return;
+  }
+  switchTab("category");
+  renderCatalogCategory(id);
+}
+function renderCatalogSearch(query) {
+  const panel = $("#catalog-search-results");
+  const term = query.trim().toLocaleLowerCase();
+  if (!term || !dropCatalogData) {
+    panel.hidden = true;
+    panel.innerHTML = "";
+    return;
+  }
+  const matches = [];
+  dropCatalogData.categories.forEach(category => category.subcategories.forEach(sub => sub.products.forEach(product => {
+    if ((product.name + " " + sub.name + " " + category.name).toLocaleLowerCase().includes(term)) {
+      matches.push({category,sub,product});
+    }
+  })));
+  panel.hidden = false;
+  panel.innerHTML = matches.length
+    ? '<p class="catalog-search-count">' + matches.length + ' matching products</p>' + matches.slice(0,40).map(match =>
+      '<button class="catalog-search-result" type="button" data-search-category="' + escapeHTML(match.category.id) + '" data-search-subcategory="' + escapeHTML(match.sub.id) + '"><span><strong>' + escapeHTML(match.product.name) + '</strong><small>' + escapeHTML(match.sub.name) + ' · ' + escapeHTML(match.category.name) + '</small></span><span class="catalog-search-price">' + catalogPrice(match.product) + '</span></button>'
+    ).join("")
+    : '<p class="catalog-search-empty">No products found. Try another name or category.</p>';
+}
+function addCatalogProduct(productId) {
+  if (!dropCatalogData) return;
+  const product = dropCatalogData.categories.flatMap(category => category.subcategories.flatMap(sub => sub.products)).find(item => item.id === productId);
+  if (!product || product.availability === "out_of_stock") return;
+  const cart = readJSON(STORAGE_CART, []);
+  const existing = cart.find(item => item.productId === productId);
+  if (existing) existing.quantity = Math.max(1, Number(existing.quantity) || 1) + 1;
+  else cart.push({productId:product.id,quantity:1,product:product});
+  saveJSON(STORAGE_CART, cart);
+  updateOrderCount();
+  showToast(product.name + " added to your cart.");
+}
+async function setupProductCatalog() {
+  const panel = $("#category-content");
+  try {
+    dropCatalogData = await window.DropCatalog.load();
+    $("#category-grid").innerHTML = dropCatalogData.categories.map(category =>
+      '<button class="category-card" type="button" data-category="' + escapeHTML(category.id) + '">' +
+      '<span class="category-icon"><svg class="icon"><use href="#' + (CATEGORY_ICON_KEYS[category.id] || "i-basket") + '"/></svg></span>' +
+      '<span class="category-name">' + escapeHTML(category.name) + '</span>' +
+      '<span class="category-meta">' + category.subcategories.length + ' subcategories</span>' +
+      '<svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>'
+    ).join("");
+    $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
+    $("#category-content").innerHTML = '<p class="catalog-empty-subcategory">Choose a category to browse its products.</p>';
+  } catch (error) {
+    if (panel) panel.innerHTML = '<div class="catalog-error" role="alert"><strong>We couldn’t load the catalogue.</strong><p>' + escapeHTML(error.message) + '</p><button class="pill-button" type="button" id="catalog-retry">Try again</button></div>';
+    $("#catalog-retry")?.addEventListener("click", setupProductCatalog);
+    $("#category-grid").innerHTML = '<div class="catalog-error" role="alert">The product catalogue is temporarily unavailable.</div>';
+  }
+}
+
 function switchTab(tab) {
   const orders = tab === "orders";
   const cart = tab === "cart";
@@ -780,6 +902,7 @@ function init() {
   updateOrderCount();
   renderCart();
   renderOrders();
+  setupProductCatalog();
   setupInstallPrompt();
 
   if (updated) { switchTab("orders"); showToast("Your order status has been updated."); }

@@ -17,7 +17,7 @@
 
   function validateCatalog(data) {
     if (!isRecord(data)) fail("root", "expected a JSON object.");
-    if (typeof data.version !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.version)) fail("version", "expected an ISO date version.");
+    if (typeof data.version !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(data.version)) fail("version", "expected an ISO date version.");
     if (data.currency !== "UGX") fail("currency", "expected UGX.");
     if (!Array.isArray(data.categories)) fail("categories", "expected an array.");
 
