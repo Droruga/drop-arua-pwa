@@ -500,31 +500,44 @@ function stepperHtml(state, complete) {
   }).join("");
 }
 
+function formatOrderDate(value) {
+  const date=new Date(value);
+  return Number.isNaN(date.getTime())?"Date unavailable":date.toLocaleString("en-UG",{dateStyle:"medium",timeStyle:"short"});
+}
+function formatOrderRange(min,max) {
+  const low=Number(min)||0,high=Number(max)||0;
+  return low===high?catalogMoney(low):catalogMoney(low)+" – "+catalogMoney(high);
+}
 function renderOrders() {
-  const orders = getOrders();
-  const list = $("#orders-list");
-  const hasOrders = orders.length > 0;
-  $("#empty-state").hidden = hasOrders;
-  list.hidden = !hasOrders;
-  $("#tracker-summary").hidden = true;
-  $("#tracker-summary").innerHTML = "";
-  if (!hasOrders) { list.innerHTML = ""; return; }
-
-  list.innerHTML = orders.map(order => {
-    const date = new Date(order.createdAt).toLocaleDateString("en-UG",{dateStyle:"medium"});
-    return `<article class="order-card order-history-card">
-      <div class="order-head">
-        <div><p class="order-ref">#${escapeHTML(order.id)}</p><p class="order-date">${date}</p></div>
-      </div>
-      <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
-      <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
-      <p class="order-for">${escapeHTML(order.city || "Mbarara")} · ${escapeHTML(order.landmark || "")}</p>
-      <p class="order-for">Payment: ${escapeHTML(order.paymentMethod || "To be agreed")}</p>
-      <p class="order-for">Recipient: ${escapeHTML(order.recipientName || order.customerName)} · ${escapeHTML(order.recipientPhone || order.customerPhone)}</p>
-    </article>`;
+  const orders=getOrders().sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0)).slice(0,50);
+  const list=$("#orders-list");
+  const hasOrders=orders.length>0;
+  $("#empty-state").hidden=hasOrders;
+  list.hidden=!hasOrders;
+  $("#tracker-summary").hidden=true;
+  $("#tracker-summary").innerHTML="";
+  if(!hasOrders){list.innerHTML="";return;}
+  list.innerHTML=orders.map(order=>{
+    const items=Array.isArray(order.items)?order.items:[];
+    const itemSummary=items.length?items.map(item=>escapeHTML(item.name)+" × "+Number(item.quantity||1)).join(", "):escapeHTML(order.detailsSummary||order.serviceTitle||"Drop order");
+    const total=order.totalMin!=null?formatOrderRange(order.totalMin,order.totalMax):escapeHTML(order.estimate||"To be confirmed");
+    const itemRows=items.map(item=>'<li><span>'+escapeHTML(item.name)+' · '+escapeHTML(item.unit||"")+' × '+Number(item.quantity||1)+'</span><strong>'+formatOrderRange(Number(item.price_min)*Number(item.quantity||1),Number(item.price_max)*Number(item.quantity||1))+'</strong></li>').join("");
+    const details=items.length
+      ? '<ul class="history-item-list">'+itemRows+'</ul><p><strong>Items estimate:</strong> '+total+' + delivery fee to confirm</p>'
+      : '<p>'+escapeHTML(order.detailsSummary||"")+'</p>';
+    const location=order.location||order.landmark||"";
+    const recipient=order.name||order.recipientName||order.customerName||"";
+    const phone=order.phone||order.recipientPhone||order.customerPhone||"";
+    const when=order.timing==="Scheduled"?(order.date+" at "+order.time):(order.timing||order.urgency||"ASAP");
+    const gps=order.gps?'<a href="https://www.google.com/maps?q='+encodeURIComponent(order.gps.lat+","+order.gps.lng)+'" target="_blank" rel="noopener">View delivery pin</a>':(order.gpsUrl?'<a href="'+escapeHTML(order.gpsUrl)+'" target="_blank" rel="noopener">View delivery pin</a>':"Not attached");
+    return '<details class="order-card order-history-card history-order"><summary class="history-order-summary"><span class="history-order-main"><strong class="order-ref">#'+escapeHTML(order.id||"Drop order")+'</strong><span class="order-date">'+escapeHTML(formatOrderDate(order.createdAt))+'</span><span class="history-order-items">'+itemSummary+'</span></span><span class="history-order-total">'+total+'<span class="history-expand-label">View details</span></span></summary><div class="history-order-details">'+details+
+      '<dl class="history-detail-grid"><div><dt>Delivery area</dt><dd>'+escapeHTML(location||"Not supplied")+'</dd></div><div><dt>Landmark</dt><dd>'+escapeHTML(order.landmark||"Not supplied")+'</dd></div><div><dt>Contact</dt><dd>'+escapeHTML(recipient||"Not supplied")+' · '+escapeHTML(phone||"")+'</dd></div><div><dt>When</dt><dd>'+escapeHTML(when)+'</dd></div><div><dt>Payment</dt><dd>'+escapeHTML(order.payment||order.paymentMethod||"Not selected")+'</dd></div><div><dt>GPS</dt><dd>'+gps+'</dd></div></dl>'+
+      (order.notes||order.deliveryNotes?'<p><strong>Notes:</strong> '+escapeHTML(order.notes||order.deliveryNotes)+'</p>':"")+
+      (order.ageConfirmed?'<p>Customer confirmed age 18+.</p>':"")+(order.rxAcknowledged?'<p>Prescription requirement acknowledged.</p>':"")+
+      (order.serviceTitle?'<p><strong>Original request:</strong> '+escapeHTML(order.serviceTitle)+'</p>':"")+
+      '</div></details>';
   }).join("");
 }
-
 function updateOrderCount() {
   const count = getOrders().length;
   const badge = $("#order-count");
