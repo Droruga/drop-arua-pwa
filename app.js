@@ -667,6 +667,7 @@ function setupInstallPrompt() {
   });
 
   if (isStandalone()) hidePanel();
+  else if (getOrders().length > 0 && !dismissed) showPanel(false);
 }
 
 /* -------------------------------------------------------------------- init */
