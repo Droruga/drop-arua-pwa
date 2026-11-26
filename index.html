@@ -217,6 +217,69 @@
         <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon"><svg class="icon"><use href="#i-cart"/></svg></div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Explore the catalogue and add the things you need.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse categories</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
         <div id="cart-items" hidden></div>
       </section>
+      <section class="view view-checkout" id="checkout-view" hidden>
+        <div class="page-head">
+          <button class="page-back" id="checkout-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to cart</span></button>
+          <p class="section-kicker">ALMOST THERE</p><h1 class="page-title">Delivery <em>details.</em></h1>
+          <p class="page-sub">Tell us where and when to bring your order. We’ll confirm final prices and delivery on WhatsApp.</p>
+        </div>
+        <form id="checkout-form" class="checkout-form" novalidate>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">1</span> Where should we deliver?</legend>
+            <label class="checkout-label" for="checkout-location">Delivery area / address</label>
+            <input class="text-input" id="checkout-location" name="location" autocomplete="street-address" placeholder="e.g. Kakoba, Mbarara" required maxlength="180">
+            <label class="checkout-label" for="checkout-landmark">Nearby landmark</label>
+            <input class="text-input" id="checkout-landmark" name="landmark" placeholder="e.g. Near the main market" required maxlength="180">
+            <div class="checkout-gps-row"><span id="checkout-gps-status">GPS pin is optional</span><button class="secondary-button" type="button" id="checkout-gps"> <svg class="icon"><use href="#i-pin"/></svg> Add GPS pin</button><button class="checkout-remove-gps" type="button" id="checkout-remove-gps" hidden>Remove</button></div>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">2</span> Who should receive it?</legend>
+            <label class="checkout-label" for="checkout-name">Contact name</label>
+            <input class="text-input" id="checkout-name" name="name" autocomplete="name" placeholder="Your name" required maxlength="100">
+            <label class="checkout-label" for="checkout-phone">Phone number</label>
+            <input class="text-input" id="checkout-phone" name="phone" type="tel" autocomplete="tel" placeholder="+256 7XX XXX XXX" required maxlength="24">
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">3</span> When do you need it?</legend>
+            <div class="checkout-choice-grid">
+              <label class="checkout-choice"><input type="radio" name="timing" value="ASAP" checked><span>As soon as possible</span></label>
+              <label class="checkout-choice"><input type="radio" name="timing" value="Scheduled"><span>Schedule delivery</span></label>
+            </div>
+            <div id="checkout-schedule-fields" hidden>
+              <label class="checkout-label" for="checkout-date">Delivery date</label><input class="text-input" id="checkout-date" name="date" type="date">
+              <label class="checkout-label" for="checkout-time">Preferred time</label><input class="text-input" id="checkout-time" name="time" type="time">
+            </div>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">4</span> How would you like to pay?</legend>
+            <div class="checkout-choice-grid checkout-choice-grid--stack">
+              <label class="checkout-choice"><input type="radio" name="payment" value="MTN MoMo" required><span>MTN MoMo</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Airtel Money"><span>Airtel Money</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Cash on delivery"><span>Cash on delivery</span></label>
+            </div>
+            <p class="checkout-hint">Payment instructions will be confirmed by the Drop team. Do not send money before confirmation.</p>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">5</span> Anything else?</legend>
+            <label class="checkout-label" for="checkout-notes">Delivery notes <span>(optional)</span></label>
+            <textarea class="text-input checkout-notes" id="checkout-notes" name="notes" placeholder="Gate instructions, preferred substitutions, or other details…" maxlength="500"></textarea>
+          </fieldset>
+          <fieldset class="checkout-section checkout-restrictions" id="checkout-restrictions" hidden>
+            <legend>Confirm restricted items</legend>
+            <label class="checkout-check" id="checkout-age-wrap" hidden><input id="checkout-age" type="checkbox" name="ageConfirmed"><span>I confirm that I am 18 years or older and legally permitted to purchase age-restricted items.</span></label>
+            <label class="checkout-check" id="checkout-rx-wrap" hidden><input id="checkout-rx" type="checkbox" name="rxAcknowledged"><span>I understand that prescription-required products need a valid prescription, which may be requested before fulfilment.</span></label>
+          </fieldset>
+          <div class="checkout-estimate" id="checkout-estimate"></div>
+          <button class="primary-button checkout-submit" type="submit">Review delivery details <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+          <p class="checkout-footnote">Product prices are estimates. Final prices, stock and delivery fee are confirmed with you on WhatsApp.</p>
+        </form>
+        <section class="checkout-saved" id="checkout-saved" hidden aria-live="polite">
+          <span class="checkout-saved-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+          <h2>Delivery details saved</h2><p>Your checkout details are saved on this device. The WhatsApp order handoff will be enabled in the next phase.</p>
+          <button class="primary-button" type="button" id="checkout-return-cart">Return to cart</button>
+          <button class="secondary-button" type="button" id="checkout-edit">Edit details</button>
+        </section>
+      </section>
     </main>
   </div>
 
