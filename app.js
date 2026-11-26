@@ -561,6 +561,8 @@ function catalogProductRow(product) {
     '<p class="catalog-product-price">' + catalogPrice(product) + '</p>' +
     (note ? '<p class="catalog-product-note">' + escapeHTML(note) + '</p>' : '') +
     '<span class="catalog-availability availability-' + product.availability + '">' + availabilityLabel(product.availability) + '</span>' +
+    (product.age_restricted ? '<span class="catalog-product-flag">18+</span>' : '') +
+    (product.rx_required ? '<span class="catalog-product-flag catalog-product-flag--rx">Rx</span>' : '') +
     '</div><button class="catalog-add-button" type="button" data-add-product="' + safeId + '"' +
     (unavailable ? ' disabled aria-label="Out of stock"' : ' aria-label="Add ' + escapeHTML(product.name) + ' to cart"') +
     '><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg><span>' + (unavailable ? "Unavailable" : "Add") + '</span></button></article>';
@@ -627,7 +629,7 @@ function addCatalogProduct(productId) {
   if (existing) existing.quantity = Math.max(1, Number(existing.quantity) || 1) + 1;
   else cart.push({productId:product.id,quantity:1,product:product});
   saveJSON(STORAGE_CART, cart);
-  updateOrderCount();
+  renderCart();
   showToast(product.name + " added to your cart.");
 }
 async function setupProductCatalog() {
@@ -835,6 +837,28 @@ function init() {
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
   $("#category-back").addEventListener("click", () => switchTab("new"));
   $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
+  $("#catalog-search-input").addEventListener("input", event => renderCatalogSearch(event.target.value));
+  document.addEventListener("click", event => {
+    const addButton = event.target.closest("[data-add-product]");
+    if (addButton) {
+      addCatalogProduct(addButton.dataset.addProduct);
+      return;
+    }
+    const searchResult = event.target.closest("[data-search-category]");
+    if (searchResult) {
+      $("#catalog-search-results").hidden = true;
+      openCategory(searchResult.dataset.searchCategory);
+      renderCatalogCategory(searchResult.dataset.searchCategory, searchResult.dataset.searchSubcategory);
+      return;
+    }
+    const chip = event.target.closest("[data-subcategory-chip]");
+    if (chip) {
+      $(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
+    }
+    if (!event.target.closest(".catalog-search-wrap")) {
+      $("#catalog-search-results").hidden = true;
+    }
+  });
   $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
   $("#cart-back").addEventListener("click", () => switchTab("new"));
   $("#cart-browse").addEventListener("click", () => switchTab("new"));
