@@ -808,6 +808,61 @@ function requestCheckoutGPS() {
     showToast(error.code===1?"Allow location access to attach a pin.":"Could not get GPS. Please enter a landmark.");
   },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
 }
+function createCatalogOrderId() {
+  const now=new Date();
+  const date=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("");
+  const existing=new Set(getOrders().map(order=>order.id));
+  let id;
+  do{id="ORD-"+date+"-"+String(Math.floor(100+Math.random()*900));}while(existing.has(id));
+  return id;
+}
+function buildCatalogWhatsAppMessage(order) {
+  const lines=[
+    "*NEW DROP ORDER · #"+order.id+"*",
+    "",
+    "*CUSTOMER:* "+order.name,
+    "*PHONE:* "+order.phone,
+    "*DELIVERY LOCATION:* "+order.location,
+    "*LANDMARK:* "+order.landmark,
+    "*GPS PIN:* "+(order.gps?"https://www.google.com/maps?q="+order.gps.lat+","+order.gps.lng:"Not attached"),
+    "*WHEN:* "+(order.timing==="Scheduled"?order.date+" at "+order.time:"ASAP"),
+    "*PAYMENT:* "+order.payment,
+    "*NOTES:* "+(order.notes||"None"),
+    "",
+    "*ORDER ITEMS*"
+  ];
+  order.items.forEach((item,index)=>{
+    lines.push((index+1)+". "+item.name+" · "+item.unit+" · Qty "+item.quantity);
+    lines.push("   "+formatOrderRange(item.price_min,item.price_max)+" each");
+    lines.push("   Line estimate: "+formatOrderRange(item.price_min*item.quantity,item.price_max*item.quantity));
+  });
+  lines.push("","*ITEMS ESTIMATE:* "+formatOrderRange(order.totalMin,order.totalMax));
+  lines.push("*DELIVERY FEE:* To be confirmed by Drop");
+  lines.push("*ESTIMATED TOTAL:* "+formatOrderRange(order.totalMin,order.totalMax)+" + delivery fee");
+  if(order.ageRestricted)lines.push("","*AGE RESTRICTION:* Customer confirms they are 18+.");
+  if(order.rxRequired)lines.push("*PRESCRIPTION:* Customer acknowledges a valid prescription may be requested.");
+  lines.push("","Reply CONFIRM to accept.");
+  return lines.join("\n");
+}
+function openCatalogWhatsApp() {
+  const order=readJSON("drop_last_order_v1",null);
+  if(!order||!order.whatsappMessage){showToast("No saved order message found.");return;}
+  if(!/^\\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
+  window.location.href=makeWhatsAppUrl(DISPATCH_PHONE,order.whatsappMessage);
+}
+async function copyCatalogWhatsAppMessage() {
+  const order=readJSON("drop_last_order_v1",null);
+  if(!order||!order.whatsappMessage){showToast("No order message to copy.");return;}
+  try{
+    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(order.whatsappMessage);
+    else{
+      const field=document.createElement("textarea");field.value=order.whatsappMessage;field.setAttribute("readonly","");
+      field.style.position="fixed";field.style.opacity="0";document.body.appendChild(field);field.select();
+      const copied=document.execCommand("copy");field.remove();if(!copied)throw new Error("Copy unavailable");
+    }
+    showToast("Complete order message copied.");
+  }catch(error){showToast("Copy failed. Select and copy the message shown above.");}
+}
 function saveCheckout(event) {
   event.preventDefault();
   const form=$("#checkout-form");
@@ -831,8 +886,10 @@ function saveCheckout(event) {
   const rxRequired=products.some(item=>item.product.rx_required);
   if(ageRequired&&!$("#checkout-age").checked){showToast("Please confirm you are 18 or older.");return;}
   if(rxRequired&&!$("#checkout-rx").checked){showToast("Please acknowledge the prescription requirement.");return;}
+  if(!/^\\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
   const previous=getCheckoutData();
   const data={
+    id:createCatalogOrderId(),
     location:form.elements.location.value.trim(),landmark:form.elements.landmark.value.trim(),
     name:form.elements.name.value.trim(),phone,timing,
     date:timing==="Scheduled"?form.elements.date.value:"",
@@ -840,13 +897,30 @@ function saveCheckout(event) {
     payment,notes:form.elements.notes.value.trim(),gps:previous.gps,
     ageConfirmed:ageRequired&&$("#checkout-age").checked,
     rxAcknowledged:rxRequired&&$("#checkout-rx").checked,
-    savedAt:new Date().toISOString()
+    ageRestricted:ageRequired,rxRequired,
+    items:products.map(item=>({
+      id:item.product.id,name:item.product.name,unit:item.product.unit,quantity:item.quantity,
+      price_min:item.product.price_min,price_max:item.product.price_max,
+      price_note:item.product.price_note||"",age_restricted:Boolean(item.product.age_restricted),rx_required:Boolean(item.product.rx_required)
+    })),
+    totalMin:cartTotals(products).min,totalMax:cartTotals(products).max,
+    createdAt:new Date().toISOString()
   };
-  saveJSON(STORAGE_CHECKOUT,data);
+  data.whatsappMessage=buildCatalogWhatsAppMessage(data);
+  const orders=getOrders();orders.unshift(data);saveOrders(orders);
+  saveJSON("drop_last_order_v1",data);
+  saveJSON(STORAGE_CHECKOUT,{...data,whatsappMessage:undefined});
   saveJSON(STORAGE_PROFILE,{...readJSON(STORAGE_PROFILE,{}),name:data.name,phone:data.phone,landmark:data.landmark,address:data.location});
+  saveJSON(STORAGE_CART,[]);
+  renderCart();updateOrderCount();renderOrders();
   $("#checkout-form").hidden=true;
   $("#checkout-saved").hidden=false;
+  $("#checkout-confirmation-title").textContent="Order "+data.id+" is ready";
+  $("#checkout-confirmation-copy").textContent="Your order has been saved on this device. WhatsApp should open with the complete order message. If it doesn’t, use the options below.";
+  $("#whatsapp-message").textContent=data.whatsappMessage;
+  $("#whatsapp-handoff").hidden=false;
   $("#checkout-saved").scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"start"});
+  window.location.href=makeWhatsAppUrl(DISPATCH_PHONE,data.whatsappMessage);
 }
 function renderCart() {
   const items = getCart();
