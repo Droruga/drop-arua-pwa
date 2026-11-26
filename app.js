@@ -1,15 +1,11 @@
-/* Drop — lightweight, client-side PWA.
-   Set DISPATCH_PHONE to your WhatsApp number in international format, digits only.
-   Uganda example: 256772000000 (no +, spaces or leading 0).
-
-   Business logic (services, pricing, order records, WhatsApp payload, order IDs
-   and local storage) is kept separate from presentation helpers. */
+/* Drop — lightweight Mbarara catalogue-ordering PWA.
+   Catalogue data is maintained separately in catalog.json.
+   Dispatch is a WhatsApp handoff; no backend or payment processing is used. */
 const DISPATCH_PHONE = "256702964822";
 const STORAGE_ORDERS = "drop_orders";
 const STORAGE_PROFILE = "drop_customer";
 const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
 const STORAGE_WELCOMED = "drop_welcomed";
-const STORAGE_CITY = "drop_city";
 const STORAGE_CART = "drop_catalogue_cart";
 const STORAGE_CHECKOUT = "drop_checkout_v1";
 
@@ -21,7 +17,6 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 let deferredInstallPrompt = null;
 let toastTimer = null;
-let selectedCity = localStorage.getItem(STORAGE_CITY) || "Mbarara";
 
 /* ------------------------------------------------------------------ storage */
 function readJSON(key, fallback) {
@@ -574,7 +569,6 @@ function setupInstallPrompt() {
     event.preventDefault();
     deferredInstallPrompt = event;
     button.hidden = false;
-    if (!dismissed) showPanel(false);
   });
 
   window.addEventListener("appinstalled", () => {
@@ -636,7 +630,6 @@ function setupInstallPrompt() {
     panel.scrollIntoView({block:"nearest", behavior: reduceMotion ? "auto" : "smooth"});
   });
 
-  if (isIOSDevice() && !isStandalone() && !dismissed) showPanel(true);
   if (isStandalone()) hidePanel();
 }
 
@@ -646,7 +639,6 @@ function setupEntryExperience() {
   const welcome = $("#welcome-screen");
   const app = $(".app-shell");
   const returning = localStorage.getItem(STORAGE_WELCOMED) === "1";
-  $("#current-location").textContent = selectedCity;
   welcome.hidden = returning;
   app.hidden = !returning;
   $("#get-started").addEventListener("click", () => {
@@ -657,29 +649,12 @@ function setupEntryExperience() {
   });
   window.setTimeout(() => splash.classList.add("is-hidden"), reduceMotion ? 0 : 650);
 }
-function openLocationDialog() {
-  $("#location-dialog").hidden = false;
-  $("#location-backdrop").hidden = false;
-  $$(".location-option").forEach(option => option.classList.toggle("is-selected", option.dataset.city === selectedCity));
-}
-function closeLocationDialog() {
-  $("#location-dialog").hidden = true;
-  $("#location-backdrop").hidden = true;
-}
 
 function init() {
   setupEntryExperience();
-  $("#location-trigger").addEventListener("click", openLocationDialog);
-  $("#location-close").addEventListener("click", closeLocationDialog);
-  $("#location-backdrop").addEventListener("click", closeLocationDialog);
-  $$(".location-option").forEach(option => option.addEventListener("click", () => {
-    selectedCity = option.dataset.city;
-    localStorage.setItem(STORAGE_CITY, selectedCity);
-    $("#current-location").textContent = selectedCity;
-    closeLocationDialog();
-    showToast("Location set to " + selectedCity + ".");
-  }));
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
+  $("#history-back").addEventListener("click", () => switchTab("new"));
+  $("#empty-order-button").addEventListener("click", () => switchTab("new"));
   $("#category-back").addEventListener("click", () => switchTab("new"));
   $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
   $("#catalog-search-input").addEventListener("input", event => renderCatalogSearch(event.target.value));
@@ -757,7 +732,7 @@ function init() {
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/sw.js").catch(error => console.warn("Service worker registration failed:", error));
+      navigator.serviceWorker.register("/sw.js").catch(() => showToast("Offline support could not be enabled. Drop is still available online."));
     });
   }
 }
