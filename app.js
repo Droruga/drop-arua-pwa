@@ -220,7 +220,7 @@ async function setupProductCatalog() {
       '<span class="category-meta">' + category.subcategories.length + ' subcategories</span>' +
       '<svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>'
     ).join("");
-    $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
+
     $("#category-content").innerHTML = '<p class="catalog-empty-subcategory">Choose a category to browse its products.</p>';
     renderCart();
   } catch (error) {
@@ -656,7 +656,11 @@ function init() {
   $("#history-back").addEventListener("click", () => switchTab("new"));
   $("#empty-order-button").addEventListener("click", () => switchTab("new"));
   $("#category-back").addEventListener("click", () => switchTab("new"));
-  $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
+  $("#category-grid").addEventListener("click", event => {
+    const card = event.target.closest("[data-category]");
+    if (card && card.closest("#category-grid")) openCategory(card.dataset.category);
+  });
+
   $("#catalog-search-input").addEventListener("input", event => renderCatalogSearch(event.target.value));
   document.addEventListener("click", event => {
     const addButton = event.target.closest("[data-add-product]");
@@ -691,7 +695,7 @@ function init() {
     }
     const chip = event.target.closest("[data-subcategory-chip]");
     if (chip) {
-      $(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
+      $$(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
     }
     if (!event.target.closest(".catalog-search-wrap")) {
       $("#catalog-search-results").hidden = true;
