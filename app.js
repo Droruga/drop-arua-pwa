@@ -1190,10 +1190,9 @@ function init() {
     const data=getCheckoutData();data.gps=null;saveJSON(STORAGE_CHECKOUT,data);renderCheckoutGPS(null);
     $("#checkout-gps").disabled=false;$("#checkout-gps").innerHTML='<svg class="icon"><use href="#i-pin"/></svg> Add GPS pin';
   });
-  $("#checkout-return-cart").addEventListener("click",()=>switchTab("cart"));
+  $("#checkout-return-cart").addEventListener("click",()=>switchTab("new"));
   $("#whatsapp-open").addEventListener("click",openCatalogWhatsApp);
   $("#whatsapp-copy").addEventListener("click",copyCatalogWhatsAppMessage);
-  $("#checkout-edit").addEventListener("click",()=>{$("#checkout-saved").hidden=true;$("#checkout-form").hidden=false;});
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
 
