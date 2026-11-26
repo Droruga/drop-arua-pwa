@@ -549,7 +549,7 @@ function catalogPrice(product) {
   return product.price_min === product.price_max ? low : low + " – " + high;
 }
 function availabilityLabel(value) {
-  return ({in_stock:"In stock",seasonal:"Seasonal",order_in:"Order in",out_of_stock:"Out of stock"})[value] || "Check availability";
+  return ({in_stock:"In stock",seasonal:"Seasonal — confirm on day",order_in:"Order in — confirm availability",out_of_stock:"Out of stock"})[value] || "Check availability";
 }
 function catalogProductRow(product) {
   const unavailable = product.availability === "out_of_stock";
@@ -636,8 +636,10 @@ async function setupProductCatalog() {
   const panel = $("#category-content");
   try {
     dropCatalogData = await window.DropCatalog.load();
+    const versionDate = new Date(dropCatalogData.version + "T00:00:00");
+    $("#catalog-version").textContent = "Catalogue updated " + versionDate.toLocaleDateString("en-UG", {day:"numeric", month:"short", year:"numeric"});
     $("#category-grid").innerHTML = dropCatalogData.categories.map(category =>
-      '<button class="category-card" type="button" data-category="' + escapeHTML(category.id) + '">' +
+      '<button class="category-card category-card--' + escapeHTML(category.id) + '" type="button" data-category="' + escapeHTML(category.id) + '">' +
       '<span class="category-icon"><svg class="icon"><use href="#' + (CATEGORY_ICON_KEYS[category.id] || "i-basket") + '"/></svg></span>' +
       '<span class="category-name">' + escapeHTML(category.name) + '</span>' +
       '<span class="category-meta">' + category.subcategories.length + ' subcategories</span>' +
