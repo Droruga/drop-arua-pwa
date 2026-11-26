@@ -2152,3 +2152,20 @@ body{background:var(--surface-page);color:#342F2B}.app-shell{padding-bottom:calc
   .category-card{transition:none}
   .category-card:active{transform:none}
 }
+
+
+/* Follow-up device feedback: larger header touch targets, no install glyph in home header. */
+.topbar-actions{gap:10px}
+.history-trigger,.cart-trigger{width:48px;height:48px;min-width:48px;min-height:48px}
+.history-trigger .icon,.cart-trigger .icon{width:24px;height:24px}
+.location-label{min-height:48px;display:inline-flex;align-items:center;gap:9px;padding-inline:12px}
+.location-label .icon{width:23px;height:23px;flex:0 0 23px}
+.location-label span{font-size:13px;font-weight:700}
+@media(max-width:390px){
+  .topbar-actions{gap:7px}
+  .history-trigger,.cart-trigger{width:46px;height:46px;min-width:46px;min-height:46px}
+  .history-trigger .icon,.cart-trigger .icon{width:23px;height:23px}
+  .location-label{max-width:none;min-height:46px;padding-inline:8px;gap:6px}
+  .location-label .icon{width:21px;height:21px;flex-basis:21px}
+  .location-label span{font-size:12px}
+}
