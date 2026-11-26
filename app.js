@@ -910,6 +910,24 @@ function init() {
       renderCatalogCategory(searchResult.dataset.searchCategory, searchResult.dataset.searchSubcategory);
       return;
     }
+    const increase = event.target.closest("[data-cart-increase]");
+    const decrease = event.target.closest("[data-cart-decrease]");
+    const remove = event.target.closest("[data-cart-remove]");
+    if (increase || decrease || remove) {
+      const productId = (increase || decrease || remove).dataset[increase ? "cartIncrease" : decrease ? "cartDecrease" : "cartRemove"];
+      const cartItems = getCart();
+      const line = cartItems.find(item => item.productId === productId);
+      if (line) {
+        if (remove || (decrease && line.quantity <= 1)) {
+          saveJSON(STORAGE_CART, cartItems.filter(item => item.productId !== productId));
+        } else {
+          line.quantity = Math.max(1, Math.min(99, line.quantity + (increase ? 1 : -1)));
+          saveJSON(STORAGE_CART, cartItems);
+        }
+        renderCart();
+      }
+      return;
+    }
     const chip = event.target.closest("[data-subcategory-chip]");
     if (chip) {
       $(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
@@ -921,6 +939,9 @@ function init() {
   $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
   $("#cart-back").addEventListener("click", () => switchTab("new"));
   $("#cart-browse").addEventListener("click", () => switchTab("new"));
+  $("#cart-items").addEventListener("click", event => {
+    if (event.target.closest("#cart-continue-shopping")) switchTab("new");
+  });
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
 
