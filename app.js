@@ -18,7 +18,7 @@ const SERVICES = {
     {name:"destination",label:"Drop-off location",placeholder:"Where should we deliver?",required:true},
     {name:"itemNote",label:"What are we picking up?",placeholder:"Parcel, groceries, medicine, documents…",required:true}
   ]},
-  restaurant: {title:"Restaurant Delivery", label:"Restaurant Delivery", icon:"i-utensils", blurb:"Order from our restaurant partner and have it brought to you.", price:"Delivery fee confirmed on WhatsApp", fields:[
+  restaurant: {title:"Deliveries", label:"Deliveries", icon:"i-utensils", blurb:"Restaurant orders and everyday items, delivered to your door.", price:"Delivery fee confirmed on WhatsApp", fields:[
     {name:"restaurantName",label:"Restaurant",placeholder:"Restaurant name",required:true},
     {name:"orderItems",label:"What would you like to order?",placeholder:"List meals, sizes and quantities",required:true},
     {name:"orderValue",label:"Approximate food total (optional)",placeholder:"e.g. UGX 35,000",required:false}
@@ -499,12 +499,10 @@ function renderOrders() {
   if (!hasOrders) { list.innerHTML = ""; return; }
 
   list.innerHTML = orders.map(order => {
-    const state = STATUS[order.status] || STATUS.sent;
     const date = new Date(order.createdAt).toLocaleDateString("en-UG",{dateStyle:"medium"});
     return `<article class="order-card order-history-card">
       <div class="order-head">
         <div><p class="order-ref">#${escapeHTML(order.id)}</p><p class="order-date">${date}</p></div>
-        <span class="status-badge ${state.tone}">${state.label}</span>
       </div>
       <h3 class="order-title">${escapeHTML(order.serviceTitle)}</h3>
       <p class="order-detail">${escapeHTML(order.detailsSummary)}</p>
