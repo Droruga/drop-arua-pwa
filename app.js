@@ -402,7 +402,7 @@ function buildCatalogWhatsAppMessage(order) {
 function openCatalogWhatsApp() {
   const order=readJSON("drop_last_order_v1",null);
   if(!order||!order.whatsappMessage){showToast("No saved order message found.");return;}
-  if(!/^\\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
+  if(!/^\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
   window.location.href=makeWhatsAppUrl(DISPATCH_PHONE,order.whatsappMessage);
 }
 async function copyCatalogWhatsAppMessage() {
@@ -441,7 +441,7 @@ function saveCheckout(event) {
   const rxRequired=products.some(item=>item.product.rx_required);
   if(ageRequired&&!$("#checkout-age").checked){showToast("Please confirm you are 18 or older.");return;}
   if(rxRequired&&!$("#checkout-rx").checked){showToast("Please acknowledge the prescription requirement.");return;}
-  if(!/^\\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
+  if(!/^\d{10,15}$/.test(DISPATCH_PHONE)){showToast("Drop dispatch number is not configured.");return;}
   const previous=getCheckoutData();
   const data={
     id:createCatalogOrderId(),
