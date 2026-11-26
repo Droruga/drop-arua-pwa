@@ -712,7 +712,7 @@ function init() {
   }));
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
   renderServiceCards();
-  $(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
+  $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
   $("#hero-start-button").addEventListener("click", scrollToServices);
 
   $("#sheet-close").addEventListener("click", closeSheet);
