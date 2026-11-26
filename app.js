@@ -11,6 +11,7 @@ const STORAGE_INSTALL_DISMISSED = "drop_install_dismissed";
 const STORAGE_WELCOMED = "drop_welcomed";
 const STORAGE_CITY = "drop_city";
 const STORAGE_CART = "drop_catalogue_cart";
+const STORAGE_CHECKOUT = "drop_checkout_v1";
 
 const SERVICES = {
   errands: {title:"Town Errands & Delivery", label:"Errands & Delivery", icon:"i-errands", blurb:"Pickups, market runs & quick drops.", price:"UGX 5,000 – 10,000", fields:[
@@ -659,10 +660,13 @@ function switchTab(tab) {
   const orders = tab === "orders";
   const cart = tab === "cart";
   const category = tab === "category";
-  $("#new-drop-view").hidden = orders || cart || category;
+  const checkout = tab === "checkout";
+  $("#new-drop-view").hidden = orders || cart || category || checkout;
   $("#category-view").hidden = !category;
   $("#my-drops-view").hidden = !orders;
   $("#cart-view").hidden = !cart;
+  $("#checkout-view").hidden = !checkout;
+  if (checkout) prepareCheckout();
   if (orders) renderOrders();
   if (cart) renderCart();
   window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
@@ -695,6 +699,130 @@ function cartTotals(items) {
     totals.max += product.price_max * item.quantity;
     return totals;
   }, {min:0,max:0});
+}
+function getCheckoutData() {
+  const saved = readJSON(STORAGE_CHECKOUT, {});
+  const profile = readJSON(STORAGE_PROFILE, {});
+  return {
+    location: saved.location || profile.address || "",
+    landmark: saved.landmark || profile.landmark || "",
+    name: saved.name || profile.name || "",
+    phone: saved.phone || profile.phone || "",
+    timing: saved.timing || "ASAP",
+    date: saved.date || "",
+    time: saved.time || "",
+    payment: saved.payment || "",
+    notes: saved.notes || "",
+    gps: saved.gps || null,
+    ageConfirmed: Boolean(saved.ageConfirmed),
+    rxAcknowledged: Boolean(saved.rxAcknowledged)
+  };
+}
+function checkoutCartProducts() {
+  return getCart().map(item => ({...item, product:findCatalogProduct(item.productId)})).filter(item => item.product);
+}
+function prepareCheckout() {
+  const form=$("#checkout-form");
+  if(!form)return;
+  const data=getCheckoutData();
+  ["location","landmark","name","phone","date","time","notes"].forEach(key=>{
+    const field=form.elements.namedItem(key);
+    if(field)field.value=data[key]||"";
+  });
+  const timing=form.querySelector('[name="timing"][value="'+data.timing+'"]');
+  if(timing)timing.checked=true;
+  const payment=form.querySelector('[name="payment"][value="'+data.payment+'"]');
+  if(payment)payment.checked=true;
+  $("#checkout-schedule-fields").hidden=data.timing!=="Scheduled";
+  $("#checkout-date").required=data.timing==="Scheduled";
+  $("#checkout-time").required=data.timing==="Scheduled";
+  const products=checkoutCartProducts();
+  const ageRequired=products.some(item=>item.product.age_restricted);
+  const rxRequired=products.some(item=>item.product.rx_required);
+  $("#checkout-restrictions").hidden=!(ageRequired||rxRequired);
+  $("#checkout-age-wrap").hidden=!ageRequired;
+  $("#checkout-rx-wrap").hidden=!rxRequired;
+  $("#checkout-age").checked=data.ageConfirmed;
+  $("#checkout-rx").checked=data.rxAcknowledged;
+  renderCheckoutEstimate();
+  renderCheckoutGPS(data.gps);
+  $("#checkout-form").hidden=false;
+  $("#checkout-saved").hidden=true;
+  const now=new Date();
+  const today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
+  $("#checkout-date").min=today;
+}
+function renderCheckoutEstimate() {
+  const products=checkoutCartProducts();
+  const totals=cartTotals(products);
+  const count=products.reduce((sum,item)=>sum+item.quantity,0);
+  const fmt=(a,b)=>a===b?catalogMoney(a):catalogMoney(a)+" – "+catalogMoney(b);
+  $("#checkout-estimate").innerHTML='<div><span>Items ('+count+')</span><strong>'+fmt(totals.min,totals.max)+'</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><p>Estimated only. Final prices and availability will be confirmed before dispatch.</p>';
+}
+function renderCheckoutGPS(gps) {
+  const status=$("#checkout-gps-status");
+  const remove=$("#checkout-remove-gps");
+  status.textContent=gps?"GPS pin attached":"GPS pin is optional";
+  remove.hidden=!gps;
+}
+function requestCheckoutGPS() {
+  if(!navigator.geolocation){showToast("GPS is not supported on this device.");return;}
+  const button=$("#checkout-gps");
+  button.disabled=true;
+  button.textContent="Getting location…";
+  navigator.geolocation.getCurrentPosition(position=>{
+    const data=getCheckoutData();
+    data.gps={lat:position.coords.latitude,lng:position.coords.longitude};
+    saveJSON(STORAGE_CHECKOUT,data);
+    renderCheckoutGPS(data.gps);
+    button.disabled=false;
+    button.innerHTML='<svg class="icon"><use href="#i-pin"/></svg> Update GPS pin';
+    showToast("Delivery GPS pin attached.");
+  },error=>{
+    button.disabled=false;
+    button.innerHTML='<svg class="icon"><use href="#i-pin"/></svg> Add GPS pin';
+    showToast(error.code===1?"Allow location access to attach a pin.":"Could not get GPS. Please enter a landmark.");
+  },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+}
+function saveCheckout(event) {
+  event.preventDefault();
+  const form=$("#checkout-form");
+  const phone=form.elements.phone.value.trim();
+  if(!form.elements.location.value.trim()||!form.elements.landmark.value.trim()||!form.elements.name.value.trim()||!phone){
+    showToast("Please complete your delivery address and contact details.");return;
+  }
+  if(!PHONE_PATTERN.test(phone)){showToast("Enter a valid contact phone number.");form.elements.phone.focus();return;}
+  const timing=form.elements.timing.value;
+  if(timing==="Scheduled"){
+    const date=form.elements.date.value,time=form.elements.time.value;
+    if(!date||!time){showToast("Choose your delivery date and preferred time.");return;}
+    const selected=new Date(date+"T"+time);
+    if(Number.isNaN(selected.getTime())||selected.getTime()<Date.now()){showToast("Choose a future delivery time.");return;}
+  }
+  const payment=form.elements.payment.value;
+  if(!payment){showToast("Choose a payment method.");return;}
+  const products=checkoutCartProducts();
+  if(!products.length){showToast("Your cart is empty. Add products before checkout.");switchTab("cart");return;}
+  const ageRequired=products.some(item=>item.product.age_restricted);
+  const rxRequired=products.some(item=>item.product.rx_required);
+  if(ageRequired&&!$("#checkout-age").checked){showToast("Please confirm you are 18 or older.");return;}
+  if(rxRequired&&!$("#checkout-rx").checked){showToast("Please acknowledge the prescription requirement.");return;}
+  const previous=getCheckoutData();
+  const data={
+    location:form.elements.location.value.trim(),landmark:form.elements.landmark.value.trim(),
+    name:form.elements.name.value.trim(),phone,timing,
+    date:timing==="Scheduled"?form.elements.date.value:"",
+    time:timing==="Scheduled"?form.elements.time.value:"",
+    payment,notes:form.elements.notes.value.trim(),gps:previous.gps,
+    ageConfirmed:ageRequired&&$("#checkout-age").checked,
+    rxAcknowledged:rxRequired&&$("#checkout-rx").checked,
+    savedAt:new Date().toISOString()
+  };
+  saveJSON(STORAGE_CHECKOUT,data);
+  saveJSON(STORAGE_PROFILE,{...readJSON(STORAGE_PROFILE,{}),name:data.name,phone:data.phone,landmark:data.landmark,address:data.location});
+  $("#checkout-form").hidden=true;
+  $("#checkout-saved").hidden=false;
+  $("#checkout-saved").scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"start"});
 }
 function renderCart() {
   const items = getCart();
@@ -738,7 +866,7 @@ function renderCart() {
     '</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><div class="cart-grand-total"><span>Estimated total</span><strong>' +
     (totals.min === totals.max ? catalogMoney(totals.min) : catalogMoney(totals.min) + ' – ' + catalogMoney(totals.max)) +
     ' + delivery</strong></div><p>Prices are estimates. Drop will confirm final prices, availability and delivery fee before dispatch.</p></section>' +
-    '<button class="secondary-button cart-continue" type="button" id="cart-continue-shopping">Continue shopping</button>';
+    '<div class="cart-footer-actions"><button class="secondary-button cart-continue" type="button" id="cart-continue-shopping">Continue shopping</button><button class="primary-button cart-checkout" type="button" id="cart-checkout">Continue to checkout <svg class="icon"><use href="#i-arrow-right"/></svg></button></div>';
 }
 
 
@@ -947,7 +1075,25 @@ function init() {
   $("#cart-browse").addEventListener("click", () => switchTab("new"));
   $("#cart-items").addEventListener("click", event => {
     if (event.target.closest("#cart-continue-shopping")) switchTab("new");
+    if (event.target.closest("#cart-checkout")) switchTab("checkout");
   });
+  $("#checkout-back").addEventListener("click",()=>switchTab("cart"));
+  $("#checkout-form").addEventListener("submit",saveCheckout);
+  $("#checkout-form").addEventListener("change",event=>{
+    if(event.target.name==="timing"){
+      const scheduled=event.target.value==="Scheduled";
+      $("#checkout-schedule-fields").hidden=!scheduled;
+      $("#checkout-date").required=scheduled;
+      $("#checkout-time").required=scheduled;
+    }
+  });
+  $("#checkout-gps").addEventListener("click",requestCheckoutGPS);
+  $("#checkout-remove-gps").addEventListener("click",()=>{
+    const data=getCheckoutData();data.gps=null;saveJSON(STORAGE_CHECKOUT,data);renderCheckoutGPS(null);
+    $("#checkout-gps").disabled=false;$("#checkout-gps").innerHTML='<svg class="icon"><use href="#i-pin"/></svg> Add GPS pin';
+  });
+  $("#checkout-return-cart").addEventListener("click",()=>switchTab("cart"));
+  $("#checkout-edit").addEventListener("click",()=>{$("#checkout-saved").hidden=true;$("#checkout-form").hidden=false;});
 
   $$(".service-card").forEach(card => card.addEventListener("click", () => openSheet(card.dataset.service, card)));
 
