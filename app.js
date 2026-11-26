@@ -647,6 +647,7 @@ async function setupProductCatalog() {
     ).join("");
     $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
     $("#category-content").innerHTML = '<p class="catalog-empty-subcategory">Choose a category to browse its products.</p>';
+    renderCart();
   } catch (error) {
     if (panel) panel.innerHTML = '<div class="catalog-error" role="alert"><strong>We couldn’t load the catalogue.</strong><p>' + escapeHTML(error.message) + '</p><button class="pill-button" type="button" id="catalog-retry">Try again</button></div>';
     $("#catalog-retry")?.addEventListener("click", setupProductCatalog);
@@ -701,6 +702,11 @@ function renderCart() {
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
   badge.textContent = count > 99 ? "99+" : String(count);
   badge.hidden = count === 0;
+  if (!dropCatalogData) {
+    $("#cart-empty").hidden = count > 0;
+    $("#cart-items").hidden = true;
+    return;
+  }
   const validItems = items.map(item => ({...item, product:findCatalogProduct(item.productId)})).filter(item => item.product);
   if (validItems.length !== items.length) {
     saveJSON(STORAGE_CART, validItems.map(item => ({productId:item.productId,quantity:item.quantity})));
