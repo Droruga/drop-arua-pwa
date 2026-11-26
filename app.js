@@ -80,8 +80,19 @@ function readJSON(key, fallback) {
   catch { return fallback; }
 }
 function saveJSON(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
-function getOrders() { return readJSON(STORAGE_ORDERS, []); }
-function saveOrders(orders) { saveJSON(STORAGE_ORDERS, orders); }
+const STORAGE_HISTORY = "drop_history_v1";
+function getOrders() {
+  const current = readJSON(STORAGE_HISTORY, null);
+  if (Array.isArray(current)) return current.slice(0,50);
+  const legacy = readJSON(STORAGE_ORDERS, []);
+  const migrated = Array.isArray(legacy) ? legacy.slice(0,50) : [];
+  saveJSON(STORAGE_HISTORY, migrated);
+  return migrated;
+}
+function saveOrders(orders) {
+  const latest = (Array.isArray(orders) ? orders : []).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0)).slice(0,50);
+  saveJSON(STORAGE_HISTORY, latest);
+}
 
 /* -------------------------------------------------------------------- toast */
 function showToast(message) {
