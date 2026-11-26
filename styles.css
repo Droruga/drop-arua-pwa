@@ -2132,3 +2132,23 @@ body{background:var(--surface-page);color:#342F2B}.app-shell{padding-bottom:calc
 .whatsapp-open .icon,.whatsapp-copy .icon{width:16px;height:16px}
 .whatsapp-message{max-height:260px;overflow:auto;margin:0;padding:12px;border:1px solid #e4e9e3;border-radius:11px;background:#fff;color:var(--text-strong);font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
 @media(max-width:360px){.history-order-summary{gap:8px;padding:12px}.history-detail-grid{grid-template-columns:1fr}.history-order-total{font-size:10px}}
+
+
+/* Phase 8 — catalog-first shell and restrained install affordance */
+.location-label{cursor:default;user-select:none;white-space:nowrap}
+.location-label .location-chevron{display:none}
+.install-open{display:inline-grid;place-items:center;width:42px;height:42px;border:1px solid var(--border);border-radius:50%;background:#fff;color:var(--brand-700)}
+.install-open .icon{width:17px;height:17px}
+.install-open:focus-visible{outline:3px solid #f2b9b4;outline-offset:2px}
+.category-card:focus-visible{outline:3px solid #f2b9b4;outline-offset:2px}
+.catalog-search input:focus-visible{outline:none}
+.catalog-search:focus-within{border-color:var(--brand-600);box-shadow:0 0 0 3px rgba(220,38,38,.09)}
+@media(max-width:390px){
+  .location-label{max-width:145px;padding-inline:9px;gap:5px}
+  .location-label span{overflow:hidden;text-overflow:ellipsis;font-size:11px}
+  .install-open{width:39px;height:39px}
+}
+@media(prefers-reduced-motion:reduce){
+  .category-card{transition:none}
+  .category-card:active{transform:none}
+}
