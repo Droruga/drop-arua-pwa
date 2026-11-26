@@ -17,7 +17,7 @@
 
   function validateCatalog(data) {
     if (!isRecord(data)) fail("root", "expected a JSON object.");
-    if (data.schemaVersion !== 1) fail("schemaVersion", "expected version 1.");
+    if (typeof data.version !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(data.version)) fail("version", "expected an ISO date version.");
     if (data.currency !== "UGX") fail("currency", "expected UGX.");
     if (!Array.isArray(data.categories)) fail("categories", "expected an array.");
 
@@ -31,6 +31,7 @@
       if (categoryIds.has(category.id)) fail(categoryPath + ".id", "duplicate category id.");
       categoryIds.add(category.id);
       if (!isText(category.name)) fail(categoryPath + ".name", "expected a non-empty string.");
+      if (hasOwn(category, "icon") && !isText(category.icon)) fail(categoryPath + ".icon", "expected a non-empty icon key.");
       if (!Array.isArray(category.subcategories)) fail(categoryPath + ".subcategories", "expected an array.");
 
       const subcategoryIds = new Set();
@@ -41,6 +42,7 @@
         if (subcategoryIds.has(subcategory.id)) fail(subcategoryPath + ".id", "duplicate subcategory id within category.");
         subcategoryIds.add(subcategory.id);
         if (!isText(subcategory.name)) fail(subcategoryPath + ".name", "expected a non-empty string.");
+        if (hasOwn(subcategory, "icon") && !isText(subcategory.icon)) fail(subcategoryPath + ".icon", "expected a non-empty icon key.");
         if (!Array.isArray(subcategory.products)) fail(subcategoryPath + ".products", "expected an array.");
 
         subcategory.products.forEach((product, productIndex) => {
@@ -57,6 +59,7 @@
           if (hasOwn(product, "price_note") && typeof product.price_note !== "string") {
             fail(productPath + ".price_note", "expected text when provided.");
           }
+          if (hasOwn(product, "notes") && typeof product.notes !== "string") fail(productPath + ".notes", "expected text when provided.");
           if (!AVAILABILITY.has(product.availability)) {
             fail(productPath + ".availability", "expected in_stock, seasonal, order_in, or out_of_stock.");
           }

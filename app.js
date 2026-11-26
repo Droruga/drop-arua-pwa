@@ -520,10 +520,20 @@ function updateOrderCount() {
 }
 
 /* ------------------------------------------------------------- navigation */
+const CATEGORY_LABELS={"groceries":["Groceries","Fresh produce, pantry staples and everyday food."],"convenience":["Convenience","Snacks, drinks, airtime and quick essentials."],"alcohol":["Alcohol & Beverages","Beverages and age-restricted items."],"food":["Food","Meals and restaurant favourites."],"household":["Household","Cleaning, home care and household essentials."],"health":["Health","Health, pharmacy and personal care essentials."],"retail":["Retail","Electronics, stationery and everyday goods."]};
+function openCategory(id){
+ const details=CATEGORY_LABELS[id]; if(!details)return;
+ $("#category-title").textContent=details[0]; $("#category-description").textContent=details[1];
+ $("#category-content").innerHTML='<div class="category-loading"><span class="category-loading-mark"><svg class="icon"><use href="#i-basket"/></svg></span><strong>'+escapeHTML(details[0])+'</strong><p>Product listings will be connected in the next catalog phase.</p></div>';
+ switchTab("category");
+}
+
 function switchTab(tab) {
   const orders = tab === "orders";
   const cart = tab === "cart";
-  $("#new-drop-view").hidden = orders || cart;
+  const category = tab === "category";
+  $("#new-drop-view").hidden = orders || cart || category;
+  $("#category-view").hidden = !category;
   $("#my-drops-view").hidden = !orders;
   $("#cart-view").hidden = !cart;
   if (orders) renderOrders();
@@ -701,6 +711,8 @@ function init() {
     showToast("Location set to " + selectedCity + ".");
   }));
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
+  $("#category-back").addEventListener("click", () => switchTab("new"));
+  $(".category-card").forEach(card => card.addEventListener("click", () => openCategory(card.dataset.category)));
   $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
   $("#cart-back").addEventListener("click", () => switchTab("new"));
   $("#cart-browse").addEventListener("click", () => switchTab("new"));

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#DC2626">
-  <meta name="description" content="Restaurant delivery, everyday errands and gas refills in Mbarara. Order with Drop and confirm on WhatsApp.">
+  <meta name="description" content="Shop groceries, food, household essentials and more in Mbarara. Order with Drop and confirm on WhatsApp.">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -14,7 +14,7 @@
   
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
   <link rel="stylesheet" href="/styles.css">
-  <title>Drop — Local Delivery in Mbarara</title>
+  <title>Drop — Everyday essentials, delivered in Mbarara</title>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -118,11 +118,18 @@
     <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none">
       <circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>
     </symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></symbol>
+<symbol id="i-basket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 10 2 10h12l2-10H4Z"/><path d="m8 10 4-7 4 7M9 13v4M15 13v4"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18l-1.5-6h-15L3 10Z"/><path d="M5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
+<symbol id="i-wine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0L8 3ZM12 13v8M8 21h8M8.7 7h6.6"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-16a1 1 0 0 1-1-1V10Z"/><path d="M9 21v-7h6v7"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.8c0 5.3-8.8 11-8.8 11s-8.8-5.7-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></symbol>
   </svg>
 
   <div class="app-shell" hidden>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Drop home"><span class="brand-name">drop<span class="brand-period" aria-hidden="true">.</span></span></a>
+      <a class="brand brand-mark" href="/" aria-label="Drop home"><span aria-hidden="true"></span></a>
       <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
     </header>
 
@@ -153,46 +160,29 @@
           <ol class="install-steps" id="install-steps" hidden></ol>
         </section>
 
-        <section class="promo-stack" aria-label="Drop offers">
-          <article class="promo-banner promo-banner--main"><div class="promo-copy"><p class="promo-kicker">YOUR FAVOURITES, ON THE WAY</p><h2>Craving something?<br><em>We drop it.</em></h2><p>Restaurant orders and everyday deliveries, made easy.</p></div><div class="promo-art" aria-hidden="true"><span class="promo-circle"></span><span class="promo-spark">✦</span></div></article>
-          <div class="promo-mini-grid">
-            <article class="promo-mini promo-mini--gas"><span class="promo-mini-icon">♨</span><div><p class="promo-kicker">AT-HOME CONVENIENCE</p><h3>Running low on gas?</h3><p>We'll collect, refill and return.</p></div></article>
-            <article class="promo-mini promo-mini--soon"><span class="promo-mini-icon">🛍</span><div><p class="promo-kicker">COMING NEXT</p><h3>Grocery ordering</h3><p>Your everyday essentials, delivered.</p></div></article>
-          </div>
-        </section>
-        <section class="services" aria-labelledby="services-title">
-          <div class="section-head">
-            <div><p class="section-kicker">ORDER WITH DROP</p><h2 class="section-title" id="services-title">What do you need today?</h2></div>
-            <p class="section-meta">3 live services</p>
-          </div>
-          <div class="service-group service-group--everyday">
-            <p class="service-group-label">CHOOSE YOUR DROP</p>
-            <ul class="service-list service-list--everyday">
-              <li><button class="service-card service-card--featured service-card--restaurant" type="button" data-service="restaurant">
-                <span class="service-icon service-icon--restaurant" aria-hidden="true"><svg class="icon"><use href="#i-utensils"/></svg></span>
-                <span class="service-body"><span class="service-tag">FOOD &amp; MORE</span><span class="service-name">Deliveries</span><span class="service-desc">Restaurant orders and everyday items, brought to your door.</span><span class="service-price">Menu and delivery fee confirmed on WhatsApp</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-              <li><button class="service-card" type="button" data-service="errands">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
-                <span class="service-body"><span class="service-name">Errands</span><span class="service-desc">Pickups, market runs and quick drop-offs.</span><span class="service-price">From UGX 5,000</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-              <li><button class="service-card" type="button" data-service="gas">
-                <span class="service-icon service-icon--gas" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
-                <span class="service-body"><span class="service-name">Gas Refills</span><span class="service-desc">We collect your cylinder, refill and return it.</span><span class="service-price">UGX 7,000 delivery fee</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-            </ul>
-          </div>
-          <div class="delivery-note"><span class="delivery-note-mark">✦</span><div><strong>More ways to get what you need.</strong><p>Restaurant menus and grocery ordering are being added. For now, tell us what you need and we’ll confirm the details on WhatsApp.</p></div></div>
-        </section>
+        <section class="catalog-intro" aria-labelledby="catalog-heading">
+<p class="section-kicker">MBARARA · UGANDA</p><h1 id="catalog-heading">Everyday essentials,<br><em>delivered.</em></h1>
+<p>Browse what you need. Add to your cart. We’ll confirm the final price and delivery on WhatsApp.</p>
+<label class="catalog-search" for="catalog-search-input"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="catalog-search-input" type="search" placeholder="Search products and categories" autocomplete="off"></label>
+</section>
+<section class="category-section" aria-labelledby="category-heading"><div class="section-head"><div><p class="section-kicker">SHOP BY CATEGORY</p><h2 class="section-title" id="category-heading">What are you looking for?</h2></div></div>
+<div class="category-grid" id="category-grid">
+<button class="category-card category-card--groceries" type="button" data-category="groceries"><span class="category-icon"><svg class="icon"><use href="#i-basket"/></svg></span><span class="category-name">Groceries</span><span class="category-meta">Fresh & everyday food</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--convenience" type="button" data-category="convenience"><span class="category-icon"><svg class="icon"><use href="#i-store"/></svg></span><span class="category-name">Convenience</span><span class="category-meta">Snacks, drinks & more</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--alcohol" type="button" data-category="alcohol"><span class="category-icon"><svg class="icon"><use href="#i-wine"/></svg></span><span class="category-name">Alcohol & Beverages</span><span class="category-meta">Drinks for every occasion</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--food" type="button" data-category="food"><span class="category-icon"><svg class="icon"><use href="#i-utensils"/></svg></span><span class="category-name">Food</span><span class="category-meta">Meals & restaurant favourites</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--household" type="button" data-category="household"><span class="category-icon"><svg class="icon"><use href="#i-home"/></svg></span><span class="category-name">Household</span><span class="category-meta">Home care & essentials</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--health" type="button" data-category="health"><span class="category-icon"><svg class="icon"><use href="#i-heart"/></svg></span><span class="category-name">Health</span><span class="category-meta">Health & personal care</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--retail" type="button" data-category="retail"><span class="category-icon"><svg class="icon"><use href="#i-bag"/></svg></span><span class="category-name">Retail</span><span class="category-meta">Everyday goods & accessories</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+</div></section>
+<section class="catalog-promise"><span class="catalog-promise-icon"><svg class="icon"><use href="#i-whatsapp"/></svg></span><div><strong>Clear prices. Human confirmation.</strong><p>Prices are estimates. We confirm availability, final prices and delivery fees with you on WhatsApp before dispatch.</p></div></section>
       </section>
 
       <!-- ============================ MY DROPS ============================ -->
-      <section class="view view-orders" id="my-drops-view" hidden>
+      <section class="view view-category" id="category-view" hidden><div class="page-head"><button class="page-back" id="category-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>All categories</span></button><p class="section-kicker">SHOP DROP</p><h1 class="page-title" id="category-title">Category</h1><p class="page-sub" id="category-description">Browse products in this category.</p></div><div class="category-content" id="category-content"></div></section>
+<section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
-          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to services</span></button>
+          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to categories</span></button>
           <h1 class="page-title">My <em>Drops.</em></h1>
           <p class="page-sub">Your recent orders, all in one place.</p>
         </div>
@@ -223,7 +213,7 @@
       </section>
       <section class="view view-cart" id="cart-view" hidden>
         <div class="page-head"><button class="page-back" id="cart-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to browsing</span></button><h1 class="page-title">Your <em>Cart.</em></h1><p class="page-sub">Your selected items will appear here.</p></div>
-        <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon">🛒</div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Restaurant, grocery and shop items are coming soon. For now, place an Errands or Gas request directly.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse Drop services</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
+        <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon">🛒</div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Your selected products will appear here.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse categories</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
         <div id="cart-items" hidden></div>
       </section>
     </main>
