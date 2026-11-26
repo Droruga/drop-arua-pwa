@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#DC2626">
-  <meta name="description" content="Restaurant delivery, everyday errands and gas refills in Mbarara. Order with Drop and confirm on WhatsApp.">
+  <meta name="description" content="Shop 200+ everyday products in Mbarara. Browse, order and confirm delivery with Drop on WhatsApp.">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -14,7 +14,7 @@
   
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
   <link rel="stylesheet" href="/styles.css">
-  <title>Drop — Local Delivery in Mbarara</title>
+  <title>Drop — Mbarara Shopping & Delivery</title>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -118,23 +118,25 @@
     <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none">
       <circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>
     </symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></symbol>
+<symbol id="i-basket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 10 2 10h12l2-10H4Z"/><path d="m8 10 4-7 4 7M9 13v4M15 13v4"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18l-1.5-6h-15L3 10Z"/><path d="M5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
+<symbol id="i-wine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0L8 3ZM12 13v8M8 21h8M8.7 7h6.6"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-16a1 1 0 0 1-1-1V10Z"/><path d="M9 21v-7h6v7"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.8c0 5.3-8.8 11-8.8 11s-8.8-5.7-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
   </svg>
 
   <div class="app-shell" hidden>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Drop home"><span class="brand-name">drop<span class="brand-period" aria-hidden="true">.</span></span></a>
-      <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
+      <a class="brand brand-mark" href="/" aria-label="Drop home"><span aria-hidden="true"></span></a>
+      <div class="topbar-actions"><span class="location-trigger location-label" aria-label="Drop delivery area"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara, Uganda</span></span><button class="icon-button install-open" id="install-open" type="button" aria-label="Install Drop"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
     </header>
 
     <main id="main-content">
       <!-- ============================ NEW DROP ============================ -->
       <section class="view view-new" id="new-drop-view">
-        <div class="hero">
-          <div class="hero-eyebrow"><span class="hero-live-dot"></span> LOCAL DELIVERY, MADE EASY</div>
-          <h1 class="hero-title">What can we<br><em>bring you?</em></h1>
-          <p class="hero-sub">Restaurant orders, everyday errands and gas refills — simply requested and confirmed on WhatsApp.</p>
-        </div>
-
         <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
           <span class="install-icon" aria-hidden="true">
             <svg class="icon"><use href="#i-download"/></svg>
@@ -153,55 +155,39 @@
           <ol class="install-steps" id="install-steps" hidden></ol>
         </section>
 
-        <section class="promo-stack" aria-label="Drop offers">
-          <article class="promo-banner promo-banner--main"><div class="promo-copy"><p class="promo-kicker">YOUR FAVOURITES, ON THE WAY</p><h2>Craving something?<br><em>We drop it.</em></h2><p>Restaurant orders and everyday deliveries, made easy.</p></div><div class="promo-art" aria-hidden="true"><span class="promo-circle"></span><span class="promo-spark">✦</span></div></article>
-          <div class="promo-mini-grid">
-            <article class="promo-mini promo-mini--gas"><span class="promo-mini-icon">♨</span><div><p class="promo-kicker">AT-HOME CONVENIENCE</p><h3>Running low on gas?</h3><p>We'll collect, refill and return.</p></div></article>
-            <article class="promo-mini promo-mini--soon"><span class="promo-mini-icon">🛍</span><div><p class="promo-kicker">COMING NEXT</p><h3>Grocery ordering</h3><p>Your everyday essentials, delivered.</p></div></article>
-          </div>
-        </section>
-        <section class="services" aria-labelledby="services-title">
-          <div class="section-head">
-            <div><p class="section-kicker">ORDER WITH DROP</p><h2 class="section-title" id="services-title">What do you need today?</h2></div>
-            <p class="section-meta">3 live services</p>
-          </div>
-          <div class="service-group service-group--everyday">
-            <p class="service-group-label">CHOOSE YOUR DROP</p>
-            <ul class="service-list service-list--everyday">
-              <li><button class="service-card service-card--featured service-card--restaurant" type="button" data-service="restaurant">
-                <span class="service-icon service-icon--restaurant" aria-hidden="true"><svg class="icon"><use href="#i-utensils"/></svg></span>
-                <span class="service-body"><span class="service-tag">FOOD &amp; MORE</span><span class="service-name">Deliveries</span><span class="service-desc">Restaurant orders and everyday items, brought to your door.</span><span class="service-price">Menu and delivery fee confirmed on WhatsApp</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-              <li><button class="service-card" type="button" data-service="errands">
-                <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-errands"/></svg></span>
-                <span class="service-body"><span class="service-name">Errands</span><span class="service-desc">Pickups, market runs and quick drop-offs.</span><span class="service-price">From UGX 5,000</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-              <li><button class="service-card" type="button" data-service="gas">
-                <span class="service-icon service-icon--gas" aria-hidden="true"><svg class="icon"><use href="#i-gas"/></svg></span>
-                <span class="service-body"><span class="service-name">Gas Refills</span><span class="service-desc">We collect your cylinder, refill and return it.</span><span class="service-price">UGX 7,000 delivery fee</span></span>
-                <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
-              </button></li>
-            </ul>
-          </div>
-          <div class="delivery-note"><span class="delivery-note-mark">✦</span><div><strong>More ways to get what you need.</strong><p>Restaurant menus and grocery ordering are being added. For now, tell us what you need and we’ll confirm the details on WhatsApp.</p></div></div>
-        </section>
+        <section class="catalog-intro" aria-labelledby="catalog-heading">
+<p class="section-kicker">MBARARA · UGANDA</p><h1 id="catalog-heading">Everyday essentials,<br><em>delivered.</em></h1>
+<p>Browse what you need. Add to your cart. We’ll confirm the final price and delivery on WhatsApp.</p>
+<div class="catalog-search-wrap"><label class="catalog-search" for="catalog-search-input"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="catalog-search-input" type="search" placeholder="Search products and categories" autocomplete="off"></label><div class="catalog-search-results" id="catalog-search-results" hidden></div></div>
+</section>
+<section class="category-section" aria-labelledby="category-heading"><div class="section-head"><div><p class="section-kicker">SHOP BY CATEGORY</p><h2 class="section-title" id="category-heading">What are you looking for?</h2></div></div>
+<div class="category-grid" id="category-grid">
+<button class="category-card category-card--groceries" type="button" data-category="groceries"><span class="category-icon"><svg class="icon"><use href="#i-basket"/></svg></span><span class="category-name">Groceries</span><span class="category-meta">Fresh & everyday food</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--convenience" type="button" data-category="convenience"><span class="category-icon"><svg class="icon"><use href="#i-store"/></svg></span><span class="category-name">Convenience</span><span class="category-meta">Snacks, drinks & more</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--alcohol" type="button" data-category="alcohol"><span class="category-icon"><svg class="icon"><use href="#i-wine"/></svg></span><span class="category-name">Alcohol & Beverages</span><span class="category-meta">Drinks for every occasion</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--food" type="button" data-category="food"><span class="category-icon"><svg class="icon"><use href="#i-utensils"/></svg></span><span class="category-name">Food</span><span class="category-meta">Meals & restaurant favourites</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--household" type="button" data-category="household"><span class="category-icon"><svg class="icon"><use href="#i-home"/></svg></span><span class="category-name">Household</span><span class="category-meta">Home care & essentials</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--health" type="button" data-category="health"><span class="category-icon"><svg class="icon"><use href="#i-heart"/></svg></span><span class="category-name">Health</span><span class="category-meta">Health & personal care</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+<button class="category-card category-card--retail" type="button" data-category="retail"><span class="category-icon"><svg class="icon"><use href="#i-bag"/></svg></span><span class="category-name">Retail</span><span class="category-meta">Everyday goods & accessories</span><svg class="category-arrow icon"><use href="#i-chevron-right"/></svg></button>
+</div></section>
+<section class="catalog-promise"><span class="catalog-promise-icon"><svg class="icon"><use href="#i-whatsapp"/></svg></span><div><strong>Clear prices. Human confirmation.</strong><p>Prices are estimates. We confirm availability, final prices and delivery fees with you on WhatsApp before dispatch.</p></div></section>
+<p class="catalog-version" id="catalog-version" aria-label="Catalog version">Catalogue updated 26 Nov 2026</p>
       </section>
 
-      <!-- ============================ MY DROPS ============================ -->
-      <section class="view view-orders" id="my-drops-view" hidden>
+      <!-- ============================ ORDER HISTORY ============================ -->
+      <section class="view view-category" id="category-view" hidden><div class="page-head"><button class="page-back" id="category-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>All categories</span></button><p class="section-kicker">SHOP DROP</p><h1 class="page-title" id="category-title">Category</h1><p class="page-sub" id="category-description">Browse products in this category.</p></div><div class="category-content" id="category-content"><div class="catalog-loading" role="status">Loading the product catalogue…</div></div></section>
+<section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
-          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to services</span></button>
-          <h1 class="page-title">My <em>Drops.</em></h1>
+          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to catalogue</span></button>
+          <h1 class="page-title">Order <em>history.</em></h1>
           <p class="page-sub">Your recent orders, all in one place.</p>
         </div>
 
         <div class="tracker-summary" id="tracker-summary"></div>
-        <section class="orders-list" id="orders-list" aria-label="Your requests"></section>
+        <section class="orders-list" id="orders-list" aria-label="Order history"></section>
 
         <div class="empty-state" id="empty-state" hidden>
-          <svg class="empty-art" viewBox="0 0 160 140" role="img" aria-label="No requests yet">
+          <svg class="empty-art" viewBox="0 0 160 140" role="img" aria-label="No orders yet">
             <circle cx="80" cy="72" r="54" fill="#FEF2F2"/>
             <g transform="translate(52 44)" fill="none" stroke="#DC2626" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M28 11.4 8 22.2v21.6L28 54.6l20-10.6V22.2L28 11.4Z"/>
@@ -213,8 +199,8 @@
               <path d="M34 92l2.2 6.2 6.2 2.2-6.2 2.2-2.2 6.2-2.2-6.2-6.2-2.2 6.2-2.2 2.2-6.2Z"/>
             </g>
           </svg>
-          <h2 class="empty-title">No drops yet</h2>
-          <p class="empty-text">Your requests will appear here once you send one.</p>
+          <h2 class="empty-title">No orders yet</h2>
+          <p class="empty-text">Your Drop orders will appear here once you place your first order.</p>
           <button class="primary-button primary-button--inline" type="button" id="empty-order-button">
             <span>Place your first order</span>
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg>
@@ -223,131 +209,86 @@
       </section>
       <section class="view view-cart" id="cart-view" hidden>
         <div class="page-head"><button class="page-back" id="cart-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to browsing</span></button><h1 class="page-title">Your <em>Cart.</em></h1><p class="page-sub">Your selected items will appear here.</p></div>
-        <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon">🛒</div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Restaurant, grocery and shop items are coming soon. For now, place an Errands or Gas request directly.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse Drop services</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
+        <div class="empty-state cart-empty" id="cart-empty"><div class="cart-empty-icon"><svg class="icon"><use href="#i-cart"/></svg></div><h2 class="empty-title">Your cart is waiting</h2><p class="empty-text">Explore the catalogue and add the things you need.</p><button class="primary-button primary-button--inline" id="cart-browse" type="button"><span>Browse categories</span><svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
         <div id="cart-items" hidden></div>
+      </section>
+      <section class="view view-checkout" id="checkout-view" hidden>
+        <div class="page-head">
+          <button class="page-back" id="checkout-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to cart</span></button>
+          <p class="section-kicker">ALMOST THERE</p><h1 class="page-title">Delivery <em>details.</em></h1>
+          <p class="page-sub">Tell us where and when to bring your order. We’ll confirm final prices and delivery on WhatsApp.</p>
+        </div>
+        <form id="checkout-form" class="checkout-form" novalidate>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">1</span> Where should we deliver?</legend>
+            <label class="checkout-label" for="checkout-location">Delivery area / address</label>
+            <input class="text-input" id="checkout-location" name="location" autocomplete="street-address" placeholder="e.g. Kakoba, Mbarara" required maxlength="180">
+            <label class="checkout-label" for="checkout-landmark">Nearby landmark</label>
+            <input class="text-input" id="checkout-landmark" name="landmark" placeholder="e.g. Near the main market" required maxlength="180">
+            <div class="checkout-gps-row"><span id="checkout-gps-status">GPS pin is optional</span><button class="secondary-button" type="button" id="checkout-gps"> <svg class="icon"><use href="#i-pin"/></svg> Add GPS pin</button><button class="checkout-remove-gps" type="button" id="checkout-remove-gps" hidden>Remove</button></div>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">2</span> Who should receive it?</legend>
+            <label class="checkout-label" for="checkout-name">Contact name</label>
+            <input class="text-input" id="checkout-name" name="name" autocomplete="name" placeholder="Your name" required maxlength="100">
+            <label class="checkout-label" for="checkout-phone">Phone number</label>
+            <input class="text-input" id="checkout-phone" name="phone" type="tel" autocomplete="tel" placeholder="+256 7XX XXX XXX" required maxlength="24">
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">3</span> When do you need it?</legend>
+            <div class="checkout-choice-grid">
+              <label class="checkout-choice"><input type="radio" name="timing" value="ASAP" checked><span>As soon as possible</span></label>
+              <label class="checkout-choice"><input type="radio" name="timing" value="Scheduled"><span>Schedule delivery</span></label>
+            </div>
+            <div id="checkout-schedule-fields" hidden>
+              <label class="checkout-label" for="checkout-date">Delivery date</label><input class="text-input" id="checkout-date" name="date" type="date">
+              <label class="checkout-label" for="checkout-time">Preferred time</label><input class="text-input" id="checkout-time" name="time" type="time">
+            </div>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">4</span> How would you like to pay?</legend>
+            <div class="checkout-choice-grid checkout-choice-grid--stack">
+              <label class="checkout-choice"><input type="radio" name="payment" value="MTN MoMo" required><span>MTN MoMo</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Airtel Money"><span>Airtel Money</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Cash on delivery"><span>Cash on delivery</span></label>
+            </div>
+            <p class="checkout-hint">Payment instructions will be confirmed by the Drop team. Do not send money before confirmation.</p>
+          </fieldset>
+          <fieldset class="checkout-section">
+            <legend><span class="checkout-step">5</span> Anything else?</legend>
+            <label class="checkout-label" for="checkout-notes">Delivery notes <span>(optional)</span></label>
+            <textarea class="text-input checkout-notes" id="checkout-notes" name="notes" placeholder="Gate instructions, preferred substitutions, or other details…" maxlength="500"></textarea>
+          </fieldset>
+          <fieldset class="checkout-section checkout-restrictions" id="checkout-restrictions" hidden>
+            <legend>Confirm restricted items</legend>
+            <label class="checkout-check" id="checkout-age-wrap" hidden><input id="checkout-age" type="checkbox" name="ageConfirmed"><span>I confirm that I am 18 years or older and legally permitted to purchase age-restricted items.</span></label>
+            <label class="checkout-check" id="checkout-rx-wrap" hidden><input id="checkout-rx" type="checkbox" name="rxAcknowledged"><span>I understand that prescription-required products need a valid prescription, which may be requested before fulfilment.</span></label>
+          </fieldset>
+          <div class="checkout-estimate" id="checkout-estimate"></div>
+          <button class="primary-button checkout-submit" type="submit">Place order &amp; open WhatsApp <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+          <p class="checkout-footnote">Product prices are estimates. Final prices, stock and delivery fee are confirmed with you on WhatsApp.</p>
+        </form>
+        <section class="checkout-saved" id="checkout-saved" hidden aria-live="polite">
+          <span class="checkout-saved-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+          <h2 id="checkout-confirmation-title">Your order is ready</h2>
+          <p id="checkout-confirmation-copy">Your order has been saved on this device.</p>
+          <div class="whatsapp-handoff" id="whatsapp-handoff">
+            <p class="whatsapp-handoff-note" id="whatsapp-handoff-note">If WhatsApp does not open, copy the complete order message below and send it to Drop.</p>
+            <button class="primary-button whatsapp-open" type="button" id="whatsapp-open"><svg class="icon"><use href="#i-whatsapp"/></svg> Open WhatsApp</button>
+            <button class="secondary-button whatsapp-copy" type="button" id="whatsapp-copy"><svg class="icon"><use href="#i-copy"/></svg> Copy order message</button>
+            <pre class="whatsapp-message" id="whatsapp-message"></pre>
+          </div>
+          <button class="secondary-button" type="button" id="checkout-return-cart">Return to catalogue</button>
+        </section>
       </section>
     </main>
   </div>
 
-  <!-- ============================ ORDER SHEET ============================ -->
-  <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
-  <section class="sheet" id="order-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-sub" tabindex="-1" hidden>
-    <span class="sheet-grabber" aria-hidden="true"></span>
 
-    <header class="sheet-head">
-      <span class="sheet-service-icon" id="sheet-service-icon" aria-hidden="true">
-        <svg class="icon"><use href="#i-errands"/></svg>
-      </span>
-      <div class="sheet-head-text">
-        <p class="sheet-kicker">New request</p>
-        <h2 class="sheet-title" id="sheet-title">Service</h2>
-        <p class="sheet-sub" id="sheet-sub"></p>
-      </div>
-      <button class="sheet-back" type="button" id="sheet-close" aria-label="Back to services">
-        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg><span>Back</span>
-      </button>
-    </header>
-
-    <form class="sheet-body" id="order-form" novalidate>
-      <div id="service-fields"></div>
-
-      <fieldset class="form-group">
-        <legend class="field-label">When do you need it?</legend>
-        <div class="choice-row">
-          <label class="choice">
-            <input type="radio" name="urgency" value="Right Now" checked>
-            <span class="choice-face"><span class="choice-text">Right now</span></span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="urgency" value="Later Today">
-            <span class="choice-face"><span class="choice-text">Later today</span></span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="urgency" value="Schedule">
-            <span class="choice-face"><span class="choice-text">Schedule</span></span>
-          </label>
-        </div>
-        <div class="schedule-wrap" id="schedule-fields" hidden>
-          <label class="field-label field-label--tight" for="schedule-time">Choose a date &amp; time</label>
-          <input class="text-input" id="schedule-time" name="scheduleTime" type="datetime-local" aria-describedby="err-scheduleTime">
-          <p class="field-error" id="err-scheduleTime" role="alert" hidden></p>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Delivery address</legend>
-        <input class="text-input" id="landmark" name="landmark" placeholder="Area, street, building and nearby landmark" maxlength="180" autocomplete="street-address" aria-describedby="landmark-help err-landmark">
-        <p class="field-help" id="landmark-help">Add enough detail for the rider to find you without calling repeatedly.</p>
-        <p class="field-error" id="err-landmark" role="alert" hidden></p>
-        <button type="button" class="ghost-button" id="gps-button">
-          <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
-          Attach my GPS pin
-        </button>
-        <div class="gps-note" id="gps-confirmation" hidden>
-          <span class="gps-note-text"><svg class="icon" aria-hidden="true"><use href="#i-check-circle"/></svg>GPS pin attached</span>
-          <button type="button" class="icon-button icon-button--sm" id="remove-gps" aria-label="Remove GPS pin">
-            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
-          </button>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Delivery contact <span class="optional-label">Optional if same as you</span></legend>
-        <div class="field-row">
-          <div class="field"><label class="field-sublabel" for="recipient-name">Recipient name</label><input class="text-input" id="recipient-name" name="recipientName" placeholder="Who will receive it?" maxlength="70" autocomplete="name"></div>
-          <div class="field"><label class="field-sublabel" for="recipient-phone">Recipient phone</label><input class="text-input" id="recipient-phone" name="recipientPhone" type="tel" inputmode="tel" placeholder="Phone number" maxlength="20"><p class="field-error" id="err-recipientPhone" role="alert" hidden></p></div>
-        </div>
-        <label class="field-label field-label--tight" for="delivery-notes">Extra delivery instructions</label>
-        <textarea class="text-input delivery-notes" id="delivery-notes" name="deliveryNotes" placeholder="Gate colour, floor, preferred contact or anything the rider should know" maxlength="300" rows="3"></textarea>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Your details</legend>
-        <div class="field-row">
-          <div class="field">
-            <label class="field-sublabel" for="customer-name">Name</label>
-            <input class="text-input" id="customer-name" name="customerName" placeholder="Your name" maxlength="70" autocomplete="name" aria-describedby="err-customerName">
-            <p class="field-error" id="err-customerName" role="alert" hidden></p>
-          </div>
-          <div class="field">
-            <label class="field-sublabel" for="customer-phone">Phone</label>
-            <input class="text-input" id="customer-phone" name="customerPhone" type="tel" inputmode="tel" placeholder="077 200 0000" maxlength="20" autocomplete="tel" aria-describedby="phone-help err-customerPhone">
-            <p class="field-help" id="phone-help">Dispatch uses this to confirm.</p>
-            <p class="field-error" id="err-customerPhone" role="alert" hidden></p>
-          </div>
-        </div>
-        <p class="field-note">Saved on this device for next time.</p>
-      </fieldset>
-
-      <fieldset class="form-group payment-group">
-        <legend class="field-label">How would you like to pay?</legend>
-        <div class="choice-grid choice-grid--stack">
-          <label class="choice"><input type="radio" name="paymentMethod" value="MTN MoMo" required><span class="choice-face"><span class="choice-text">MTN MoMo</span></span></label>
-          <label class="choice"><input type="radio" name="paymentMethod" value="Airtel Money" required><span class="choice-face"><span class="choice-text">Airtel Money</span></span></label>
-          <label class="choice"><input type="radio" name="paymentMethod" value="Cash on delivery (if available)" required><span class="choice-face"><span class="choice-text">Cash on delivery <small>(where available)</small></span></span></label>
-        </div>
-        <p class="field-help">Dispatch will confirm payment instructions and cash availability on WhatsApp.</p>
-        <p class="field-error" id="err-paymentMethod" role="alert" hidden></p>
-      </fieldset>
-
-      <div class="price-card">
-        <span class="price-label">Estimated price</span>
-        <strong class="price-value" id="price-estimate">UGX 5,000 – 10,000</strong>
-      </div>
-
-      <button class="primary-button" type="submit" id="submit-order">
-        <span class="primary-label">Review &amp; send order on WhatsApp</span>
-        <svg class="icon primary-icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
-      </button>
-      <p class="form-note">Your order opens in WhatsApp for final confirmation. Drop will confirm availability, delivery fee and payment before fulfilment.</p>
-    </form>
-  </section>
-
-  <section class="location-backdrop" id="location-backdrop" hidden></section>
-  <section class="location-dialog" id="location-dialog" role="dialog" aria-modal="true" aria-labelledby="location-title" hidden><div class="location-dialog-head"><div><p class="sheet-kicker">YOUR LOCATION</p><h2 id="location-title">Choose your city</h2></div><button class="icon-button" id="location-close" type="button" aria-label="Close location selector"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="location-help">Choose where you would like to place your Drop orders.</p><div class="location-options"><button type="button" class="location-option" data-city="Mbarara">Mbarara <span>Western Uganda</span></button><button type="button" class="location-option" data-city="Arua">Arua <span>West Nile</span></button></div></section>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <script src="/catalog.js" defer></script>
   <script src="/app.js" defer></script>
 </body>
 </html>

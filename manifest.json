@@ -1,7 +1,7 @@
 {
-  "name": "Drop — Local Delivery & Errands",
+  "name": "Drop — Mbarara Shopping & Delivery",
   "short_name": "Drop",
-  "description": "Restaurant delivery, everyday errands and gas refills in Mbarara. Order with Drop and confirm on WhatsApp.",
+  "description": "Browse everyday products in Mbarara, build your cart and place orders with WhatsApp confirmation from Drop.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -9,12 +9,12 @@
   "orientation": "portrait",
   "theme_color": "#DC2626",
   "background_color": "#FBF8F5",
-  "lang": "en",
+  "lang": "en-UG",
   "dir": "ltr",
   "categories": [
-    "business",
     "shopping",
-    "utilities"
+    "food",
+    "business"
   ],
   "icons": [
     {
