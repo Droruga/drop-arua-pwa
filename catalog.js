@@ -17,7 +17,11 @@
 
   function validateCatalog(data) {
     if (!isRecord(data)) fail("root", "expected a JSON object.");
-    if (typeof data.version !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.version)) fail("version", "expected an ISO date version.");
+    const versionDate = new Date(typeof data.version === "string" ? data.version + "T00:00:00.000Z" : "");
+    if (typeof data.version !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.version) ||
+        Number.isNaN(versionDate.getTime()) || versionDate.toISOString().slice(0, 10) !== data.version) {
+      fail("version", "expected a real calendar date in YYYY-MM-DD format.");
+    }
     if (data.currency !== "UGX") fail("currency", "expected UGX.");
     if (!Array.isArray(data.categories)) fail("categories", "expected an array.");
 
