@@ -131,18 +131,12 @@
   <div class="app-shell" hidden>
     <header class="topbar">
       <a class="brand brand-mark" href="/" aria-label="Drop home"><span aria-hidden="true"></span></a>
-      <div class="topbar-actions"><button class="location-trigger" type="button" id="location-trigger" aria-haspopup="dialog" aria-controls="location-dialog"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara</span><svg class="icon location-chevron" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
+      <div class="topbar-actions"><span class="location-trigger location-label" aria-label="Drop delivery area"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span id="current-location">Mbarara, Uganda</span></span><button class="icon-button install-open" id="install-open" type="button" aria-label="Install Drop"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></button><button class="icon-button history-trigger" type="button" id="history-trigger" aria-label="Order history"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></button><button class="icon-button cart-trigger" type="button" id="cart-trigger" aria-label="Open cart"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg><span class="cart-count" id="cart-count" hidden>0</span></button></div>
     </header>
 
     <main id="main-content">
       <!-- ============================ NEW DROP ============================ -->
       <section class="view view-new" id="new-drop-view">
-        <div class="hero">
-          <div class="hero-eyebrow"><span class="hero-live-dot"></span> LOCAL DELIVERY, MADE EASY</div>
-          <h1 class="hero-title">What can we<br><em>bring you?</em></h1>
-          <p class="hero-sub">Restaurant orders, everyday errands and gas refills — simply requested and confirmed on WhatsApp.</p>
-        </div>
-
         <section class="install-panel" id="install-panel" aria-labelledby="install-title" hidden>
           <span class="install-icon" aria-hidden="true">
             <svg class="icon"><use href="#i-download"/></svg>
@@ -184,8 +178,8 @@
       <section class="view view-category" id="category-view" hidden><div class="page-head"><button class="page-back" id="category-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>All categories</span></button><p class="section-kicker">SHOP DROP</p><h1 class="page-title" id="category-title">Category</h1><p class="page-sub" id="category-description">Browse products in this category.</p></div><div class="category-content" id="category-content"><div class="catalog-loading" role="status">Loading the product catalogue…</div></div></section>
 <section class="view view-orders" id="my-drops-view" hidden>
         <div class="page-head">
-          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to categories</span></button>
-          <h1 class="page-title">My <em>Drops.</em></h1>
+          <button class="page-back" id="history-back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Back to catalogue</span></button>
+          <h1 class="page-title">Order <em>history.</em></h1>
           <p class="page-sub">Your recent orders, all in one place.</p>
         </div>
 
@@ -290,122 +284,7 @@
     </main>
   </div>
 
-  <!-- ============================ ORDER SHEET ============================ -->
-  <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
-  <section class="sheet" id="order-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-sub" tabindex="-1" hidden>
-    <span class="sheet-grabber" aria-hidden="true"></span>
 
-    <header class="sheet-head">
-      <span class="sheet-service-icon" id="sheet-service-icon" aria-hidden="true">
-        <svg class="icon"><use href="#i-errands"/></svg>
-      </span>
-      <div class="sheet-head-text">
-        <p class="sheet-kicker">New request</p>
-        <h2 class="sheet-title" id="sheet-title">Service</h2>
-        <p class="sheet-sub" id="sheet-sub"></p>
-      </div>
-      <button class="sheet-back" type="button" id="sheet-close" aria-label="Back to services">
-        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg><span>Back</span>
-      </button>
-    </header>
-
-    <form class="sheet-body" id="order-form" novalidate>
-      <div id="service-fields"></div>
-
-      <fieldset class="form-group">
-        <legend class="field-label">When do you need it?</legend>
-        <div class="choice-row">
-          <label class="choice">
-            <input type="radio" name="urgency" value="Right Now" checked>
-            <span class="choice-face"><span class="choice-text">Right now</span></span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="urgency" value="Later Today">
-            <span class="choice-face"><span class="choice-text">Later today</span></span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="urgency" value="Schedule">
-            <span class="choice-face"><span class="choice-text">Schedule</span></span>
-          </label>
-        </div>
-        <div class="schedule-wrap" id="schedule-fields" hidden>
-          <label class="field-label field-label--tight" for="schedule-time">Choose a date &amp; time</label>
-          <input class="text-input" id="schedule-time" name="scheduleTime" type="datetime-local" aria-describedby="err-scheduleTime">
-          <p class="field-error" id="err-scheduleTime" role="alert" hidden></p>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Delivery address</legend>
-        <input class="text-input" id="landmark" name="landmark" placeholder="Area, street, building and nearby landmark" maxlength="180" autocomplete="street-address" aria-describedby="landmark-help err-landmark">
-        <p class="field-help" id="landmark-help">Add enough detail for the rider to find you without calling repeatedly.</p>
-        <p class="field-error" id="err-landmark" role="alert" hidden></p>
-        <button type="button" class="ghost-button" id="gps-button">
-          <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
-          Attach my GPS pin
-        </button>
-        <div class="gps-note" id="gps-confirmation" hidden>
-          <span class="gps-note-text"><svg class="icon" aria-hidden="true"><use href="#i-check-circle"/></svg>GPS pin attached</span>
-          <button type="button" class="icon-button icon-button--sm" id="remove-gps" aria-label="Remove GPS pin">
-            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
-          </button>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Delivery contact <span class="optional-label">Optional if same as you</span></legend>
-        <div class="field-row">
-          <div class="field"><label class="field-sublabel" for="recipient-name">Recipient name</label><input class="text-input" id="recipient-name" name="recipientName" placeholder="Who will receive it?" maxlength="70" autocomplete="name"></div>
-          <div class="field"><label class="field-sublabel" for="recipient-phone">Recipient phone</label><input class="text-input" id="recipient-phone" name="recipientPhone" type="tel" inputmode="tel" placeholder="Phone number" maxlength="20"><p class="field-error" id="err-recipientPhone" role="alert" hidden></p></div>
-        </div>
-        <label class="field-label field-label--tight" for="delivery-notes">Extra delivery instructions</label>
-        <textarea class="text-input delivery-notes" id="delivery-notes" name="deliveryNotes" placeholder="Gate colour, floor, preferred contact or anything the rider should know" maxlength="300" rows="3"></textarea>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <legend class="field-label">Your details</legend>
-        <div class="field-row">
-          <div class="field">
-            <label class="field-sublabel" for="customer-name">Name</label>
-            <input class="text-input" id="customer-name" name="customerName" placeholder="Your name" maxlength="70" autocomplete="name" aria-describedby="err-customerName">
-            <p class="field-error" id="err-customerName" role="alert" hidden></p>
-          </div>
-          <div class="field">
-            <label class="field-sublabel" for="customer-phone">Phone</label>
-            <input class="text-input" id="customer-phone" name="customerPhone" type="tel" inputmode="tel" placeholder="077 200 0000" maxlength="20" autocomplete="tel" aria-describedby="phone-help err-customerPhone">
-            <p class="field-help" id="phone-help">Dispatch uses this to confirm.</p>
-            <p class="field-error" id="err-customerPhone" role="alert" hidden></p>
-          </div>
-        </div>
-        <p class="field-note">Saved on this device for next time.</p>
-      </fieldset>
-
-      <fieldset class="form-group payment-group">
-        <legend class="field-label">How would you like to pay?</legend>
-        <div class="choice-grid choice-grid--stack">
-          <label class="choice"><input type="radio" name="paymentMethod" value="MTN MoMo" required><span class="choice-face"><span class="choice-text">MTN MoMo</span></span></label>
-          <label class="choice"><input type="radio" name="paymentMethod" value="Airtel Money" required><span class="choice-face"><span class="choice-text">Airtel Money</span></span></label>
-          <label class="choice"><input type="radio" name="paymentMethod" value="Cash on delivery (if available)" required><span class="choice-face"><span class="choice-text">Cash on delivery <small>(where available)</small></span></span></label>
-        </div>
-        <p class="field-help">Dispatch will confirm payment instructions and cash availability on WhatsApp.</p>
-        <p class="field-error" id="err-paymentMethod" role="alert" hidden></p>
-      </fieldset>
-
-      <div class="price-card">
-        <span class="price-label">Estimated price</span>
-        <strong class="price-value" id="price-estimate">UGX 5,000 – 10,000</strong>
-      </div>
-
-      <button class="primary-button" type="submit" id="submit-order">
-        <span class="primary-label">Review &amp; send order on WhatsApp</span>
-        <svg class="icon primary-icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
-      </button>
-      <p class="form-note">Your order opens in WhatsApp for final confirmation. Drop will confirm availability, delivery fee and payment before fulfilment.</p>
-    </form>
-  </section>
-
-  <section class="location-backdrop" id="location-backdrop" hidden></section>
-  <section class="location-dialog" id="location-dialog" role="dialog" aria-modal="true" aria-labelledby="location-title" hidden><div class="location-dialog-head"><div><p class="sheet-kicker">YOUR LOCATION</p><h2 id="location-title">Choose your city</h2></div><button class="icon-button" id="location-close" type="button" aria-label="Close location selector"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="location-help">Choose where you would like to place your Drop orders.</p><div class="location-options"><button type="button" class="location-option" data-city="Mbarara">Mbarara <span>Western Uganda</span></button><button type="button" class="location-option" data-city="Arua">Arua <span>West Nile</span></button></div></section>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
