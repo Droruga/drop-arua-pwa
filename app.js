@@ -695,7 +695,7 @@ function init() {
     }
     const chip = event.target.closest("[data-subcategory-chip]");
     if (chip) {
-      $(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
+      $$(".subcategory-chip").forEach(item => item.classList.toggle("is-active", item === chip));
     }
     if (!event.target.closest(".catalog-search-wrap")) {
       $("#catalog-search-results").hidden = true;
