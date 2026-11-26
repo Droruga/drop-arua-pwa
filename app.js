@@ -105,6 +105,24 @@ function escapeHTML(value) {
   return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
 }
 
+function renderServiceCards() {
+  const grid = $("#service-grid");
+  grid.innerHTML = Object.entries(SERVICES).map(([key, service]) => `
+    <li>
+      <button class="service-card" type="button" data-service="${key}" aria-label="${escapeHTML(service.label)}. ${escapeHTML(service.blurb)} Price: ${escapeHTML(service.price)}. Typical turnaround: ${escapeHTML(service.turnaround)}.">
+        <span class="service-icon service-icon--${key}" aria-hidden="true"><svg class="icon"><use href="#${service.icon}"/></svg></span>
+        <span class="service-body">
+          <span class="service-name">${escapeHTML(service.label)}</span>
+          <span class="service-desc">${escapeHTML(service.blurb)}</span>
+          <span class="service-price">${escapeHTML(service.price)}</span>
+          <span class="service-turnaround"><span class="service-turnaround-dot" aria-hidden="true"></span>${escapeHTML(service.turnaround)}</span>
+        </span>
+        <svg class="service-chevron icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+      </button>
+    </li>`).join("");
+}
+
+
 function buildServiceFields(serviceKey) {
   const config = SERVICES[serviceKey];
   const scope = $("#service-fields");
