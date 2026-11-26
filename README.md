@@ -1,6 +1,6 @@
 # Drop — Mbarara product catalogue ordering PWA
 
-Drop is a lightweight, mobile-first product catalogue and WhatsApp ordering PWA for Mbarara, Uganda. Customers browse the owner-supplied catalogue, build a persistent cart, provide delivery details, and send an order to the Drop dispatch team through WhatsApp.
+Drop is a lightweight, mobile-first product catalogue and WhatsApp ordering PWA for Mbarara, Uganda. The customer interface is catalogue-first; legacy service request forms and service tracking flows have been retired. Customers browse the owner-supplied catalogue, build a persistent cart, provide delivery details, and send an order to the Drop dispatch team through WhatsApp.
 
 ## Customer flow
 
@@ -69,11 +69,13 @@ Do not open `index.html` with `file://`: service workers, install prompts and ge
 - Publish the repository root (`.`); no build command is required.
 - Test the deployed HTTPS URL on Android Chrome and iOS Safari.
 - Bump `CACHE_VERSION` in `sw.js` whenever a shipped asset changes.
-- The service worker uses network-first for navigations and application-shell assets, with cached fallbacks for offline use.
+- The service worker uses network-first for navigations and application-shell assets, with cached fallbacks for offline use. Cache version: `v13`.
+- The shell cache includes the catalogue data, JavaScript modules, styles, fonts, SVG artwork and all launcher icon variants.
+- The install help is user-initiated from the download icon in the header; it does not automatically cover the catalogue on iOS.
 
-## PWA icons
+## PWA icons and installation
 
-The existing Drop red-and-white icon assets and self-hosted fonts are retained. PNG launcher icons are full-bleed squares; the separate maskable artwork keeps the symbol within the central safe zone.
+The existing Drop red-and-white icon assets and self-hosted fonts are retained. PNG launcher icons are full-bleed squares; the separate maskable artwork keeps the symbol within the central safe zone. The web app manifest identifies Drop as a Mbarara shopping and delivery app. Customers open install instructions from the download icon in the app header; iOS users see Safari-specific Add to Home Screen steps.
 
 ## Before public launch
 
@@ -81,6 +83,8 @@ The existing Drop red-and-white icon assets and self-hosted fonts are retained. 
 - Confirm service coverage and delivery fee handling in Mbarara.
 - Test WhatsApp installed/not installed and copy fallback behaviour.
 - Test scheduled delivery validation, GPS allowed/denied, age and prescription checks.
-- Test offline launch and catalogue-load failure messaging.
+- Test offline launch, catalogue cache fallback and catalogue-load failure messaging.
+- Confirm that the catalogue date validator accepts the owner’s ISO date version and rejects malformed versions.
+- Confirm that the configured dispatch number passes the WhatsApp handoff guard.
 - Test cart persistence, order-history migration and the 50-order cap on Android Chrome and iOS Safari.
 - Provide a customer-facing privacy policy and support contact.
