@@ -172,6 +172,58 @@
 </div></section>
 <section class="catalog-promise"><span class="catalog-promise-icon"><svg class="icon"><use href="#i-whatsapp"/></svg></span><div><strong>Clear prices. Human confirmation.</strong><p>Prices are estimates. We confirm availability, final prices and delivery fees with you on WhatsApp before dispatch.</p></div></section>
 <p class="catalog-version" id="catalog-version" aria-label="Catalog version">Catalogue updated 26 Nov 2026</p>
+        <section class="restaurant-discovery" aria-labelledby="restaurant-discovery-title">
+          <div class="restaurant-discovery-head"><p class="section-kicker">A TASTE OF Mbarara</p><h2 id="restaurant-discovery-title">Order from restaurants <em>around.</em></h2><p>Restaurant favourites, delivered to your door.</p></div>
+          <button class="restaurant-partner-card" id="open-calabash" type="button">
+            <span class="restaurant-card-art"><svg class="icon" aria-hidden="true"><use href="#i-utensils"/></svg><span class="restaurant-card-stamp">LOCAL<br>FAVOURITE</span></span>
+            <span class="restaurant-card-copy"><strong>Calabash Cafe</strong><small><svg class="icon"><use href="#i-pin"/></svg> Buremba Road, Mbarara</small><span>Breakfast · Pizza · Grill · Drinks</span><b>Explore menu <svg class="icon"><use href="#i-arrow-right"/></svg></b></span>
+            <svg class="restaurant-card-chevron icon"><use href="#i-chevron-right"/></svg>
+          </button>
+        </section>
+      </section>
+
+      <!-- ============================ RESTAURANT PARTNER ============================ -->
+      <section class="view restaurant-view" id="restaurant-view" hidden>
+        <div id="restaurant-menu-screen">
+          <div class="restaurant-page-head">
+            <button class="page-back" id="restaurant-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to Drop</span></button>
+            <div class="restaurant-hero">
+              <span class="restaurant-hero-icon"><svg class="icon"><use href="#i-utensils"/></svg></span>
+              <p class="section-kicker">RESTAURANT PARTNER</p><h1 class="page-title">Calabash <em>Cafe.</em></h1>
+              <p class="page-sub">Buremba Road, Mbarara · Freshly prepared favourites.</p>
+            </div>
+          </div>
+          <div class="restaurant-menu-tools"><label class="catalog-search" for="restaurant-search"><svg class="icon"><use href="#i-search"/></svg><input id="restaurant-search" type="search" placeholder="Search Calabash menu" autocomplete="off"></label></div>
+          <nav class="restaurant-category-nav" id="restaurant-category-nav" aria-label="Calabash menu categories"></nav>
+          <div class="restaurant-menu-list" id="restaurant-menu-list"><p class="catalog-loading">Loading Calabash menu…</p></div>
+          <div class="restaurant-sticky-cart" id="restaurant-sticky-cart" hidden><div><strong id="restaurant-cart-count">0 items</strong><small id="restaurant-cart-total">UGX 0</small></div><button class="primary-button" id="restaurant-view-cart" type="button">View order <svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
+        </div>
+        <div id="restaurant-cart-screen" hidden>
+          <div class="page-head"><button class="page-back" id="restaurant-cart-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to menu</span></button><p class="section-kicker">CALABASH CAFE</p><h1 class="page-title">Your <em>order.</em></h1><p class="page-sub">Review your selections before sharing them with Drop.</p></div>
+          <div id="restaurant-cart-lines"></div>
+          <div class="restaurant-cart-actions"><button class="secondary-button" id="restaurant-keep-browsing" type="button">Keep browsing</button><button class="primary-button" id="restaurant-checkout-start" type="button">Continue to delivery details <svg class="icon"><use href="#i-arrow-right"/></svg></button></div>
+        </div>
+        <div id="restaurant-checkout-screen" hidden>
+          <div class="page-head"><button class="page-back" id="restaurant-checkout-back" type="button"><svg class="icon"><use href="#i-arrow-left"/></svg><span>Back to your order</span></button><p class="section-kicker">CALABASH CAFE · DELIVERY</p><h1 class="page-title">Where to <em>deliver?</em></h1><p class="page-sub">Drop will confirm restaurant availability and delivery fee with you on WhatsApp.</p></div>
+          <form id="restaurant-checkout-form" class="checkout-form">
+            <fieldset class="checkout-section"><legend>Delivery details</legend>
+              <label class="checkout-label" for="restaurant-customer-name">Your name</label><input class="text-input" id="restaurant-customer-name" name="name" autocomplete="name" required maxlength="100">
+              <label class="checkout-label" for="restaurant-customer-phone">Phone number</label><input class="text-input" id="restaurant-customer-phone" name="phone" type="tel" placeholder="+256 7XX XXX XXX" required maxlength="24">
+              <label class="checkout-label" for="restaurant-customer-address">Delivery address / area</label><input class="text-input" id="restaurant-customer-address" name="address" placeholder="e.g. Kakoba, Mbarara" required maxlength="180">
+              <label class="checkout-label" for="restaurant-customer-landmark">Nearby landmark</label><input class="text-input" id="restaurant-customer-landmark" name="landmark" placeholder="e.g. Near the main market" maxlength="180">
+            </fieldset>
+            <fieldset class="checkout-section"><legend>Payment preference</legend><div class="checkout-choice-grid checkout-choice-grid--stack">
+              <label class="checkout-choice"><input type="radio" name="payment" value="MTN MoMo" required><span>MTN MoMo</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Airtel Money"><span>Airtel Money</span></label>
+              <label class="checkout-choice"><input type="radio" name="payment" value="Cash on delivery"><span>Cash on delivery</span></label>
+            </div><p class="checkout-hint">Do not send payment before Drop confirms your order.</p></fieldset>
+            <fieldset class="checkout-section"><legend>Anything else?</legend><label class="checkout-label" for="restaurant-customer-notes">Order / delivery notes <span>(optional)</span></label><textarea class="text-input checkout-notes" id="restaurant-customer-notes" name="notes" maxlength="500" placeholder="Food preferences, substitutions, gate instructions…"></textarea></fieldset>
+            <fieldset class="checkout-section" id="restaurant-age-section" hidden><legend>Age confirmation</legend><label class="checkout-check"><input id="restaurant-age-confirm" type="checkbox" required><span>I confirm I am 18 years or older and legally permitted to order the bottled alcoholic beverages in this order.</span></label></fieldset>
+            <div class="checkout-estimate" id="restaurant-checkout-summary"></div>
+            <button class="primary-button checkout-submit" type="submit">Send restaurant order on WhatsApp <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+            <p class="checkout-footnote">Menu prices are supplied by the restaurant. Delivery fee and item availability are confirmed separately.</p>
+          </form>
+        </div>
       </section>
 
       <!-- ============================ ORDER HISTORY ============================ -->
