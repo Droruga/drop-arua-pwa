@@ -552,7 +552,7 @@ function restaurantMoney(value){return "UGX "+Number(value||0).toLocaleString("e
 function getRestaurant(){return restaurantData?.restaurants?.find(item=>item.id==="CALABASH")||null;}
 function restaurantProduct(id){const restaurant=getRestaurant();if(!restaurant)return null;for(const category of restaurant.categories){const found=category.products.find(item=>item.id===id);if(found)return found;}return null;}
 function restaurantLineKey(item){return item.id+"|"+JSON.stringify(item.choices||{});}
-function restaurantCartTotals(){return restaurantCart.reduce((sum,line)=>sum+(restaurantProduct(line.id)?.price||0)*line.quantity,0);}
+function restaurantCartTotals(){return restaurantCart.reduce((sum,line)=>sum+((restaurantProduct(line.id)?.price||0)+Number(line.priceAdjustment||0))*line.quantity,0);}
 function saveRestaurantCart(){saveJSON(RESTAURANT_CART_KEY,restaurantCart);renderRestaurantCart();}
 function showRestaurantScreen(screen){
   $("#restaurant-menu-screen").hidden=screen!=="menu";
@@ -591,8 +591,9 @@ function renderRestaurantMenu(query=""){
 function addRestaurantProduct(id,card){
   const product=restaurantProduct(id);if(!product)return;
   const choices={};(RESTAURANT_OPTIONS[id]||[]).forEach((option,index)=>{choices[option.label]=card.querySelector('[data-restaurant-option="'+index+'"]')?.value||option.values[0];});
+  const priceAdjustment=Object.values(choices).some(value=>value.includes("(+UGX 3,000)"))?3000:0;
   const key=restaurantLineKey({id,choices});const existing=restaurantCart.find(line=>restaurantLineKey(line)===key);
-  if(existing)existing.quantity=Math.min(99,existing.quantity+1);else restaurantCart.push({id,quantity:1,choices});
+  if(existing)existing.quantity=Math.min(99,existing.quantity+1);else restaurantCart.push({id,quantity:1,choices,priceAdjustment});
   saveRestaurantCart();showToast(product.name+" added to your Calabash order.");
 }
 function renderRestaurantCart(){
@@ -605,7 +606,7 @@ function renderRestaurantCart(){
   lines.innerHTML=restaurantCart.length?'<div class="restaurant-cart-list">'+restaurantCart.map(line=>{
     const product=restaurantProduct(line.id);if(!product)return "";
     const choices=Object.entries(line.choices||{}).map(([key,value])=>key+": "+value).join(" · ");
-    return '<article class="cart-line"><div class="cart-line-copy"><h2>'+escapeHTML(product.name)+'</h2>'+(choices?'<p>'+escapeHTML(choices)+'</p>':'')+'<strong class="cart-line-total">'+restaurantMoney(product.price*line.quantity)+'</strong></div><div class="cart-line-actions"><div class="quantity-control"><button type="button" data-restaurant-qty="-1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">−</button><output>'+line.quantity+'</output><button type="button" data-restaurant-qty="1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">+</button></div><button class="cart-remove" type="button" data-restaurant-remove="'+escapeHTML(restaurantLineKey(line))+'">Remove</button></div></article>';
+    return '<article class="cart-line"><div class="cart-line-copy"><h2>'+escapeHTML(product.name)+'</h2>'+(choices?'<p>'+escapeHTML(choices)+'</p>':'')+'<strong class="cart-line-total">'+restaurantMoney((product.price+Number(line.priceAdjustment||0))*line.quantity)+'</strong></div><div class="cart-line-actions"><div class="quantity-control"><button type="button" data-restaurant-qty="-1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">−</button><output>'+line.quantity+'</output><button type="button" data-restaurant-qty="1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">+</button></div><button class="cart-remove" type="button" data-restaurant-remove="'+escapeHTML(restaurantLineKey(line))+'">Remove</button></div></article>';
   }).join("")+'</div><section class="cart-summary"><div><span>Calabash items ('+count+')</span><strong>'+restaurantMoney(total)+'</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><div class="cart-grand-total"><span>Food & drink subtotal</span><strong>'+restaurantMoney(total)+'</strong></div><p>Restaurant subtotal only. Drop will confirm availability and delivery charges.</p></section>':'<div class="empty-state"><h2 class="empty-title">Your order is empty</h2><p class="empty-text">Browse the Calabash menu and add your favourites.</p></div>';
   const ageRequired=restaurantCart.some(line=>line.id.startsWith("CAL-AL"));
   $("#restaurant-age-section").hidden=!ageRequired;
@@ -624,7 +625,7 @@ function submitRestaurantOrder(event){
   const form=event.currentTarget;if(!form.reportValidity())return;
   const data=Object.fromEntries(new FormData(form).entries());
   const restaurant=getRestaurant();
-  const lines=restaurantCart.map(line=>{const product=restaurantProduct(line.id);const choices=Object.entries(line.choices||{}).map(([key,value])=>"   - "+key+": "+value).join("\n");return "• "+line.quantity+" × "+product.name+" — "+restaurantMoney(product.price*line.quantity)+(choices?"\n"+choices:"");});
+  const lines=restaurantCart.map(line=>{const product=restaurantProduct(line.id);const choices=Object.entries(line.choices||{}).map(([key,value])=>"   - "+key+": "+value).join("\n");return "• "+line.quantity+" × "+product.name+" — "+restaurantMoney((product.price+Number(line.priceAdjustment||0))*line.quantity)+(choices?"\n"+choices:"");});
   const subtotal=restaurantCartTotals();
   const message=["*DROP — RESTAURANT ORDER*","Restaurant: "+restaurant.name,"Location: "+restaurant.location,"","*ORDER ITEMS*",...lines,"","*Subtotal: "+restaurantMoney(subtotal)+"*","Delivery fee: To be confirmed","", "*CUSTOMER DETAILS*","Name: "+data.name,"Phone: "+data.phone,"Address: "+data.address,"Landmark: "+(data.landmark||"Not supplied"),"Payment preference: "+data.payment,"Notes: "+(data.notes||"None"),...(restaurantCart.some(line=>line.id.startsWith("CAL-AL"))?["Age 18+ confirmed: "+($("#restaurant-age-confirm").checked?"Yes":"No")]:[]),"","Please confirm item availability, final total and delivery fee."].join("\n");
   const history=readJSON("drop_restaurant_orders_v1",[]);history.unshift({id:"CAL-"+Date.now(),createdAt:new Date().toISOString(),restaurant:restaurant.name,items:restaurantCart,subtotal,customer:data});saveJSON("drop_restaurant_orders_v1",history.slice(0,30));
