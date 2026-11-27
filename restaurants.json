@@ -1,0 +1,732 @@
+{
+  "restaurants": [
+    {
+      "id": "CALABASH",
+      "name": "Calabash Cafe",
+      "location": "Buremba Road, Mbarara",
+      "phone": [
+        "0777 023 455",
+        "0705 926 045"
+      ],
+      "currency": "UGX",
+      "categories": [
+        {
+          "id": "cal_breakfast",
+          "name": "Breakfast Corner",
+          "products": [
+            {
+              "id": "CAL-B01",
+              "name": "Breakfast Option 1",
+              "description": "A handful of home fries and a pot of tea or coffee",
+              "price": 10000
+            },
+            {
+              "id": "CAL-B02",
+              "name": "Breakfast Option 2",
+              "description": "A pot of tea or coffee, eggs made your way and a choice of fresh toasted bread",
+              "price": 12000
+            },
+            {
+              "id": "CAL-B03",
+              "name": "Breakfast Option 3",
+              "description": "A pair of sausages, eggs made your way with a pot of tea or coffee",
+              "price": 12000
+            },
+            {
+              "id": "CAL-B04",
+              "name": "Breakfast Option 4 (Katogo)",
+              "description": "Beef or Vegetable Katogo",
+              "price": 10000
+            }
+          ]
+        },
+        {
+          "id": "cal_starters",
+          "name": "Salads, Soups & Small Bites",
+          "products": [
+            {
+              "id": "CAL-S01",
+              "name": "Mixed Veg Salad",
+              "price": 12000
+            },
+            {
+              "id": "CAL-S02",
+              "name": "Classic Caesar Salad",
+              "description": "Boneless chicken pieces mixed with vegetables",
+              "price": 20000
+            },
+            {
+              "id": "CAL-S03",
+              "name": "Cream of Tomato Soup",
+              "price": 10000
+            },
+            {
+              "id": "CAL-S04",
+              "name": "Mushroom Soup",
+              "description": "Clear or Cream",
+              "price": 10000
+            },
+            {
+              "id": "CAL-S05",
+              "name": "Fresh Veg Soup",
+              "description": "Clear or Cream",
+              "price": 10000
+            },
+            {
+              "id": "CAL-S06",
+              "name": "Lyonnaise Irish Potatoes",
+              "price": 8000
+            },
+            {
+              "id": "CAL-S07",
+              "name": "Samosas (Beef or Veg)",
+              "description": "Pair",
+              "price": 5000
+            },
+            {
+              "id": "CAL-S08",
+              "name": "Chicken Wings (Honey Glazed)",
+              "price": 15000
+            },
+            {
+              "id": "CAL-S09",
+              "name": "Chicken Fingers / Nuggets",
+              "description": "Sliced chicken breast into fingers or nuggets coated and deep fried, served with tangi sauce, rice or chips",
+              "price": 24000
+            },
+            {
+              "id": "CAL-S10",
+              "name": "Fish Fingers / Nuggets",
+              "description": "Sliced fish into fingers like coated and deep fried, served with tangi sauce, rice or chips",
+              "price": 26000
+            }
+          ]
+        },
+        {
+          "id": "cal_main_chicken",
+          "name": "Main Course: Chicken",
+          "products": [
+            {
+              "id": "CAL-C01",
+              "name": "Chicken & Chips",
+              "description": "Quarter chicken seasoned with fine herbs served with chips",
+              "price": 18000
+            },
+            {
+              "id": "CAL-C02",
+              "name": "Chicken Stir-Fry",
+              "description": "Sliced chicken breast into cubes well marinated and cooked in home vegetables served with either Rice, Chips or Mashed Irish potatoes and Garden salads",
+              "price": 25000
+            },
+            {
+              "id": "CAL-C03",
+              "name": "Chicken Wings Stir-Fry",
+              "description": "Well-seasoned chicken wings deep fried and cooked in home garden vegetable served with either Chips or Rice or potato wedges",
+              "price": 22000
+            },
+            {
+              "id": "CAL-C04",
+              "name": "Chicken Tikka / Curry",
+              "description": "Boneless chicken cooked in hot or mild masala sauce best served with rice",
+              "price": 24000
+            },
+            {
+              "id": "CAL-C05",
+              "name": "Poached Chicken (Breast & Salad)",
+              "description": "Boiled to tenderness, served with Rice or chips",
+              "price": 25000
+            },
+            {
+              "id": "CAL-C06",
+              "name": "Half Spring Chicken (Breast & Thigh)",
+              "description": "Half a chicken roasted to crispness, served with steamed Rice or chips & steamed vegetables",
+              "price": 30000
+            },
+            {
+              "id": "CAL-C07",
+              "name": "Grilled or Fried Chicken Chumbe",
+              "description": "Whole Chicken",
+              "price": 40000
+            },
+            {
+              "id": "CAL-C08",
+              "name": "Calabash Kuku Stew",
+              "description": "Thyme flavoured. Served with chapati and rice",
+              "price": 24000
+            }
+          ]
+        },
+        {
+          "id": "cal_main_meat_fish",
+          "name": "Main Course: Beef, Pork, Goat & Fish",
+          "products": [
+            {
+              "id": "CAL-M01",
+              "name": "Beef Stir-Fry",
+              "description": "Cooked in vegetables, served with either Rice or Chips",
+              "price": 25000
+            },
+            {
+              "id": "CAL-M02",
+              "name": "Liver Stir-Fry",
+              "description": "Threaded liver cooked in garden vegetables served with either Chapati or Rice, or Chips and salads",
+              "price": 22000
+            },
+            {
+              "id": "CAL-M03",
+              "name": "Fresh Grilled Pork Chops",
+              "description": "Tender pork chops served on a bed of steamed vegetables & French fries",
+              "price": 25000
+            },
+            {
+              "id": "CAL-M04",
+              "name": "Pork Sizzler",
+              "description": "Marinated pork strips Stirfried in vegetables and BBQ sauce served with rice, chips or Irish Potatoes on a sizzling plate",
+              "price": 24000
+            },
+            {
+              "id": "CAL-M05",
+              "name": "BBQ Pork Spare Ribs",
+              "description": "Long Ribs cooked with passion & finished in homemade BBQ Sauce served French fries",
+              "price": 24000
+            },
+            {
+              "id": "CAL-M06",
+              "name": "Fresh Grilled Pork Cubes",
+              "description": "Tender pork cubes served on a bed of steamed vegetables & French fries",
+              "price": 22000
+            },
+            {
+              "id": "CAL-M07",
+              "name": "Grilled Goat / Pan Fried (1 KG)",
+              "description": "1kg of goat, green pepper, carrot, onions, tomatoes served with Rice or steamed matooke",
+              "price": 50000
+            },
+            {
+              "id": "CAL-M08",
+              "name": "Grilled Goat / Pan Fried (1/2 KG)",
+              "description": "Half kg of goat, green pepper, carrot, onions, tomatoes served with boiled Rice, Matooke or Chips",
+              "price": 29000
+            },
+            {
+              "id": "CAL-M09",
+              "name": "Grilled Goat / Pan Fried (1/4 KG)",
+              "description": "Quarter kg of goat, green pepper, carrot, onions, tomatoes served with Rice, Steamed Matooke",
+              "price": 25000
+            },
+            {
+              "id": "CAL-M10",
+              "name": "Grilled Fish Fillet",
+              "description": "Grilled fresh tilapia fillet served with parsley Irish potatoes & herbal sauce",
+              "price": 26000
+            },
+            {
+              "id": "CAL-M11",
+              "name": "Whole Fish Tilapia",
+              "description": "Deep fried, or grilled whole tilapia served with either Chips or Rice or Deep fried Irish potatoes",
+              "price": 40000
+            }
+          ]
+        },
+        {
+          "id": "cal_burgers_pasta",
+          "name": "Burgers, Sandwiches & Pastas",
+          "products": [
+            {
+              "id": "CAL-P01",
+              "name": "Calabash Giant Chicken Burger",
+              "description": "Topped with cheese served with chips and salad",
+              "price": 20000
+            },
+            {
+              "id": "CAL-P02",
+              "name": "Chicken Burger",
+              "description": "Served with chips",
+              "price": 22000
+            },
+            {
+              "id": "CAL-P03",
+              "name": "Beef Burger",
+              "description": "Loot premium beef pattie grilled and topped with onions served with Chips and Salads",
+              "price": 22000
+            },
+            {
+              "id": "CAL-P04",
+              "name": "BBQ Beef Burger",
+              "description": "100% premium beef grilled to perfection, finished in BBQ sauce, served between a broche bun stuffed with fresh lettuce, tomatoes, grilled onions & cheese. Served with chips & a torch of coleslaw",
+              "price": 20000
+            },
+            {
+              "id": "CAL-P05",
+              "name": "Vegetable Burger",
+              "description": "Served with chips. Add extra toppings (BBQ sauce or Cheese) for 3,000",
+              "price": 15000
+            },
+            {
+              "id": "CAL-P06",
+              "name": "Chicken Sandwich",
+              "description": "Chicken breast grilled, and fried eggs served with Chips",
+              "price": 24000
+            },
+            {
+              "id": "CAL-P07",
+              "name": "Egg Sandwich",
+              "description": "Fried eggs and bread served with Chips",
+              "price": 20000
+            },
+            {
+              "id": "CAL-P08",
+              "name": "Veg Sandwich",
+              "price": 10000
+            },
+            {
+              "id": "CAL-P09",
+              "name": "Chicken Noodles",
+              "description": "Chicken breast sliced, cooked in spaghetti and garden vegetables served with a slice of bread",
+              "price": 26000
+            },
+            {
+              "id": "CAL-P10",
+              "name": "Threaded Beef Noodles",
+              "description": "Braised beef pieces cooked with spaghetti and beef broth",
+              "price": 25000
+            },
+            {
+              "id": "CAL-P11",
+              "name": "Spaghetti",
+              "description": "Boiled or Fried Spaghetti",
+              "price": 10000
+            }
+          ]
+        },
+        {
+          "id": "cal_pizza",
+          "name": "Pizzas",
+          "products": [
+            {
+              "id": "CAL-PZ01",
+              "name": "Chicken Pizza",
+              "description": "Chicken strips cooked with green pepper and onions topped with mozzarella cheese",
+              "price": 30000
+            },
+            {
+              "id": "CAL-PZ02",
+              "name": "Beef Pizza",
+              "description": "Well-seasoned minced meat with green peppers and onions topped with cheese",
+              "price": 28000
+            },
+            {
+              "id": "CAL-PZ03",
+              "name": "Vegetable Pizza",
+              "description": "Assorted garden vegetables topped with mozzarella cheese",
+              "price": 25000
+            },
+            {
+              "id": "CAL-PZ04",
+              "name": "Margarita Pizza",
+              "description": "The so called tomato pizza topped with cheese",
+              "price": 25000
+            },
+            {
+              "id": "CAL-PZ05",
+              "name": "Nyama Zone Pizza",
+              "description": "Mozzarella, Tomato Sauce, Minced Beef, Onions, Red & green peppers",
+              "price": 25000
+            },
+            {
+              "id": "CAL-PZ06",
+              "name": "Fresh Veg Pizza",
+              "description": "Mozzarella, Mushroom, Red and green pepper, onions, olives, tomato sauce",
+              "price": 25000
+            }
+          ]
+        },
+        {
+          "id": "cal_rolex_veg",
+          "name": "Rolex & Vegetarian Corner",
+          "products": [
+            {
+              "id": "CAL-R01",
+              "name": "Royal Rolex",
+              "price": 8000
+            },
+            {
+              "id": "CAL-R02",
+              "name": "Beef Rolex (Calabash Rolex Lord)",
+              "price": 15000
+            },
+            {
+              "id": "CAL-R03",
+              "name": "Chicken Rolex (Calabash Rolex Lord)",
+              "price": 15000
+            },
+            {
+              "id": "CAL-V01",
+              "name": "Fresh Garden Veg Stew",
+              "description": "Fresh seasonal vegetables on market cooked with passion, served with rice & chapati",
+              "price": 20000
+            },
+            {
+              "id": "CAL-V02",
+              "name": "Vegetable Manchurians",
+              "description": "Crispy fresh vegetable balls tossed in our homemade oriental sauce served with chips",
+              "price": 20000
+            }
+          ]
+        },
+        {
+          "id": "cal_sides_pastries",
+          "name": "Snacks, Pastries & Sides",
+          "products": [
+            {
+              "id": "CAL-SP01",
+              "name": "Plain Chips",
+              "price": 8000
+            },
+            {
+              "id": "CAL-SP02",
+              "name": "Plain Rice (Vegetable or Brown)",
+              "price": 8000
+            },
+            {
+              "id": "CAL-SP03",
+              "name": "Chapatti",
+              "price": 3000
+            },
+            {
+              "id": "CAL-SP04",
+              "name": "Fresh Toasted Bread",
+              "price": 3000
+            },
+            {
+              "id": "CAL-SP05",
+              "name": "French Toasted Bread",
+              "price": 6000
+            },
+            {
+              "id": "CAL-SP06",
+              "name": "Buns",
+              "price": 2000
+            },
+            {
+              "id": "CAL-SP07",
+              "name": "Burger Bun",
+              "price": 2000
+            },
+            {
+              "id": "CAL-SP08",
+              "name": "Queen Cakes (Small)",
+              "price": 3000
+            },
+            {
+              "id": "CAL-SP09",
+              "name": "Queen Cakes (Medium)",
+              "price": 5000
+            },
+            {
+              "id": "CAL-SP10",
+              "name": "Pair of Mandazi",
+              "price": 2000
+            },
+            {
+              "id": "CAL-SP11",
+              "name": "Pair of Doughnuts",
+              "price": 2000
+            },
+            {
+              "id": "CAL-SP12",
+              "name": "Cinnamon Roll",
+              "price": 3000
+            },
+            {
+              "id": "CAL-SP13",
+              "name": "Pair of Cookies",
+              "price": 2000
+            },
+            {
+              "id": "CAL-SP14",
+              "name": "Pair of Sausages",
+              "price": 5000
+            },
+            {
+              "id": "CAL-SP15",
+              "name": "Eggs of Your Choice",
+              "price": 5000
+            },
+            {
+              "id": "CAL-SP16",
+              "name": "Bogoya (1 piece)",
+              "price": 1000
+            }
+          ]
+        },
+        {
+          "id": "cal_desserts",
+          "name": "Desserts",
+          "products": [
+            {
+              "id": "CAL-D01",
+              "name": "A Cake Slice",
+              "description": "Banana, Pumpkin, Maple or Orange",
+              "price": 5000
+            },
+            {
+              "id": "CAL-D02",
+              "name": "An Ice-Cream Bowl",
+              "price": 8000
+            },
+            {
+              "id": "CAL-D03",
+              "name": "Fried Ice Cream",
+              "price": 12000
+            },
+            {
+              "id": "CAL-D04",
+              "name": "Ice Cream (2 Scoops)",
+              "price": 8000
+            },
+            {
+              "id": "CAL-D05",
+              "name": "Glass of Yoghurt",
+              "description": "Vanilla, Strawberry or Chocolate",
+              "price": 6000
+            },
+            {
+              "id": "CAL-D06",
+              "name": "Calabash Special Fruit Platter",
+              "price": 7000
+            },
+            {
+              "id": "CAL-D07",
+              "name": "Fruit Salad",
+              "price": 12000
+            },
+            {
+              "id": "CAL-D08",
+              "name": "Fruit Extravaganza",
+              "description": "Fruit salads with choice of ice cream",
+              "price": 15000
+            }
+          ]
+        },
+        {
+          "id": "cal_drinks_hot",
+          "name": "Barista & Hot Drinks",
+          "products": [
+            {
+              "id": "CAL-H01",
+              "name": "Espresso (Single)",
+              "price": 5000
+            },
+            {
+              "id": "CAL-H02",
+              "name": "Espresso (Double)",
+              "price": 6000
+            },
+            {
+              "id": "CAL-H03",
+              "name": "Espresso Macchiato",
+              "description": "A shot of espresso marked with a dollop of foamy milk on top",
+              "price": 5000
+            },
+            {
+              "id": "CAL-H04",
+              "name": "Americano",
+              "description": "Two shots of espresso poured over a cup of hot water",
+              "price": 5000
+            },
+            {
+              "id": "CAL-H05",
+              "name": "Black / House Coffee",
+              "description": "Espresso poured over a pot of hot water",
+              "price": 5000
+            },
+            {
+              "id": "CAL-H06",
+              "name": "Espresso Affogato",
+              "description": "Espresso shot served over vanilla ice cream",
+              "price": 7000
+            },
+            {
+              "id": "CAL-H07",
+              "name": "Café Latte",
+              "description": "A shot of espresso with steamed milk and an inch of silky foam on top",
+              "price": 7000
+            },
+            {
+              "id": "CAL-H08",
+              "name": "African Coffee",
+              "description": "Espresso steamed with milk and served in a pot",
+              "price": 7000
+            },
+            {
+              "id": "CAL-H09",
+              "name": "Cappuccino",
+              "description": "A shot of espresso mixed with a variable proportion of steamed silky foamy milk",
+              "price": 7000
+            },
+            {
+              "id": "CAL-H10",
+              "name": "Café Mocha",
+              "description": "Espresso mixed with chocolate syrup and hot steamed milk",
+              "price": 7000
+            },
+            {
+              "id": "CAL-H11",
+              "name": "Hot Chocolate",
+              "description": "French chocolate powder mixed with steamed silky milk",
+              "price": 8000
+            },
+            {
+              "id": "CAL-H13",
+              "name": "Iced Coffee",
+              "description": "A shot of espresso poured over cold water with ice cubes",
+              "price": 10000
+            }
+          ]
+        },
+        {
+          "id": "cal_drinks_cold",
+          "name": "Juices, Shakes & Smoothies",
+          "products": [
+            {
+              "id": "CAL-J01",
+              "name": "Immune Booster",
+              "description": "Apple, Cucumber, Celery, Orange, Ginger",
+              "price": 10000
+            },
+            {
+              "id": "CAL-J02",
+              "name": "Longevity Secret",
+              "description": "Ginger, Carrot, Turmeric",
+              "price": 10000
+            },
+            {
+              "id": "CAL-J03",
+              "name": "Body Tonic",
+              "description": "Apple, Orange, Turmeric & Ginger",
+              "price": 10000
+            },
+            {
+              "id": "CAL-J04",
+              "name": "Calabash Nutritious Millet Porridge",
+              "price": 8000
+            },
+            {
+              "id": "CAL-J05",
+              "name": "Passion Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J06",
+              "name": "Watermelon Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J07",
+              "name": "Mango Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J08",
+              "name": "Pineapple Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J09",
+              "name": "Lemon Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J10",
+              "name": "Beet Root Juice",
+              "price": 7000
+            },
+            {
+              "id": "CAL-J11",
+              "name": "Cocktail Juice",
+              "price": 8000
+            },
+            {
+              "id": "CAL-MS01",
+              "name": "Vanilla Milkshake",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS02",
+              "name": "Chocolate Shake",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS03",
+              "name": "Strawberry Milkshake",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS04",
+              "name": "Tropical Milkshake",
+              "price": 15000
+            },
+            {
+              "id": "CAL-MS05",
+              "name": "Coffee Shake",
+              "description": "Fresh espresso blended with a choice of ice cream & milk",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS06",
+              "name": "Frappes",
+              "description": "Caramel, Chocolate",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS07",
+              "name": "Banana Smoothie",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS08",
+              "name": "Mango Smoothie",
+              "price": 12000
+            },
+            {
+              "id": "CAL-MS09",
+              "name": "Cocktail Smoothie",
+              "price": 15000
+            }
+          ]
+        },
+        {
+          "id": "cal_bottled_beverages",
+          "name": "Bottled Wine",
+          "products": [
+            {
+              "id": "CAL-AL18",
+              "name": "Nederburg Wine Masters (Bottle)",
+              "description": "Bottle",
+              "price": 80000
+            },
+            {
+              "id": "CAL-AL19",
+              "name": "Nederburg Merlot (Bottle)",
+              "description": "Bottle",
+              "price": 80000
+            },
+            {
+              "id": "CAL-AL20",
+              "name": "Nederburg Shiraz (Bottle)",
+              "description": "Bottle",
+              "price": 80000
+            },
+            {
+              "id": "CAL-AL21",
+              "name": "Four Cousins (750ml Bottle)",
+              "description": "750ml bottle",
+              "price": 60000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
