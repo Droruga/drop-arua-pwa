@@ -2246,7 +2246,7 @@ body,.app-shell{background:#fafafa}
 .catalog-cart-bar .icon{width:17px;height:17px}
 .catalog-cart-bar-detail{font-size:12px;font-weight:700;opacity:.9}
 .catalog-cart-bar.is-visible{display:flex}
-.app-shell:has(.catalog-cart-bar.is-visible) .restaurant-sticky-cart{display:none}
+.app-shell:has(#cart-view:not([hidden])) .catalog-cart-bar,.app-shell:has(#checkout-view:not([hidden])) .catalog-cart-bar,.app-shell:has(#my-drops-view:not([hidden])) .catalog-cart-bar,.app-shell:has(#restaurant-view:not([hidden])) .catalog-cart-bar{display:none}
 @media(max-width:430px){
  :root{--gutter:24px}
  .topbar{min-height:68px}
@@ -2260,3 +2260,11 @@ body,.app-shell{background:#fafafa}
  .catalog-cart-bar{right:16px;left:16px;bottom:max(14px,env(safe-area-inset-bottom))}
 }
 @media(prefers-reduced-motion:reduce){.category-card{transition:none}}
+
+.catalog-product{padding:18px 16px;border:0;border-bottom:1px solid #eee;border-radius:0;background:transparent;box-shadow:none}
+.catalog-product:first-child{border-radius:20px 20px 0 0}
+.catalog-product:last-child{border-bottom:0;border-radius:0 0 20px 20px}
+.catalog-product-name{font-size:14px}
+.catalog-product-description{font-size:12px;color:#858585}
+.catalog-add-button{min-height:38px;padding:0 16px;border:0;border-radius:999px;background:#fff0ed;color:#c5222b;font-size:12px}
+.catalog-add-button .icon{display:none}
