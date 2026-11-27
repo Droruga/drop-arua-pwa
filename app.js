@@ -478,6 +478,13 @@ function renderCart() {
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
   badge.textContent = count > 99 ? "99+" : String(count);
   badge.hidden = count === 0;
+  const floatingCart = $("#catalog-cart-bar");
+  const floatingDetail = $("#catalog-cart-bar-detail");
+  if (floatingCart && floatingDetail) {
+    floatingCart.classList.toggle("is-visible", count > 0);
+    const total = items.reduce((sum,item) => { const product=findCatalogProduct(item.productId); return sum+(product ? product.price_min*item.quantity : 0); },0);
+    floatingDetail.textContent = count + (count===1 ? " item" : " items") + " · " + catalogMoney(total);
+  }
   if (!dropCatalogData) {
     $("#cart-empty").hidden = count > 0;
     $("#cart-items").hidden = true;
@@ -844,6 +851,7 @@ function init() {
     }
   });
   $("#cart-trigger").addEventListener("click", () => switchTab("cart"));
+  $("#catalog-cart-bar").addEventListener("click", () => switchTab("cart"));
   $("#cart-back").addEventListener("click", () => switchTab("new"));
   $("#cart-browse").addEventListener("click", () => switchTab("new"));
   $("#cart-items").addEventListener("click", event => {
