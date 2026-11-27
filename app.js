@@ -518,6 +518,146 @@ function renderCart() {
 }
 
 
+
+/* --------------------------------------------------------- restaurant partners */
+const RESTAURANT_CART_KEY = "drop_restaurant_cart_v1";
+let restaurantData = null;
+let restaurantCart = readJSON(RESTAURANT_CART_KEY, []);
+let activeRestaurantCategory = null;
+const RESTAURANT_OPTIONS = {
+  "CAL-B04":[{label:"Katogo choice",values:["Beef","Vegetable"]}],
+  "CAL-S04":[{label:"Soup style",values:["Clear","Cream"]}],
+  "CAL-S05":[{label:"Soup style",values:["Clear","Cream"]}],
+  "CAL-S07":[{label:"Samosa filling",values:["Beef","Vegetable"]}],
+  "CAL-C02":[{label:"Accompaniment",values:["Rice","Chips","Mashed Irish potatoes"]}],
+  "CAL-C03":[{label:"Accompaniment",values:["Chips","Rice","Potato wedges"]}],
+  "CAL-C04":[{label:"Spice",values:["Mild","Hot"]}],
+  "CAL-C05":[{label:"Serve with",values:["Rice","Chips"]}],
+  "CAL-C06":[{label:"Serve with",values:["Steamed rice","Chips"]}],
+  "CAL-M01":[{label:"Serve with",values:["Rice","Chips"]}],
+  "CAL-M02":[{label:"Serve with",values:["Chapati","Rice","Chips"]}],
+  "CAL-M04":[{label:"Serve with",values:["Rice","Chips","Irish potatoes"]}],
+  "CAL-M07":[{label:"Serve with",values:["Rice","Steamed matooke"]}],
+  "CAL-M08":[{label:"Serve with",values:["Rice","Matooke","Chips"]}],
+  "CAL-M09":[{label:"Serve with",values:["Rice","Steamed matooke"]}],
+  "CAL-M11":[{label:"Preparation",values:["Deep fried","Grilled"]},{label:"Serve with",values:["Chips","Rice","Deep fried Irish potatoes"]}],
+  "CAL-P05":[{label:"Extra topping",values:["None","BBQ sauce (+UGX 3,000)","Cheese (+UGX 3,000)"]}],
+  "CAL-P11":[{label:"Preparation",values:["Boiled","Fried"]}],
+  "CAL-PZ01":[{label:"Pizza size",values:["Standard"]}],
+  "CAL-D01":[{label:"Cake flavour",values:["Banana","Pumpkin","Maple","Orange"]}],
+  "CAL-D05":[{label:"Yoghurt flavour",values:["Vanilla","Strawberry","Chocolate"]}],
+  "CAL-MS06":[{label:"Frappe flavour",values:["Caramel","Chocolate"]}]
+};
+function restaurantMoney(value){return "UGX "+Number(value||0).toLocaleString("en-UG");}
+function getRestaurant(){return restaurantData?.restaurants?.find(item=>item.id==="CALABASH")||null;}
+function restaurantProduct(id){const restaurant=getRestaurant();if(!restaurant)return null;for(const category of restaurant.categories){const found=category.products.find(item=>item.id===id);if(found)return found;}return null;}
+function restaurantLineKey(item){return item.id+"|"+JSON.stringify(item.choices||{});}
+function restaurantCartTotals(){return restaurantCart.reduce((sum,line)=>sum+(restaurantProduct(line.id)?.price||0)*line.quantity,0);}
+function saveRestaurantCart(){saveJSON(RESTAURANT_CART_KEY,restaurantCart);renderRestaurantCart();}
+function showRestaurantScreen(screen){
+  $("#restaurant-menu-screen").hidden=screen!=="menu";
+  $("#restaurant-cart-screen").hidden=screen!=="cart";
+  $("#restaurant-checkout-screen").hidden=screen!=="checkout";
+  window.scrollTo({top:0,behavior:reduceMotion?"auto":"smooth"});
+}
+function openRestaurant(){
+  $("#new-drop-view").hidden=true;$("#category-view").hidden=true;$("#my-drops-view").hidden=true;$("#cart-view").hidden=true;$("#checkout-view").hidden=true;
+  $("#restaurant-view").hidden=false;showRestaurantScreen("menu");
+  if(!restaurantData)loadRestaurantMenu();
+}
+async function loadRestaurantMenu(){
+  const list=$("#restaurant-menu-list");
+  try{
+    const response=await fetch("/restaurants.json",{cache:"no-cache"});
+    if(!response.ok)throw new Error("Menu unavailable");
+    restaurantData=await response.json();
+    const restaurant=getRestaurant();if(!restaurant)throw new Error("Restaurant not found");
+    $("#restaurant-category-nav").innerHTML=restaurant.categories.map((category,index)=>'<button type="button" class="restaurant-category-chip'+(index===0?' is-active':'')+'" data-restaurant-category="'+escapeHTML(category.id)+'">'+escapeHTML(category.name)+'</button>').join("");
+    renderRestaurantMenu();
+    renderRestaurantCart();
+  }catch(error){list.innerHTML='<div class="catalog-error"><strong>Calabash menu could not load.</strong><p>Please check your connection and try again.</p><button class="pill-button" id="restaurant-retry" type="button">Try again</button></div>';$("#restaurant-retry")?.addEventListener("click",loadRestaurantMenu);}
+}
+function restaurantProductCard(product){
+  const options=RESTAURANT_OPTIONS[product.id]||[];
+  const optionMarkup=options.map((option,index)=>'<label class="restaurant-option"><span>'+escapeHTML(option.label)+'</span><select data-restaurant-option="'+index+'">'+option.values.map((value,valueIndex)=>'<option value="'+escapeHTML(value)+'"'+(valueIndex===0?' selected':'')+'>'+escapeHTML(value)+'</option>').join("")+'</select></label>').join("");
+  return '<article class="restaurant-product" data-restaurant-product="'+escapeHTML(product.id)+'"><div class="restaurant-product-copy"><h3>'+escapeHTML(product.name)+'</h3>'+(product.description?'<p>'+escapeHTML(product.description)+'</p>':'')+'<strong>'+restaurantMoney(product.price)+'</strong></div><div class="restaurant-product-action">'+optionMarkup+'<button type="button" class="catalog-add-button" data-restaurant-add="'+escapeHTML(product.id)+'"><svg class="icon"><use href="#i-plus"/></svg><span>Add</span></button></div></article>';
+}
+function renderRestaurantMenu(query=""){
+  const restaurant=getRestaurant();if(!restaurant)return;
+  const term=query.trim().toLocaleLowerCase();
+  const categories=restaurant.categories.map(category=>({...category,products:category.products.filter(product=>!term||(product.name+" "+(product.description||"")+" "+category.name).toLocaleLowerCase().includes(term))})).filter(category=>category.products.length);
+  $("#restaurant-menu-list").innerHTML=categories.length?categories.map(category=>'<section class="restaurant-menu-category" id="restaurant-'+escapeHTML(category.id)+'"><div class="restaurant-menu-category-head"><h2>'+escapeHTML(category.name)+'</h2><span>'+category.products.length+' items</span></div><div class="restaurant-product-list">'+category.products.map(restaurantProductCard).join("")+'</div></section>').join(""):'<p class="catalog-empty-subcategory">No Calabash menu items match that search.</p>';
+}
+function addRestaurantProduct(id,card){
+  const product=restaurantProduct(id);if(!product)return;
+  const choices={};(RESTAURANT_OPTIONS[id]||[]).forEach((option,index)=>{choices[option.label]=card.querySelector('[data-restaurant-option="'+index+'"]')?.value||option.values[0];});
+  const key=restaurantLineKey({id,choices});const existing=restaurantCart.find(line=>restaurantLineKey(line)===key);
+  if(existing)existing.quantity=Math.min(99,existing.quantity+1);else restaurantCart.push({id,quantity:1,choices});
+  saveRestaurantCart();showToast(product.name+" added to your Calabash order.");
+}
+function renderRestaurantCart(){
+  const count=restaurantCart.reduce((sum,line)=>sum+line.quantity,0),total=restaurantCartTotals();
+  $("#restaurant-sticky-cart").hidden=count===0;
+  $("#restaurant-cart-count").textContent=count+" item"+(count===1?"":"s");
+  $("#restaurant-cart-total").textContent=restaurantMoney(total);
+  const lines=$("#restaurant-cart-lines");
+  if(!lines)return;
+  lines.innerHTML=restaurantCart.length?'<div class="restaurant-cart-list">'+restaurantCart.map(line=>{
+    const product=restaurantProduct(line.id);if(!product)return "";
+    const choices=Object.entries(line.choices||{}).map(([key,value])=>key+": "+value).join(" · ");
+    return '<article class="cart-line"><div class="cart-line-copy"><h2>'+escapeHTML(product.name)+'</h2>'+(choices?'<p>'+escapeHTML(choices)+'</p>':'')+'<strong class="cart-line-total">'+restaurantMoney(product.price*line.quantity)+'</strong></div><div class="cart-line-actions"><div class="quantity-control"><button type="button" data-restaurant-qty="-1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">−</button><output>'+line.quantity+'</output><button type="button" data-restaurant-qty="1" data-line-key="'+escapeHTML(restaurantLineKey(line))+'">+</button></div><button class="cart-remove" type="button" data-restaurant-remove="'+escapeHTML(restaurantLineKey(line))+'">Remove</button></div></article>';
+  }).join("")+'</div><section class="cart-summary"><div><span>Calabash items ('+count+')</span><strong>'+restaurantMoney(total)+'</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><div class="cart-grand-total"><span>Food & drink subtotal</span><strong>'+restaurantMoney(total)+'</strong></div><p>Restaurant subtotal only. Drop will confirm availability and delivery charges.</p></section>':'<div class="empty-state"><h2 class="empty-title">Your order is empty</h2><p class="empty-text">Browse the Calabash menu and add your favourites.</p></div>';
+  const ageRequired=restaurantCart.some(line=>line.id.startsWith("CAL-AL"));
+  $("#restaurant-age-section").hidden=!ageRequired;
+  $("#restaurant-age-confirm").required=ageRequired;
+}
+function openRestaurantCheckout(){
+  if(!restaurantCart.length){showToast("Add something from the Calabash menu first.");return;}
+  showRestaurantScreen("checkout");
+  const ageRequired=restaurantCart.some(line=>line.id.startsWith("CAL-AL"));
+  $("#restaurant-age-section").hidden=!ageRequired;$("#restaurant-age-confirm").required=ageRequired;
+  $("#restaurant-checkout-summary").innerHTML='<div><span>Calabash items ('+restaurantCart.reduce((n,line)=>n+line.quantity,0)+')</span><strong>'+restaurantMoney(restaurantCartTotals())+'</strong></div><div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div><p>Delivery is not included in the restaurant subtotal.</p>';
+}
+function submitRestaurantOrder(event){
+  event.preventDefault();
+  if(!restaurantCart.length){showToast("Your Calabash order is empty.");return;}
+  const form=event.currentTarget;if(!form.reportValidity())return;
+  const data=Object.fromEntries(new FormData(form).entries());
+  const restaurant=getRestaurant();
+  const lines=restaurantCart.map(line=>{const product=restaurantProduct(line.id);const choices=Object.entries(line.choices||{}).map(([key,value])=>"   - "+key+": "+value).join("\n");return "• "+line.quantity+" × "+product.name+" — "+restaurantMoney(product.price*line.quantity)+(choices?"\n"+choices:"");});
+  const subtotal=restaurantCartTotals();
+  const message=["*DROP — RESTAURANT ORDER*","Restaurant: "+restaurant.name,"Location: "+restaurant.location,"","*ORDER ITEMS*",...lines,"","*Subtotal: "+restaurantMoney(subtotal)+"*","Delivery fee: To be confirmed","", "*CUSTOMER DETAILS*","Name: "+data.name,"Phone: "+data.phone,"Address: "+data.address,"Landmark: "+(data.landmark||"Not supplied"),"Payment preference: "+data.payment,"Notes: "+(data.notes||"None"),...(restaurantCart.some(line=>line.id.startsWith("CAL-AL"))?["Age 18+ confirmed: "+($("#restaurant-age-confirm").checked?"Yes":"No")]:[]),"","Please confirm item availability, final total and delivery fee."].join("\n");
+  const history=readJSON("drop_restaurant_orders_v1",[]);history.unshift({id:"CAL-"+Date.now(),createdAt:new Date().toISOString(),restaurant:restaurant.name,items:restaurantCart,subtotal,customer:data});saveJSON("drop_restaurant_orders_v1",history.slice(0,30));
+  window.location.href=makeWhatsAppUrl(DISPATCH_PHONE,message);
+}
+function setupRestaurantEvents(){
+  $("#open-calabash").addEventListener("click",openRestaurant);
+  $("#restaurant-back").addEventListener("click",()=>{ $("#restaurant-view").hidden=true;$("#new-drop-view").hidden=false;window.scrollTo(0,0);});
+  $("#restaurant-view-cart").addEventListener("click",()=>{renderRestaurantCart();showRestaurantScreen("cart");});
+  $("#restaurant-cart-back").addEventListener("click",()=>showRestaurantScreen("menu"));
+  $("#restaurant-keep-browsing").addEventListener("click",()=>showRestaurantScreen("menu"));
+  $("#restaurant-checkout-start").addEventListener("click",openRestaurantCheckout);
+  $("#restaurant-checkout-back").addEventListener("click",()=>showRestaurantScreen("cart"));
+  $("#restaurant-checkout-form").addEventListener("submit",submitRestaurantOrder);
+  $("#restaurant-search").addEventListener("input",event=>renderRestaurantMenu(event.target.value));
+  $("#restaurant-category-nav").addEventListener("click",event=>{
+    const chip=event.target.closest("[data-restaurant-category]");if(!chip)return;
+    $("#restaurant-category-nav .restaurant-category-chip").forEach(item=>item.classList.toggle("is-active",item===chip));
+    const target=$("#restaurant-"+chip.dataset.restaurantCategory);if(target)target.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"start"});
+  });
+  $("#restaurant-menu-list").addEventListener("click",event=>{
+    const button=event.target.closest("[data-restaurant-add]");if(button)addRestaurantProduct(button.dataset.restaurantAdd,button.closest("[data-restaurant-product]"));
+  });
+  $("#restaurant-cart-lines").addEventListener("click",event=>{
+    const qty=event.target.closest("[data-restaurant-qty]"),remove=event.target.closest("[data-restaurant-remove]");
+    const key=(qty||remove)?.dataset.lineKey||(remove?.dataset.restaurantRemove);
+    if(!key)return;const line=restaurantCart.find(item=>restaurantLineKey(item)===key);if(!line)return;
+    if(remove||line.quantity+Number(qty.dataset.restaurantQty)<=0)restaurantCart=restaurantCart.filter(item=>restaurantLineKey(item)!==key);
+    else line.quantity=Math.min(99,line.quantity+Number(qty.dataset.restaurantQty));
+    saveRestaurantCart();
+  });
+}
+
 /* ------------------------------------------------------------ installation */
 function isIOSDevice() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
@@ -652,6 +792,7 @@ function setupEntryExperience() {
 
 function init() {
   setupEntryExperience();
+  setupRestaurantEvents();
   $("#history-trigger").addEventListener("click", () => switchTab("orders"));
   $("#history-back").addEventListener("click", () => switchTab("new"));
   $("#empty-order-button").addEventListener("click", () => switchTab("new"));
