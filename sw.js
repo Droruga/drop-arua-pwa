@@ -11,7 +11,7 @@
  * Bump CACHE_VERSION whenever a shipped asset changes. The version is what
  * invalidates the previous shell for everyone.
  */
-const CACHE_VERSION = "v14";
+const CACHE_VERSION = "v15";
 const CACHE_NAME = `drop-shell-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -21,6 +21,7 @@ const APP_SHELL = [
   "/app.js",
   "/catalog.js",
   "/catalog.json",
+  "/restaurants.json",
   "/manifest.json",
   "/icons/drop-icon.svg",
   "/icons/drop-maskable.svg",
